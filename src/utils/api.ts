@@ -176,7 +176,7 @@ export async function submitContactEnquiry(data: ContactPayload) {
 // =============================================================================
 export async function submitCommunityApplication(data: FormData) {
   // NOTE: Do NOT set Content-Type header — browser sets multipart/form-data with boundary automatically
-  return request('/community/apply', {
+  return request<{ id: number; amount: number; status: string }>('/community/apply', {
     method: 'POST',
     body: data,
   });
@@ -266,7 +266,7 @@ export interface VerifyPaymentPayload {
   razorpay_order_id: string;
   razorpay_payment_id: string;
   razorpay_signature: string;
-  module: 'nominations' | 'events' | 'sponsorships' | 'coffee-book';
+  module: 'nominations' | 'events' | 'sponsorships' | 'coffee-book' | 'community';
   record_id: number;
 }
 
