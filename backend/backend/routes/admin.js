@@ -295,7 +295,7 @@ router.patch('/nominations/:id/status', verifyAdmin, async (req, res) => {
     // 3. If they are changed to a winner, send the celebration email
     if (status === 'winner' && nominee.old_status !== 'winner' && nominee.email) {
       try {
-        await fetch(`http://localhost:3000/api/send-winner-email`, {
+        await fetch(`http://localhost:5000/api/send-winner-email`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -315,7 +315,7 @@ router.patch('/nominations/:id/status', verifyAdmin, async (req, res) => {
     // 4. If they are changed to approved, send the approval email
     if (status === 'approved' && nominee.old_status !== 'approved' && nominee.email) {
       try {
-        await fetch(`http://localhost:3000/api/send-approval`, {
+        await fetch(`http://localhost:5000/api/send-approval`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -364,7 +364,7 @@ router.patch('/nominations/bulk-status', verifyAdmin, async (req, res) => {
       for (const nominee of nominees) {
         if (nominee.old_status !== status && nominee.email) {
           try {
-            await fetch(`http://localhost:3000/api/${endpoint}`, {
+            await fetch(`http://localhost:5000/api/${endpoint}`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

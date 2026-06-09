@@ -138,7 +138,7 @@ router.post('/verify', async (req, res) => {
         );
         if (rows.length > 0) {
           const nom = rows[0];
-          await fetch(`http://localhost:3000/api/send-nomination`, {
+          await fetch(`http://localhost:5000/api/send-nomination`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -169,7 +169,7 @@ router.post('/verify', async (req, res) => {
         );
         if (rows.length > 0) {
           const app = rows[0];
-          await fetch(`http://localhost:3000/api/send-confirmation`, {
+          await fetch(`http://localhost:5000/api/send-confirmation`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
