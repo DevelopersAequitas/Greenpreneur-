@@ -1,0 +1,551 @@
+
+<style data-kid="0">
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --primary-green: #1E6B3C;
+    --dark-green: #0D3D20;
+    --accent-gold: #C9963A;
+    --leaf-green: #4CAF50;
+    --cream: #F9F5EE;
+    --dark-text: #1A1A1A;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-text);
+    background-color: white;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .accordion-item[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 10px;
+  }
+</style>
+
+<div class="min-h-screen bg-white" data-kid="1">
+  
+  <nav class="relative z-50 bg-white border-b border-gray-100 shadow-sm px-6 py-4" data-kid="2">
+    <div class="max-w-7xl mx-auto flex items-center justify-between" data-kid="3">
+      <div class="flex items-center gap-2" data-kid="4">
+        <div class="w-10 h-10 bg-[var(--primary-green)] rounded-lg flex items-center justify-center text-white font-bold text-xl italic" data-kid="5">G</div>
+        <span class="font-bold text-xl tracking-tight text-[var(--dark-green)] hidden md:block" data-kid="6">GREENPRENEUR</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 font-medium text-sm" data-kid="7">
+        <a href="#" class="hover:text-[var(--primary-green)]" data-kid="8">Home</a>
+        <a href="#" class="hover:text-[var(--primary-green)]" data-kid="9">About</a>
+        <a href="#" class="hover:text-[var(--primary-green)]" data-kid="10">Awards 2026</a>
+        <a href="#" class="text-[var(--primary-green)] font-semibold border-b-2 border-[var(--primary-green)]" data-kid="11">FAQs</a>
+        <a href="#" class="hover:text-[var(--primary-green)]" data-kid="12">Contact</a>
+      </div>
+      <div class="flex items-center gap-3" data-kid="13">
+        <button class="hidden lg:block border-2 border-[var(--primary-green)] text-[var(--primary-green)] px-5 py-2 rounded-lg font-semibold text-sm" data-kid="14">Get Pass</button>
+        <button class="bg-[var(--primary-green)] text-white px-5 py-2 rounded-lg font-semibold text-sm flex items-center gap-2" data-kid="15">
+          <span data-kid="16">Apply Now</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf" data-kid="17"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" data-kid="18"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C10.9 14.4 12 13.8 14 11.3c1 2 2 4.2 2 8 0 5.5-4.5 10-10 10" data-kid="19"></path></svg>
+        </button>
+        <button class="md:hidden text-[var(--dark-green)]" data-kid="20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu" data-kid="21"><line x1="4" x2="20" y1="12" y2="12" data-kid="22"></line><line x1="4" x2="20" y1="6" y2="6" data-kid="23"></line><line x1="4" x2="20" y1="18" y2="18" data-kid="24"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  
+  <header class="relative bg-[var(--dark-green)] py-24 px-6 overflow-hidden" data-kid="25">
+    <div class="absolute inset-0 opacity-10 pointer-events-none" data-kid="26">
+      <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" data-kid="27">
+        <path d="M0 100 C 20 0 50 0 100 100" fill="none" stroke="white" stroke-width="0.5" data-kid="28"></path>
+        <path d="M0 80 C 30 20 60 20 100 80" fill="none" stroke="white" stroke-width="0.5" data-kid="29"></path>
+      </svg>
+    </div>
+    <div class="max-w-4xl mx-auto text-center relative z-10" data-kid="30">
+      <div class="inline-block bg-[var(--accent-gold)] text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6" data-kid="31">Support Center</div>
+      <h1 class="text-white text-4xl md:text-6xl font-bold mb-6" data-kid="32">How can we help you?</h1>
+      <p class="text-white/70 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto" data-kid="33">
+        Everything you need to know about India's most comprehensive green entrepreneurship platform.
+      </p>
+      
+      
+      <div class="relative max-w-2xl mx-auto" data-kid="34">
+        <div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-gray-400" data-kid="35">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" data-kid="36"><circle cx="11" cy="11" r="8" data-kid="37"></circle><path d="m21 21-4.3-4.3" data-kid="38"></path></svg>
+        </div>
+        <input type="text" placeholder="Search for questions like 'nomination fee', 'event date'..." class="w-full bg-white text-black py-5 pl-14 pr-32 rounded-2xl shadow-2xl focus:outline-none focus:ring-2 focus:ring-[var(--accent-gold)] font-medium" data-kid="39">
+        <button class="absolute right-3 top-3 bottom-3 bg-[var(--primary-green)] text-white px-6 rounded-xl font-bold hover:bg-opacity-90 transition-all hidden sm:block" data-kid="40">Search</button>
+      </div>
+    </div>
+  </header>
+
+  
+  <main class="py-20 px-6 max-w-7xl mx-auto relative bg-gradient-to-b from-white via-[#F9F5EE]/30 to-white" data-kid="41">
+    <div class="grid lg:grid-cols-12 gap-12" data-kid="42">
+      
+      <aside class="lg:col-span-3" data-kid="43">
+        <div class="relative space-y-2" data-kid="44">
+          <h3 class="text-[var(--dark-green)] text-xl font-bold mb-6 font-['Inter'] px-4" data-kid="45">Categories</h3>
+          <nav class="flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide lg:border-r lg:border-gray-100 pr-6" data-kid="46">
+            <a href="#general" class="flex items-center gap-3 px-6 py-4 rounded-xl bg-[var(--cream)] text-[var(--primary-green)] font-bold transition-all border-2 border-[var(--primary-green)] border-opacity-10 whitespace-nowrap min-w-max lg:min-w-0 min-h-[48px]" data-kid="47">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info" data-kid="48"><circle cx="12" cy="12" r="10" data-kid="49"></circle><path d="M12 16v-4" data-kid="50"></path><path d="M12 8h.01" data-kid="51"></path></svg>
+              General
+            </a>
+            <a href="#awards" class="flex items-center gap-3 px-6 py-4 rounded-xl text-gray-500 hover:bg-gray-50 font-semibold transition-all whitespace-nowrap min-w-max lg:min-w-0 min-h-[48px]" data-kid="52">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy" data-kid="53"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" data-kid="54"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" data-kid="55"></path><path d="M4 22h16" data-kid="56"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" data-kid="57"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" data-kid="58"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" data-kid="59"></path></svg>
+              Awards
+            </a>
+            <a href="#event" class="flex items-center gap-3 px-6 py-4 rounded-xl text-gray-500 hover:bg-gray-50 font-semibold transition-all whitespace-nowrap min-w-max lg:min-w-0 min-h-[48px]" data-kid="60">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" data-kid="61"><rect width="18" height="18" x="3" y="4" rx="2" ry="2" data-kid="62"></rect><line x1="16" x2="16" y1="2" y2="6" data-kid="63"></line><line x1="8" x2="8" y1="2" y2="6" data-kid="64"></line><line x1="3" x2="21" y1="10" y2="10" data-kid="65"></line></svg>
+              Event
+            </a>
+            <a href="#sponsorship" class="flex items-center gap-3 px-6 py-4 rounded-xl text-gray-500 hover:bg-gray-50 font-semibold transition-all whitespace-nowrap min-w-max lg:min-w-0 min-h-[48px]" data-kid="66">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-handshake" data-kid="67"><path d="m11 17 2 2 6-6" data-kid="68"></path><path d="m18 14 1.5 1.5a1.5 1.5 0 1 0 2.12-2.12L19.5 11.25" data-kid="69"></path><path d="m15 11 1.5 1.5" data-kid="70"></path><path d="M11 6.3c.7-.6 1.4-1.3 2.1-1.3 2.1 0 3.8 1.7 3.8 3.8 0 .7-.1 1.4-.4 2" data-kid="71"></path><path d="M21 21v-3c0-2.2-1.8-4-4-4H7c-2.2 0-4 1.8-4 4v3" data-kid="72"></path></svg>
+              Sponsorship
+            </a>
+            <a href="#coffee-table-book" class="flex items-center gap-3 px-6 py-4 rounded-xl text-gray-500 hover:bg-gray-50 font-semibold transition-all whitespace-nowrap min-w-max lg:min-w-0 min-h-[48px]" data-kid="73">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open" data-kid="74"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" data-kid="75"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" data-kid="76"></path></svg>
+              Coffee Table Book
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      
+      <div class="lg:col-span-9 space-y-16" data-kid="77">
+        
+        <section id="general" class="scroll-mt-24" data-kid="78">
+          <div class="flex items-center gap-4 mb-8" data-kid="79">
+            <div class="w-12 h-12 bg-[var(--primary-green)] text-white rounded-2xl flex items-center justify-center shadow-lg" data-kid="80">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info" data-kid="81"><circle cx="12" cy="12" r="10" data-kid="82"></circle><path d="M12 16v-4" data-kid="83"></path><path d="M12 8h.01" data-kid="84"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-[var(--dark-green)] font-['Inter']" data-kid="85">General</h2>
+          </div>
+          <div class="space-y-4" data-kid="86">
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="87">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="88">
+                <span data-kid="89">What is Greenpreneur?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="90"><path d="m6 9 6 6 6-6" data-kid="91"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="92">
+                Greenpreneur is India's most comprehensive green entrepreneurship platform. It is a structured, high-impact annual event now in its 5th Year (2026). The movement celebrates and supports entrepreneurs redefining sustainability across 150+ sectors.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="93">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="94">
+                <span data-kid="95">Who is the organiser?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="96"><path d="m6 9 6 6 6-6" data-kid="97"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="98">
+                Greenpreneur is organised by **1 Million Entrepreneurs International Forum (1MEIF)**, a Section 8 NGO, and powered by **VyapaarJagat.com**. It's founded by Dr. Pravin Parmar.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="99">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="100">
+                <span data-kid="101">What is 1MEIF?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="102"><path d="m6 9 6 6 6-6" data-kid="103"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="104">
+                1 Million Entrepreneurs International Forum is a Section 8 Company (NGO) with 80G & 12A certification. They are CSR & Darpan certified, focusing on empowering entrepreneurs across India.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="105">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="106">
+                <span data-kid="107">What is CEED?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="108"><path d="m6 9 6 6 6-6" data-kid="109"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="110">
+                CEED (Culinary Education & Enterprise Development Association) is our Association Partner, founded by Shri Anil Mulchandani and IFEA Founders. They bring expertise in sustainable growth and industry collaboration.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="111">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="112">
+                <span data-kid="113">What is VyapaarJagat and why is my story published there?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="114"><path d="m6 9 6 6 6-6" data-kid="115"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="116">
+                VyapaarJagat.com is one of India's leading platforms for entrepreneur stories. Publishing your story here provides you with national visibility, 3rd party credibility, and a digital footprint that helps in SEO and business networking.
+              </div>
+            </details>
+          </div>
+        </section>
+
+        
+        <section id="awards" class="scroll-mt-24" data-kid="117">
+          <div class="flex items-center gap-4 mb-8" data-kid="118">
+            <div class="w-12 h-12 bg-[var(--accent-gold)] text-white rounded-2xl flex items-center justify-center shadow-lg" data-kid="119">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy" data-kid="120"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" data-kid="121"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" data-kid="122"></path><path d="M4 22h16" data-kid="123"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" data-kid="124"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" data-kid="125"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" data-kid="126"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-[var(--dark-green)] font-['Inter']" data-kid="127">Awards & Nominations</h2>
+          </div>
+          <div class="space-y-4" data-kid="128">
+            <details class="accordion-item group border-2 border-[var(--accent-gold)] border-opacity-30 rounded-2xl bg-gradient-to-br from-[var(--cream)] to-white shadow-lg overflow-hidden ring-4 ring-[var(--accent-gold)] ring-opacity-5" open data-kid="129">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="130">
+                <div class="flex items-center gap-3" data-kid="131">
+                  <span class="bg-[var(--accent-gold)] text-white text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter" data-kid="132">Crucial</span>
+                  <span data-kid="133">Honorary vs Rated Awards?</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--accent-gold)] transition-transform duration-300" data-kid="134"><path d="m6 9 6 6 6-6" data-kid="135"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-700 leading-relaxed border-t border-[var(--accent-gold)] border-opacity-10 pt-4" data-kid="136">
+                <div class="grid sm:grid-cols-2 gap-6" data-kid="137">
+                  <div class="bg-white/50 p-4 rounded-xl border border-gray-100" data-kid="138">
+                    <h4 class="font-bold text-[var(--primary-green)] mb-2 flex items-center gap-2" data-kid="139">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award" data-kid="140"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" data-kid="141"></path><circle cx="12" cy="8" r="6" data-kid="142"></circle></svg>
+                      Honorary Awards
+                    </h4>
+                    <p class="text-sm" data-kid="143">100% Jury evaluated. **FREE** to nominate. For exceptional lifetime or sector contributions.</p>
+                  </div>
+                  <div class="bg-[var(--accent-gold)] bg-opacity-5 p-4 rounded-xl border border-[var(--accent-gold)] border-opacity-20" data-kid="144">
+                    <h4 class="font-bold text-[var(--accent-gold)] mb-2 flex items-center gap-2" data-kid="145">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up" data-kid="146"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" data-kid="147"></polyline><polyline points="16 7 22 7 22 13" data-kid="148"></polyline></svg>
+                      Rated Challenge
+                    </h4>
+                    <p class="text-sm" data-kid="149">75% Jury + 25% Public Voting. Nominal fee (₹2k-₹5k) for premium marketing & voting links.</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="150">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="151">
+                <span data-kid="152">Is nomination really free?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="153"><path d="m6 9 6 6 6-6" data-kid="154"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="155">
+                **YES!** Nomination is always FREE for the Honorary track. We believe every green effort deserves a chance to be seen. Nominal charges only apply if you choose the Rated Challenge track for premium benefits and public voting features.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="156">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="157">
+                <span data-kid="158">What are the award categories?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="159"><path d="m6 9 6 6 6-6" data-kid="160"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="161">
+                We have 35+ main categories including Eco-Friendly Product, Sustainable Construction, Renewable Energy, Waste Management, and MSME Excellence Awards. A total of 148+ sub-sectors are covered.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="162">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="163">
+                <span data-kid="164">Who can apply?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="165"><path d="m6 9 6 6 6-6" data-kid="166"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="167">
+                Any entrepreneur, startup, MSME, NGO, or professional working in sustainability-focused sectors (150+ categories) can apply. This includes renewable energy, waste management, organic farming, green building, and more.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="168">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="169">
+                <span data-kid="170">What does a winner receive?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="171"><path d="m6 9 6 6 6-6" data-kid="172"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="173">
+                Winners receive a prestigious Trophy, Certificate of Excellence, stage felicitation at a 5-star venue, national media coverage, inclusion in the Coffee Table Book, and a full pictorial story on VyapaarJagat.com.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="174">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="175">
+                <span data-kid="176">How does public voting work?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="177"><path d="m6 9 6 6 6-6" data-kid="178"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="179">
+                For the Rated Challenge, once nominated, you receive a personalised voting link and social media creatives. Your network can vote for you online. This constitutes 25% of your final score, with the remaining 75% coming from our expert Jury.
+              </div>
+            </details>
+          </div>
+        </section>
+
+        
+        <section id="event" class="scroll-mt-24" data-kid="180">
+          <div class="flex items-center gap-4 mb-8" data-kid="181">
+            <div class="w-12 h-12 bg-[var(--primary-green)] text-white rounded-2xl flex items-center justify-center shadow-lg" data-kid="182">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" data-kid="183"><rect width="18" height="18" x="3" y="4" rx="2" ry="2" data-kid="184"></rect><line x1="16" x2="16" y1="2" y2="6" data-kid="185"></line><line x1="8" x2="8" y1="2" y2="6" data-kid="186"></line><line x1="3" x2="21" y1="10" y2="10" data-kid="187"></line></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-[var(--dark-green)] font-['Inter']" data-kid="188">Event Details</h2>
+          </div>
+          <div class="space-y-4" data-kid="189">
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="190">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="191">
+                <span data-kid="192">When is the event?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="193"><path d="m6 9 6 6 6-6" data-kid="194"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="195">
+                The Greenpreneur 2026 Mega Event will take place on **Thursday, 25th June 2026**, from 2:00 PM to 9:30 PM.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="196">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="197">
+                <span data-kid="198">Where is the event?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="199"><path d="m6 9 6 6 6-6" data-kid="200"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="201">
+                The venue is the prestigious **Renaissance by Marriott Ahmedabad Hotel**, Gujarat, India.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="202">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="203">
+                <span data-kid="204">How do I register as a delegate?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="205"><path d="m6 9 6 6 6-6" data-kid="206"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="207">
+                You can register through our "Get Pass" button on the website. Delegate passes include access to panel discussions, networking sessions, award ceremony, and gala dinner.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="208">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="209">
+                <span data-kid="210">Can I exhibit at the event?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="211"><path d="m6 9 6 6 6-6" data-kid="212"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="213">
+                Yes! We have 25+ exhibition stalls available. We offer two sizes: Standard (6x6 ft) and Premium (10x10 ft). Please contact Vishal Parmar (+91 70411 51714) for pricing and booking.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="214">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="215">
+                <span data-kid="216">Can I speak or lead a masterclass?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="217"><path d="m6 9 6 6 6-6" data-kid="218"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="219">
+                We are always looking for expert speakers in the green economy. You can apply through our "Speakers" page. Selection is based on expertise, impact, and relevance to our 2026 theme: "Sustainability in Viksit Bharat".
+              </div>
+            </details>
+          </div>
+        </section>
+
+        
+        <section id="sponsorship" class="scroll-mt-24" data-kid="220">
+          <div class="flex items-center gap-4 mb-8" data-kid="221">
+            <div class="w-12 h-12 bg-gray-100 text-[var(--primary-green)] rounded-2xl flex items-center justify-center shadow-lg border border-gray-200" data-kid="222">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-handshake" data-kid="223"><path d="m11 17 2 2 6-6" data-kid="224"></path><path d="m18 14 1.5 1.5a1.5 1.5 0 1 0 2.12-2.12L19.5 11.25" data-kid="225"></path><path d="m15 11 1.5 1.5" data-kid="226"></path><path d="M11 6.3c.7-.6 1.4-1.3 2.1-1.3 2.1 0 3.8 1.7 3.8 3.8 0 .7-.1 1.4-.4 2" data-kid="227"></path><path d="M21 21v-3c0-2.2-1.8-4-4-4H7c-2.2 0-4 1.8-4 4v3" data-kid="228"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-[var(--dark-green)] font-['Inter']" data-kid="229">Sponsorship</h2>
+          </div>
+          <div class="space-y-4" data-kid="230">
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="231">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="232">
+                <span data-kid="233">How can I become a sponsor?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="234"><path d="m6 9 6 6 6-6" data-kid="235"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="236">
+                We offer several tiers from ₹10,000 (Category Sponsor) to ₹2,00,000 (Title Sponsor). Benefits include naming rights, stage branding, attendee data, speaking slots, and premium features in the Coffee Table Book. Contact Vishal Parmar to discuss the right fit for your brand.
+              </div>
+            </details>
+          </div>
+        </section>
+
+        
+        <section id="coffee-table-book" class="scroll-mt-24" data-kid="237">
+          <div class="flex items-center gap-4 mb-8" data-kid="238">
+            <div class="w-12 h-12 bg-[var(--primary-green)] text-white rounded-2xl flex items-center justify-center shadow-lg" data-kid="239">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open" data-kid="240"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" data-kid="241"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" data-kid="242"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-[var(--dark-green)] font-['Inter']" data-kid="243">Coffee Table Book</h2>
+          </div>
+          <div class="space-y-4" data-kid="244">
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="245">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="246">
+                <span data-kid="247">How can I get featured in the Coffee Table Book?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="248"><path d="m6 9 6 6 6-6" data-kid="249"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="250">
+                You can apply for an "Inside Feature Story" starting at ₹5,000 (Members) to ₹15,000 (Open). Ad slots and cover stories are also available. This book features the Top 50 Sustainable Leaders of India.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="251">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="252">
+                <span data-kid="253">How many copies of the Coffee Table Book are printed?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="254"><path d="m6 9 6 6 6-6" data-kid="255"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="256">
+                We print 5,000 premium physical copies distributed to industry leaders, government offices, and delegates. Additionally, it has a digital reach of over 5,00,000 sustainable enthusiasts.
+              </div>
+            </details>
+
+            <details class="accordion-item group border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all overflow-hidden" data-kid="257">
+              <summary class="list-none cursor-pointer p-6 flex items-center justify-between text-lg font-bold text-[var(--dark-green)] select-none" data-kid="258">
+                <span data-kid="259">Is there GST on Coffee Table Book pricing?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down text-[var(--primary-green)] transition-transform duration-300" data-kid="260"><path d="m6 9 6 6 6-6" data-kid="261"></path></svg>
+              </summary>
+              <div class="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-50 pt-4" data-kid="262">
+                No, GST is not applicable on the current pricing for Greenpreneur 2026.
+              </div>
+            </details>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  
+  <section class="bg-[var(--dark-green)] py-20 px-6 mt-20 relative overflow-hidden" data-kid="263">
+    
+    <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" data-kid="264"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[var(--primary-green)]/10 rounded-full translate-y-1/2 -translate-x-1/2" data-kid="265"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center" data-kid="266">
+      <div data-kid="267">
+        <h2 class="text-white text-4xl md:text-5xl font-bold mb-8 leading-tight" data-kid="268">Can't find what you're looking for?</h2>
+        <p class="text-white/70 text-lg mb-10 leading-relaxed" data-kid="269">
+          Our team is dedicated to supporting India's green movement. If you have any specific query or need help with your application, reach out directly.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-8" data-kid="270">
+          <a href="https://wa.me/917041151714" class="inline-flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transition-all hover:-translate-y-1" data-kid="271">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle" data-kid="272"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" data-kid="273"></path></svg>
+            Chat on WhatsApp
+          </a>
+          <a href="mailto:hello@greenpreneur.in" class="inline-flex items-center justify-center gap-3 bg-white/10 text-white px-8 py-5 rounded-2xl font-bold text-lg border border-white/20 hover:bg-white/20 transition-all" data-kid="274">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail" data-kid="275"><rect width="20" height="16" x="2" y="4" rx="2" data-kid="276"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" data-kid="277"></path></svg>
+            Email Support
+          </a>
+        </div>
+        <p class="text-white/40 text-sm" data-kid="278">Typical response time: <span class="text-white" data-kid="279">Under 2 hours</span></p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" data-kid="280">
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl group hover:bg-white/20 transition-all cursor-default" data-kid="281">
+          <div class="w-14 h-14 bg-[var(--accent-gold)] text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform" data-kid="282">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check" data-kid="283"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" data-kid="284"></path><path d="m9 12 2 2 4-4" data-kid="285"></path></svg>
+          </div>
+          <p class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest mb-1" data-kid="286">Authenticity</p>
+          <p class="text-white font-bold text-2xl mb-1 tracking-tight" data-kid="287">NGO Certified</p>
+          <p class="text-white/50 text-sm" data-kid="288">CSR00106194 | 80G & 12A Verified</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl group hover:bg-white/20 transition-all cursor-default" data-kid="289">
+          <div class="w-14 h-14 bg-[var(--primary-green)] text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform" data-kid="290">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history" data-kid="291"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" data-kid="292"></path><path d="M3 3v5h5" data-kid="293"></path><path d="M12 7v5l4 2" data-kid="294"></path></svg>
+          </div>
+          <p class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest mb-1" data-kid="295">Legacy</p>
+          <p class="text-white font-bold text-2xl mb-1 tracking-tight" data-kid="296">5th Year</p>
+          <p class="text-white/50 text-sm" data-kid="297">Celebrating half a decade of excellence</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl group hover:bg-white/20 transition-all cursor-default" data-kid="298">
+          <div class="w-14 h-14 bg-white/10 text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform border border-white/10" data-kid="299">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-2" data-kid="300"><path d="M14 19a6 6 0 0 0-12 0" data-kid="301"></path><circle cx="8" cy="9" r="4" data-kid="302"></circle><path d="M22 19a6 6 0 0 0-6-6 4 4 0 1 0 0-8" data-kid="303"></path></svg>
+          </div>
+          <p class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest mb-1" data-kid="304">Community</p>
+          <p class="text-white font-bold text-2xl mb-1 tracking-tight" data-kid="305">500+ Leaders</p>
+          <p class="text-white/50 text-sm" data-kid="306">Gathering at Renaissance Ahmedabad</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl group hover:bg-white/20 transition-all cursor-default" data-kid="307">
+          <div class="w-14 h-14 bg-[var(--accent-gold)] text-white rounded-2xl flex items-center justify-center mb-6 shadow-xl group-hover:scale-110 transition-transform" data-kid="308">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone" data-kid="309"><path d="m3 11 18-5v12L3 14v-3z" data-kid="310"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" data-kid="311"></path></svg>
+          </div>
+          <p class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest mb-1" data-kid="312">Amplify</p>
+          <p class="text-white font-bold text-2xl mb-1 tracking-tight" data-kid="313">1,000+ Stories</p>
+          <p class="text-white/50 text-sm" data-kid="314">Nationwide digital recognition</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <footer class="bg-white pt-20 pb-10 px-6 border-t border-gray-100" data-kid="315">
+    <div class="max-w-7xl mx-auto" data-kid="316">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16" data-kid="317">
+        <div class="space-y-6" data-kid="318">
+          <div class="flex items-center gap-2" data-kid="319">
+            <div class="w-10 h-10 bg-[var(--primary-green)] rounded-lg flex items-center justify-center text-white font-bold text-xl italic" data-kid="320">G</div>
+            <span class="font-bold text-xl tracking-tight text-[var(--dark-green)]" data-kid="321">GREENPRENEUR</span>
+          </div>
+          <p class="text-gray-500 leading-relaxed" data-kid="322">
+            India's most comprehensive green entrepreneurship platform celebrating 5 years of sustainable innovation.
+          </p>
+          <div class="flex gap-4" data-kid="323">
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[var(--primary-green)] hover:bg-[var(--cream)] transition-all" data-kid="324">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram" data-kid="325"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" data-kid="326"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" data-kid="327"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" data-kid="328"></line></svg>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[var(--primary-green)] hover:bg-[var(--cream)] transition-all" data-kid="329">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin" data-kid="330"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" data-kid="331"></path><rect width="4" height="12" x="2" y="9" data-kid="332"></rect><circle cx="4" cy="4" r="2" data-kid="333"></circle></svg>
+            </a>
+            <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[var(--primary-green)] hover:bg-[var(--cream)] transition-all" data-kid="334">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook" data-kid="335"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" data-kid="336"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <div data-kid="337">
+          <h4 class="font-bold text-[var(--dark-green)] mb-6" data-kid="338">Quick Links</h4>
+          <ul class="space-y-4 text-gray-500" data-kid="339">
+            <li data-kid="340"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="341">Home</a></li>
+            <li data-kid="342"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="343">About Awards</a></li>
+            <li data-kid="344"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="345">Sponsorships</a></li>
+            <li data-kid="346"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="347">Past Winners</a></li>
+            <li data-kid="348"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="349">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div data-kid="350">
+          <h4 class="font-bold text-[var(--dark-green)] mb-6" data-kid="351">Participate</h4>
+          <ul class="space-y-4 text-gray-500" data-kid="352">
+            <li data-kid="353"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="354">Apply for Award</a></li>
+            <li data-kid="355"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="356">Get Event Pass</a></li>
+            <li data-kid="357"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="358">Book a Stall</a></li>
+            <li data-kid="359"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="360">Apply as Speaker</a></li>
+            <li data-kid="361"><a href="#" class="hover:text-[var(--primary-green)] transition-colors" data-kid="362">Join Community</a></li>
+          </ul>
+        </div>
+
+        <div data-kid="363">
+          <h4 class="font-bold text-[var(--dark-green)] mb-6" data-kid="364">Contact</h4>
+          <ul class="space-y-4 text-gray-500" data-kid="365">
+            <li class="flex items-center gap-3" data-kid="366">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone" data-kid="367"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" data-kid="368"></path></svg>
+              +91 70411 51714
+            </li>
+            <li class="flex items-center gap-3" data-kid="369">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail" data-kid="370"><rect width="20" height="16" x="2" y="4" rx="2" data-kid="371"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" data-kid="372"></path></svg>
+              hello@greenpreneur.in
+            </li>
+            <li class="flex items-start gap-3" data-kid="373">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin" data-kid="374"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" data-kid="375"></path><circle cx="12" cy="10" r="3" data-kid="376"></circle></svg>
+              Ahmedabad, Gujarat, India
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6" data-kid="377">
+        <div class="flex flex-col gap-1" data-kid="378">
+          <p class="text-gray-500 font-semibold text-sm" data-kid="379">
+            &copy; 2026 Greenpreneur | 1 Million Entrepreneurs International Forum
+          </p>
+          <p class="text-gray-400 text-xs uppercase tracking-widest font-bold" data-kid="380">
+            Section 8 NGO | CSR No: CSR00106194 | PAN: AACCZ1279M
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500 font-medium" data-kid="381">
+          <span class="flex items-center gap-2" data-kid="382"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-[var(--leaf-green)]" data-kid="383"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" data-kid="384"></path><path d="m9 12 2 2 4-4" data-kid="385"></path></svg> 80G & 12A Certified</span>
+          <span class="flex items-center gap-2" data-kid="386"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-2 text-[var(--primary-green)]" data-kid="387"><path d="M14 19a6 6 0 0 0-12 0" data-kid="388"></path><circle cx="8" cy="9" r="4" data-kid="389"></circle><path d="M22 19a6 6 0 0 0-6-6 4 4 0 1 0 0-8" data-kid="390"></path></svg> CEED Association Partner</span>
+          <span class="text-[var(--dark-green)] font-bold italic border-l pl-6 border-gray-200" data-kid="391">आइए, साथ मिलकर एक बेहतर भविष्य का निर्माण करें।</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>

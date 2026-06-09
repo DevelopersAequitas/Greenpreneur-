@@ -1,0 +1,353 @@
+<style data-kid="0">
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-green: #1E6B3C;
+        --dark-green: #0D3D20;
+        --accent-gold: #C9963A;
+        --leaf-green: #4CAF50;
+        --cream-white: #F9F5EE;
+        --dark-text: #1A1A1A;
+    }
+
+    .font-serif {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .font-sans {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .movement-bg {
+        background-image: radial-gradient(circle at 2px 2px, rgba(30, 107, 60, 0.05) 1px, transparent 0);
+        background-size: 40px 40px;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .animate-float {
+        animation: float 4s ease-in-out infinite;
+    }
+
+    .journey-path {
+        background-image: linear-gradient(to right, var(--primary-green) 50%, transparent 50%);
+        background-position: bottom;
+        background-size: 20px 2px;
+        background-repeat: repeat-x;
+    }
+</style>
+
+<script src="https://unpkg.com/@phosphor-icons/web" data-kid="1"></script>
+
+<div class="movement-bg font-sans text-[var(--dark-text)] antialiased" data-kid="2">
+    
+    <section class="relative bg-[var(--dark-green)] text-white pt-28 pb-48 overflow-hidden" data-kid="3">
+        <div class="absolute inset-0 opacity-10" data-kid="4">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" data-kid="5">
+                <path d="M0,100 C30,80 70,120 100,100 L100,0 L0,0 Z" fill="white" data-kid="6"></path>
+            </svg>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center" data-kid="7">
+            <div class="inline-flex items-center gap-2 py-2.5 px-5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-10" data-kid="8">
+                <span class="w-2.5 h-2.5 rounded-full bg-[var(--leaf-green)] animate-pulse" data-kid="9"></span>
+                <span class="text-xs font-black tracking-widest uppercase" data-kid="10">Nominations Open for 2026</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif font-bold mb-8 leading-[1.05]" data-kid="11">
+                The Journey to <br data-kid="12">
+                <span class="text-[var(--accent-gold)] italic" data-kid="13">Sustainability Leadership</span>
+            </h1>
+            <p class="text-xl md:text-3xl text-white/80 max-w-4xl mx-auto mb-14 leading-relaxed font-light" data-kid="14">
+                Celebrate your impact. Amplify your story. Join India's premier community of green entrepreneurs and visionaries.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center" data-kid="15">
+                <a href="#journey" class="px-12 py-6 bg-[var(--primary-green)] hover:bg-[var(--leaf-green)] text-white rounded-2xl font-bold text-xl transition-all shadow-2xl shadow-[var(--primary-green)]/40 flex items-center justify-center gap-4 group" data-kid="16">
+                    Start Your Path <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform" data-kid="17"></i>
+                </a>
+                <a href="#tracks" class="px-12 py-6 bg-white/10 hover:bg-white/30 border-2 border-white/40 text-white rounded-2xl font-bold text-xl transition-all backdrop-blur-md flex items-center justify-center gap-4 group" data-kid="18">
+                    Compare Tracks <i class="ph-bold ph-arrows-merge group-hover:rotate-12 transition-transform" data-kid="19"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="tracks" class="py-24 -mt-28 relative z-20" data-kid="20">
+        <div class="max-w-7xl mx-auto px-6" data-kid="21">
+            <div class="grid lg:grid-cols-2 gap-10" data-kid="22">
+                
+                <div class="relative group h-full" data-kid="23">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[var(--primary-green)] to-[var(--leaf-green)] rounded-[2.5rem] blur opacity-10 group-hover:opacity-30 transition duration-1000" data-kid="24"></div>
+                    <div class="relative bg-white p-12 rounded-[2.5rem] border border-[var(--primary-green)]/10 shadow-2xl flex flex-col h-full transform transition-all duration-500 group-hover:-translate-y-2" data-kid="25">
+                        <div class="absolute -top-4 -right-4 rotate-12" data-kid="26">
+                            <div class="bg-[var(--primary-green)] text-white px-8 py-3 rounded-2xl font-black text-2xl shadow-xl border-4 border-white" data-kid="27">
+                                FREE
+                            </div>
+                        </div>
+                        <div class="w-20 h-20 bg-[var(--primary-green)]/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500" data-kid="28">
+                            <i class="ph-bold ph-certificate text-5xl text-[var(--primary-green)]" data-kid="29"></i>
+                        </div>
+                        <h3 class="text-4xl font-serif font-bold text-[var(--dark-green)] mb-6" data-kid="30">Honorary Track</h3>
+                        <p class="text-xl text-gray-500 mb-10 leading-relaxed font-light" data-kid="31">
+                            Recognizing structural impact and legacy. Designed for established leaders who define the green future.
+                        </p>
+                        <div class="space-y-6 mb-12 flex-grow" data-kid="32">
+                            <div class="flex items-center gap-6" data-kid="33">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--leaf-green)]/10 flex items-center justify-center flex-shrink-0" data-kid="34">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--leaf-green)]" data-kid="35"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="36">100% Jury Evaluation</span>
+                            </div>
+                            <div class="flex items-center gap-6" data-kid="37">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--leaf-green)]/10 flex items-center justify-center flex-shrink-0" data-kid="38">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--leaf-green)]" data-kid="39"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="40">Zero Nomination Fees</span>
+                            </div>
+                            <div class="flex items-center gap-6" data-kid="41">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--leaf-green)]/10 flex items-center justify-center flex-shrink-0" data-kid="42">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--leaf-green)]" data-kid="43"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="44">National Stage Recognition</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-6 bg-[var(--primary-green)] text-white rounded-2xl font-bold text-xl hover:bg-[var(--dark-green)] transition-all shadow-xl shadow-[var(--primary-green)]/20 active:scale-95" data-kid="45">
+                            Nominate for Free
+                        </button>
+                    </div>
+                </div>
+
+                
+                <div class="relative group h-full" data-kid="46">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[var(--accent-gold)] to-orange-400 rounded-[2.5rem] blur opacity-10 group-hover:opacity-30 transition duration-1000" data-kid="47"></div>
+                    <div class="relative bg-white p-12 rounded-[2.5rem] border border-[var(--accent-gold)]/10 shadow-2xl flex flex-col h-full transform transition-all duration-500 group-hover:-translate-y-2" data-kid="48">
+                        <div class="absolute -top-4 -right-4" data-kid="49">
+                            <div class="bg-[var(--accent-gold)] text-white px-6 py-2 rounded-xl font-bold text-sm shadow-lg border-2 border-white uppercase tracking-widest" data-kid="50">
+                                Challenge
+                            </div>
+                        </div>
+                        <div class="w-20 h-20 bg-[var(--accent-gold)]/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500" data-kid="51">
+                            <i class="ph-bold ph-chart-line-up text-5xl text-[var(--accent-gold)]" data-kid="52"></i>
+                        </div>
+                        <h3 class="text-4xl font-serif font-bold text-[var(--accent-gold)] mb-6" data-kid="53">Rated Challenge</h3>
+                        <p class="text-xl text-gray-500 mb-10 leading-relaxed font-light" data-kid="54">
+                            Engage your audience and prove your market leadership. Best for MSMEs and scaling startups.
+                        </p>
+                        <div class="space-y-6 mb-12 flex-grow" data-kid="55">
+                            <div class="flex items-center gap-6" data-kid="56">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--accent-gold)]/10 flex items-center justify-center flex-shrink-0" data-kid="57">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--accent-gold)]" data-kid="58"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="59">75% Jury + 25% Public Vote</span>
+                            </div>
+                            <div class="flex items-center gap-6" data-kid="60">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--accent-gold)]/10 flex items-center justify-center flex-shrink-0" data-kid="61">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--accent-gold)]" data-kid="62"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="63">Digital Voting Kit Included</span>
+                            </div>
+                            <div class="flex items-center gap-6" data-kid="64">
+                                <div class="w-12 h-12 rounded-2xl bg-[var(--accent-gold)]/10 flex items-center justify-center flex-shrink-0" data-kid="65">
+                                    <i class="ph-bold ph-check text-2xl text-[var(--accent-gold)]" data-kid="66"></i>
+                                </div>
+                                <span class="text-xl font-semibold text-gray-800 tracking-tight" data-kid="67">Entry from ₹2,000</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-6 bg-[var(--accent-gold)] text-white rounded-2xl font-bold text-xl hover:bg-[#a67c2e] transition-all shadow-xl shadow-[var(--accent-gold)]/20 active:scale-95" data-kid="68">
+                            Join the Challenge
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="journey" class="py-40 bg-white relative overflow-hidden" data-kid="69">
+        <div class="max-w-7xl mx-auto px-6" data-kid="70">
+            <div class="text-center mb-24" data-kid="71">
+                <span class="text-[var(--primary-green)] font-black tracking-[0.4em] uppercase text-xs mb-6 block" data-kid="72">Process Workflow</span>
+                <h2 class="text-6xl md:text-7xl font-serif font-bold text-[var(--dark-green)] mb-8" data-kid="73">Your Road to the Stage</h2>
+                <p class="text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed" data-kid="74">A clear, transparent journey designed to celebrate excellence at every step.</p>
+            </div>
+
+            <div class="relative" data-kid="75">
+                
+                <div class="hidden lg:block absolute top-[112px] left-[10%] right-[10%] h-1 z-0 overflow-hidden" data-kid="76">
+                    <div class="w-full h-full border-t-[3px] border-dashed border-[var(--primary-green)]/30" data-kid="77"></div>
+                    <div class="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-transparent via-[var(--primary-green)]/5 to-transparent animate-[pulse_3s_infinite]" data-kid="78"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-10 relative z-10" data-kid="79">
+                    
+                    <div class="flex flex-col items-center text-center group" data-kid="80">
+                        <div class="w-56 h-56 rounded-full bg-[var(--cream-white)] border-8 border-white shadow-2xl flex items-center justify-center mb-8 relative group-hover:scale-105 transition-all duration-500 group-hover:shadow-[var(--primary-green)]/20" data-kid="81">
+                            <div class="absolute -top-4 -right-2 w-16 h-16 bg-[var(--primary-green)] text-white rounded-full flex items-center justify-center font-black text-2xl shadow-xl border-4 border-white" data-kid="82">01</div>
+                            <div class="p-8 bg-white rounded-full shadow-inner" data-kid="83">
+                                <i class="ph-duotone ph-list-magnifying text-7xl text-[var(--primary-green)]" data-kid="84"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold text-[var(--dark-green)] mb-4" data-kid="85">Choose Category</h4>
+                        <p class="text-gray-500 leading-relaxed font-light" data-kid="86">
+                            Select from 35+ categories. Our platform covers 148+ sectors of the green economy.
+                        </p>
+                    </div>
+
+                    
+                    <div class="flex flex-col items-center text-center group" data-kid="87">
+                        <div class="w-56 h-56 rounded-full bg-[var(--cream-white)] border-8 border-white shadow-2xl flex items-center justify-center mb-8 relative group-hover:scale-105 transition-all duration-500 group-hover:shadow-[var(--primary-green)]/20" data-kid="88">
+                            <div class="absolute -top-4 -right-2 w-16 h-16 bg-[var(--primary-green)] text-white rounded-full flex items-center justify-center font-black text-2xl shadow-xl border-4 border-white" data-kid="89">02</div>
+                            <div class="p-8 bg-white rounded-full shadow-inner" data-kid="90">
+                                <i class="ph-duotone ph-note-pencil text-7xl text-[var(--primary-green)]" data-kid="91"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold text-[var(--dark-green)] mb-4" data-kid="92">Submit Story</h4>
+                        <p class="text-gray-500 leading-relaxed font-light" data-kid="93">
+                            Provide your impact data. <span class="text-[var(--primary-green)] font-semibold underline decoration-wavy decoration-[var(--leaf-green)]/30" data-kid="94">Honorary track is 100% FREE.</span>
+                        </p>
+                    </div>
+
+                    
+                    <div class="flex flex-col items-center text-center group" data-kid="95">
+                        <div class="w-56 h-56 rounded-full bg-[var(--cream-white)] border-8 border-white shadow-2xl flex items-center justify-center mb-8 relative group-hover:scale-105 transition-all duration-500 group-hover:shadow-[var(--primary-green)]/20" data-kid="96">
+                            <div class="absolute -top-4 -right-2 w-16 h-16 bg-[var(--primary-green)] text-white rounded-full flex items-center justify-center font-black text-2xl shadow-xl border-4 border-white" data-kid="97">03</div>
+                            <div class="p-8 bg-white rounded-full shadow-inner" data-kid="98">
+                                <i class="ph-duotone ph-gavel text-7xl text-[var(--primary-green)]" data-kid="99"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold text-[var(--dark-green)] mb-4" data-kid="100">Jury Review</h4>
+                        <p class="text-gray-500 leading-relaxed font-light" data-kid="101">
+                            Our experts evaluate each entry. Rated challenge nominees begin their voting drive.
+                        </p>
+                    </div>
+
+                    
+                    <div class="flex flex-col items-center text-center group" data-kid="102">
+                        <div class="w-56 h-56 rounded-full bg-gradient-to-br from-[var(--accent-gold)] to-yellow-600 border-8 border-white shadow-2xl flex items-center justify-center mb-8 relative group-hover:scale-110 transition-all duration-500" data-kid="103">
+                            <div class="absolute -top-4 -right-2 w-16 h-16 bg-white text-[var(--accent-gold)] rounded-full flex items-center justify-center font-black text-2xl shadow-xl border-4 border-[var(--accent-gold)]" data-kid="104">04</div>
+                            <div class="p-8 bg-white/20 rounded-full backdrop-blur-sm" data-kid="105">
+                                <i class="ph-duotone ph-sparkle text-7xl text-white" data-kid="106"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl font-bold text-[var(--accent-gold)] mb-4" data-kid="107">The Celebration</h4>
+                        <p class="text-gray-500 leading-relaxed font-light" data-kid="108">
+                            Join us on June 25, 2026, at Renaissance by Marriott, Ahmedabad for the grand finale.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="lg:hidden flex flex-col items-center py-10 opacity-30" data-kid="109">
+                <i class="ph-bold ph-arrow-down text-5xl text-[var(--primary-green)] animate-bounce" data-kid="110"></i>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="py-32 bg-[var(--dark-green)] text-white relative overflow-hidden" data-kid="111">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[var(--primary-green)] rounded-full blur-[120px] opacity-20 -mr-48 -mt-48" data-kid="112"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[var(--accent-gold)] rounded-full blur-[120px] opacity-10 -ml-48 -mb-48" data-kid="113"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10" data-kid="114">
+            <div class="text-center mb-24" data-kid="115">
+                <h2 class="text-4xl md:text-6xl font-serif font-bold mb-8" data-kid="116">The Value of Victory</h2>
+                <p class="text-xl text-white/50 font-light max-w-2xl mx-auto" data-kid="117">Beyond the trophy, we provide a platform that amplifies your impact globally.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10" data-kid="118">
+                <div class="group bg-white/5 p-10 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-3" data-kid="119">
+                    <div class="w-20 h-20 bg-[var(--leaf-green)]/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500" data-kid="120">
+                        <i class="ph-duotone ph-broadcast text-5xl text-[var(--leaf-green)]" data-kid="121"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold mb-4" data-kid="122">Media Authority</h5>
+                    <p class="text-white/60 leading-relaxed font-light" data-kid="123">Get featured on VyapaarJagat.com with a full pictorial story reaching 5,00,000+ business leaders.</p>
+                </div>
+                <div class="group bg-white/5 p-10 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-3" data-kid="124">
+                    <div class="w-20 h-20 bg-[var(--accent-gold)]/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500" data-kid="125">
+                        <i class="ph-duotone ph-book-open text-5xl text-[var(--accent-gold)]" data-kid="126"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold mb-4" data-kid="127">Legacy Print</h5>
+                    <p class="text-white/60 leading-relaxed font-light" data-kid="128">Featured spot in the premium "Top 50 Sustainable Leaders" Coffee Table Book, distributed to top CXOs.</p>
+                </div>
+                <div class="group bg-white/5 p-10 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition-all duration-500 hover:-translate-y-3" data-kid="129">
+                    <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500" data-kid="130">
+                        <i class="ph-duotone ph-globe-hemisphere-west text-5xl text-blue-400" data-kid="131"></i>
+                    </div>
+                    <h5 class="text-2xl font-bold mb-4" data-kid="132">Elite Network</h5>
+                    <p class="text-white/60 leading-relaxed font-light" data-kid="133">Connect with 150+ sectors of the green economy through lifetime membership in our exclusive community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="py-48 bg-[var(--cream-white)] relative" data-kid="134">
+        <div class="max-w-6xl mx-auto px-6" data-kid="135">
+            <div class="bg-white p-16 md:p-32 rounded-[5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-[var(--primary-green)]/5 text-center relative overflow-hidden group" data-kid="136">
+                
+                <div class="absolute -top-10 -left-10 w-64 h-64 bg-[var(--primary-green)]/5 rounded-full animate-float opacity-50" data-kid="137"></div>
+                <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-[var(--accent-gold)]/5 rounded-full animate-float opacity-50" style="animation-delay: 2s;" data-kid="138"></div>
+
+                <div class="relative z-10" data-kid="139">
+                    <h2 class="text-4xl md:text-6xl font-serif font-bold text-[var(--dark-green)] mb-10" data-kid="140">Will You Be Our Next <br data-kid="141"> <span class="text-[var(--primary-green)]" data-kid="142">Greenpreneur?</span></h2>
+                    <p class="text-2xl text-gray-500 mb-14 font-light leading-relaxed max-w-2xl mx-auto" data-kid="143">
+                        Your work deserves a national stage. Nomination is simple, impactful, and <span class="font-bold text-[var(--primary-green)]" data-kid="144">100% FREE</span> for the Honorary Track.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center" data-kid="145">
+                        <button class="px-12 py-6 bg-[var(--primary-green)] text-white rounded-[2rem] font-bold text-2xl hover:bg-[var(--dark-green)] transition-all shadow-2xl shadow-[var(--primary-green)]/30 hover:scale-105 active:scale-95 flex items-center justify-center gap-4" data-kid="146">
+                            Apply Now <i class="ph-bold ph-rocket-launch" data-kid="147"></i>
+                        </button>
+                        <button class="px-12 py-6 bg-white text-[var(--primary-green)] border-4 border-[var(--primary-green)] rounded-[2rem] font-bold text-2xl hover:bg-[var(--primary-green)] hover:text-white transition-all hover:scale-105 active:scale-95" data-kid="148">
+                            Get Your Pass
+                        </button>
+                    </div>
+                    <div class="mt-12 flex items-center justify-center gap-8 grayscale opacity-40" data-kid="149">
+                        <span class="text-sm font-bold uppercase tracking-widest" data-kid="150">5th Year</span>
+                        <span class="text-sm font-bold uppercase tracking-widest" data-kid="151">35+ Categories</span>
+                        <span class="text-sm font-bold uppercase tracking-widest" data-kid="152">10,000+ Stories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="py-16 bg-white border-t border-gray-100" data-kid="153">
+        <div class="max-w-7xl mx-auto px-6" data-kid="154">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-10" data-kid="155">
+                <div class="flex items-center gap-5" data-kid="156">
+                    <div class="w-16 h-16 bg-[var(--primary-green)] rounded-2xl flex items-center justify-center shadow-lg shadow-[var(--primary-green)]/20 rotate-3 group-hover:rotate-0 transition-transform" data-kid="157">
+                        <i class="ph-bold ph-leaf text-white text-3xl" data-kid="158"></i>
+                    </div>
+                    <div data-kid="159">
+                        <h6 class="text-2xl font-serif font-bold text-[var(--dark-green)]" data-kid="160">Greenpreneur 2026</h6>
+                        <p class="text-sm text-gray-400 font-medium" data-kid="161">Entrepreneurs Redefining Sustainability</p>
+                    </div>
+                </div>
+                
+                <nav class="flex flex-wrap justify-center gap-12 text-base font-black text-gray-500 uppercase tracking-[0.2em]" data-kid="162">
+                    <a href="#" class="hover:text-[var(--primary-green)] transition-all" data-kid="163">Nominate</a>
+                    <a href="#" class="hover:text-[var(--primary-green)] transition-all" data-kid="164">Sponsorship</a>
+                    <a href="#" class="hover:text-[var(--primary-green)] transition-all" data-kid="165">The Book</a>
+                    <a href="#" class="hover:text-[var(--primary-green)] transition-all" data-kid="166">Contact</a>
+                </nav>
+
+                <div class="text-center md:text-right" data-kid="167">
+                    <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1" data-kid="168">WhatsApp Support</p>
+                    <a href="tel:+917041151714" class="text-2xl font-black text-[var(--primary-green)] hover:text-[var(--dark-green)] transition-colors" data-kid="169">
+                        +91 70411 51714
+                    </a>
+                </div>
+            </div>
+            <div class="mt-16 pt-8 border-t border-gray-50 text-center" data-kid="170">
+                <p class="text-xs text-gray-400 font-medium uppercase tracking-[0.2em]" data-kid="171">
+                    © 2026 1 Million Entrepreneurs International Forum | Section 8 NGO | CEED Partner
+                </p>
+            </div>
+        </div>
+    </footer>
+</div>

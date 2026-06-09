@@ -1,0 +1,506 @@
+
+<div class="bg-[#F9F5EE] font-sans text-[#1A1A1A]" data-kid="0">
+    <style data-kid="1">
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-sans {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input:checked + .card-radio {
+            border-color: #1E6B3C;
+            background-color: #fff;
+            box-shadow: 0 10px 30px -5px rgba(30, 107, 60, 0.15);
+            transform: translateY(-2px);
+        }
+
+        input:checked + .card-radio .radio-dot {
+            background-color: #1E6B3C;
+            border-color: #1E6B3C;
+        }
+
+        input:checked + .card-radio .radio-dot-inner {
+            display: block;
+        }
+
+        .pattern-bg {
+            background-image: radial-gradient(#1E6B3C 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.05;
+        }
+    </style>
+
+    
+    <nav class="bg-white border-b border-gray-100 py-4 px-6 relative z-50" data-kid="2">
+        <div class="max-w-7xl mx-auto flex items-center justify-between" data-kid="3">
+            <div class="flex items-center gap-2" data-kid="4">
+                <div class="w-10 h-10 bg-[#1E6B3C] rounded-lg flex items-center justify-center" data-kid="5">
+                    <i class="ph ph-leaf text-white text-2xl" data-kid="6"></i>
+                </div>
+                <div data-kid="7">
+                    <span class="text-xl font-serif font-bold text-[#0D3D20] block leading-none" data-kid="8">Greenpreneur</span>
+                    <span class="text-[10px] tracking-[0.2em] uppercase font-bold text-[#1E6B3C]" data-kid="9">Awards 2026</span>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-8" data-kid="10">
+                <a href="#" class="text-sm font-medium hover:text-[#1E6B3C] transition-colors" data-kid="11">About</a>
+                <a href="#" class="text-sm font-medium hover:text-[#1E6B3C] transition-colors" data-kid="12">Awards</a>
+                <a href="#" class="text-sm font-medium hover:text-[#1E6B3C] transition-colors" data-kid="13">Sponsors</a>
+                <a href="#" class="px-6 py-2.5 bg-[#1E6B3C] text-white rounded-full text-sm font-semibold shadow-lg shadow-[#1E6B3C]/20" data-kid="14">Get Pass</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-12" data-kid="15">
+        
+        <div class="text-center mb-12 relative" data-kid="16">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[#1E6B3C]/20 rounded-full shadow-sm mb-6" data-kid="17">
+                <span class="relative flex h-2 w-2" data-kid="18">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1E6B3C] opacity-75" data-kid="19"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-[#1E6B3C]" data-kid="20"></span>
+                </span>
+                <span class="text-[#1E6B3C] text-[10px] font-bold uppercase tracking-[0.2em]" data-kid="21">Nominations Open for 2026</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-[#0D3D20] mb-6 tracking-tight" data-kid="22">Apply for Awards</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed" data-kid="23">Celebrate your sustainable achievements on India's premier green platform. Follow our simple 4-step wizard to nominate your business.</p>
+        </div>
+
+        
+        <div class="bg-white rounded-3xl shadow-2xl shadow-green-900/5 overflow-hidden border border-gray-100 transition-all duration-500" data-kid="24">
+            
+            <div class="px-8 md:px-12 pt-12 pb-2 bg-gradient-to-b from-gray-50/50 to-transparent" data-kid="25">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4" data-kid="26">
+                    <div data-kid="27">
+                        <span id="step-counter" class="inline-flex items-center px-3 py-1 bg-[#1E6B3C] text-white text-[10px] font-bold rounded-md uppercase tracking-widest mb-2" data-kid="28">Step 1 of 4</span>
+                        <h2 id="step-title" class="text-xl font-bold text-[#0D3D20]" data-kid="29">Choose Award Track</h2>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-bold text-[#1E6B3C] tracking-widest uppercase" data-kid="30">
+                        <span class="opacity-40" data-kid="31">Start</span>
+                        <div class="w-48 bg-gray-100 h-2 rounded-full overflow-hidden" data-kid="32">
+                            <div id="progress-bar" class="bg-[#1E6B3C] h-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(30,107,60,0.5)]" style="width: 25%" data-kid="33"></div>
+                        </div>
+                        <span class="opacity-40" data-kid="34">Finish</span>
+                    </div>
+                </div>
+            </div>
+
+            
+            <form id="award-form" class="px-8 md:px-12 pb-12" data-kid="35">
+                
+                <div id="step-1" class="step-content active" data-kid="36">
+                    <div class="space-y-8" data-kid="37">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-kid="38">
+                            
+                            <div class="relative group" data-kid="39">
+                                <input type="radio" name="track" value="honorary" id="track-honorary" class="sr-only" checked onchange="toggleRatedSteps()" data-kid="40">
+                                <label for="track-honorary" class="card-radio block h-full border-2 border-gray-100 bg-white rounded-2xl p-6 cursor-pointer hover:border-[#1E6B3C]/30 transition-all" data-kid="41">
+                                    <div class="flex justify-between items-start mb-6" data-kid="42">
+                                        <span class="bg-[#1E6B3C] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider" data-kid="43">Free Nomination</span>
+                                        <div class="radio-dot w-6 h-6 rounded-full border-2 border-gray-200 flex items-center justify-center" data-kid="44">
+                                            <div class="radio-dot-inner hidden w-2.5 h-2.5 rounded-full bg-white" data-kid="45"></div>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-[#0D3D20] mb-2" data-kid="46">Honorary Award</h3>
+                                    <p class="text-sm text-gray-600 mb-6" data-kid="47">For exceptional lifetime or sector contribution. Evaluation by 100% Jury.</p>
+                                    <ul class="space-y-3" data-kid="48">
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="49">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="50"></i>
+                                            <span data-kid="51">No nomination fee (₹0)</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="52">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="53"></i>
+                                            <span data-kid="54">Invitation or self-nomination</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="55">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="56"></i>
+                                            <span data-kid="57">Strict Jury selection process</span>
+                                        </li>
+                                    </ul>
+                                </label>
+                            </div>
+
+                            
+                            <div class="relative group" data-kid="58">
+                                <input type="radio" name="track" value="rated" id="track-rated" class="sr-only" onchange="toggleRatedSteps()" data-kid="59">
+                                <label for="track-rated" class="card-radio block h-full border-2 border-gray-100 bg-white rounded-2xl p-6 cursor-pointer hover:border-[#1E6B3C]/30 transition-all" data-kid="60">
+                                    <div class="flex justify-between items-start mb-6" data-kid="61">
+                                        <span class="bg-[#C9963A] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider" data-kid="62">Award Challenge</span>
+                                        <div class="radio-dot w-6 h-6 rounded-full border-2 border-gray-200 flex items-center justify-center" data-kid="63">
+                                            <div class="radio-dot-inner hidden w-2.5 h-2.5 rounded-full bg-white" data-kid="64"></div>
+                                        </div>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-[#0D3D20] mb-2" data-kid="65">Rated Awards</h3>
+                                    <p class="text-sm text-gray-600 mb-6" data-kid="66">Competitive track with 75% Jury evaluation and 25% Public Voting.</p>
+                                    <ul class="space-y-3" data-kid="67">
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="68">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="69"></i>
+                                            <span data-kid="70">Starting from ₹2,000</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="71">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="72"></i>
+                                            <span data-kid="73">Personalized voting link & graphics</span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-sm text-gray-700" data-kid="74">
+                                            <i class="ph-bold ph-check text-[#1E6B3C] mt-0.5" data-kid="75"></i>
+                                            <span data-kid="76">Jury + Public Voting combined score</span>
+                                        </li>
+                                    </ul>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="step-2" class="step-content" data-kid="77">
+                    <div class="space-y-8" data-kid="78">
+                        <h2 class="text-2xl font-bold font-serif text-[#0D3D20]" data-kid="79">Tell us about yourself</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" data-kid="80">
+                            <div class="space-y-2" data-kid="81">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="82">Full Name</label>
+                                <input type="text" name="name" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] focus:ring-4 focus:ring-[#1E6B3C]/10 outline-none transition-all" placeholder="Dr. Pravin Parmar" data-kid="83">
+                            </div>
+                            <div class="space-y-2" data-kid="84">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="85">Organisation Name</label>
+                                <input type="text" name="business" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] focus:ring-4 focus:ring-[#1E6B3C]/10 outline-none transition-all" placeholder="Green Earth Solutions" data-kid="86">
+                            </div>
+                            <div class="space-y-2" data-kid="87">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="88">Mobile Number (WhatsApp)</label>
+                                <input type="tel" name="phone" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] focus:ring-4 focus:ring-[#1E6B3C]/10 outline-none transition-all" placeholder="+91 70411 51714" data-kid="89">
+                            </div>
+                            <div class="space-y-2" data-kid="90">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="91">Email Address</label>
+                                <input type="email" name="email" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] focus:ring-4 focus:ring-[#1E6B3C]/10 outline-none transition-all" placeholder="hello@greenpreneur.in" data-kid="92">
+                            </div>
+                            <div class="space-y-2 md:col-span-2" data-kid="93">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="94">City & State</label>
+                                <input type="text" name="city" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] focus:ring-4 focus:ring-[#1E6B3C]/10 outline-none transition-all" placeholder="Ahmedabad, Gujarat" data-kid="95">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="step-3" class="step-content" data-kid="96">
+                    <div class="space-y-8" data-kid="97">
+                        <h2 class="text-2xl font-bold font-serif text-[#0D3D20]" data-kid="98">Your Green Impact</h2>
+                        <div class="space-y-6" data-kid="99">
+                            <div class="space-y-2" data-kid="100">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="101">Award Category</label>
+                                <div class="relative" data-kid="102">
+                                    <select name="category" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] outline-none transition-all appearance-none cursor-pointer pr-12" data-kid="103">
+                                        <option value disabled selected data-kid="104">Select a category</option>
+                                        <option data-kid="105">Eco-Friendly Product</option>
+                                        <option data-kid="106">Sustainable Manufacturer</option>
+                                        <option data-kid="107">Sustainable Construction</option>
+                                        <option data-kid="108">Green Architecture</option>
+                                        <option data-kid="109">Interior / Exterior Design</option>
+                                        <option data-kid="110">E-Vehicle Business</option>
+                                        <option data-kid="111">Renewable Energy</option>
+                                        <option data-kid="112">Waste Management</option>
+                                        <option data-kid="113">Recycling & Upcycling</option>
+                                        <option data-kid="114">Water Conservation</option>
+                                        <option data-kid="115">Sustainable Service Business</option>
+                                        <option data-kid="116">Sustainable Factory</option>
+                                        <option data-kid="117">Sustainable Agriculture</option>
+                                        <option data-kid="118">Healthcare & Wellness</option>
+                                        <option data-kid="119">Hospitality & Tourism</option>
+                                        <option data-kid="120">Rural Development</option>
+                                        <option data-kid="121">Sustainable Education</option>
+                                        <option data-kid="122">Clean Technology</option>
+                                        <option data-kid="123">Circular Economy</option>
+                                        <option data-kid="124">Start-Up of the Year</option>
+                                        <option data-kid="125">Social Impact Creator</option>
+                                        <option data-kid="126">NGO Impact Award</option>
+                                        <option data-kid="127">Carbon Credit Pioneer</option>
+                                        <option data-kid="128">Sustainability Champion (Woman)</option>
+                                        <option data-kid="129">Sustainability Champion (Man)</option>
+                                    </select>
+                                    <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400" data-kid="130">
+                                        <i class="ph-bold ph-caret-down text-xs" data-kid="131"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-2" data-kid="132">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="133">Briefly describe your green work (200 words max)</label>
+                                <textarea name="description" rows="5" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] outline-none transition-all resize-none" placeholder="Tell us about the impact your business is making..." data-kid="134"></textarea>
+                            </div>
+                            <div class="space-y-2" data-kid="135">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500" data-kid="136">Website or Social Media Link</label>
+                                <input type="url" name="link" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#1E6B3C] outline-none transition-all" placeholder="https://yourwebsite.com" data-kid="137">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="step-4" class="step-content" data-kid="138">
+                    <div class="space-y-8" data-kid="139">
+                        <div id="rated-payment-section" data-kid="140">
+                            <h2 class="text-2xl font-bold font-serif text-[#0D3D20]" data-kid="141">Select Your Nomination Package</h2>
+                            <p class="text-sm text-gray-600 mb-8" data-kid="142">Choose a package to amplify your presence in the Greenpreneur Awards Challenge.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10" data-kid="143">
+                                
+                                <label class="relative block border-2 border-gray-100 p-6 rounded-2xl cursor-pointer hover:border-[#1E6B3C]/30 transition-all has-[:checked]:border-[#1E6B3C] has-[:checked]:bg-[#1E6B3C]/5" data-kid="144">
+                                    <input type="radio" name="package" value="standard" class="sr-only" checked data-kid="145">
+                                    <div class="flex justify-between items-start mb-4" data-kid="146">
+                                        <h4 class="text-lg font-bold text-[#0D3D20]" data-kid="147">Standard</h4>
+                                        <span class="text-2xl font-serif font-bold text-[#1E6B3C]" data-kid="148">₹2,000</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-gray-600 mb-6" data-kid="149">
+                                        <li class="flex items-center gap-2" data-kid="150"><i class="ph ph-check text-[#1E6B3C]" data-kid="151"></i> Public Voting Link</li>
+                                        <li class="flex items-center gap-2" data-kid="152"><i class="ph ph-check text-[#1E6B3C]" data-kid="153"></i> Nomination Certificate</li>
+                                        <li class="flex items-center gap-2" data-kid="154"><i class="ph ph-check text-[#1E6B3C]" data-kid="155"></i> Listing on Voting Portal</li>
+                                    </ul>
+                                </label>
+                                
+                                
+                                <label class="relative block border-2 border-gray-100 p-6 rounded-2xl cursor-pointer hover:border-[#C9963A]/30 transition-all has-[:checked]:border-[#C9963A] has-[:checked]:bg-[#C9963A]/5" data-kid="156">
+                                    <input type="radio" name="package" value="premium" class="sr-only" data-kid="157">
+                                    <div class="flex justify-between items-start mb-4" data-kid="158">
+                                        <div data-kid="159">
+                                            <h4 class="text-lg font-bold text-[#0D3D20]" data-kid="160">Premium</h4>
+                                            <span class="text-[10px] font-bold text-[#C9963A] uppercase tracking-widest" data-kid="161">Recommended</span>
+                                        </div>
+                                        <span class="text-2xl font-serif font-bold text-[#C9963A]" data-kid="162">₹5,000</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-gray-600 mb-6" data-kid="163">
+                                        <li class="flex items-center gap-2" data-kid="164"><i class="ph ph-check text-[#C9963A]" data-kid="165"></i> Everything in Standard</li>
+                                        <li class="flex items-center gap-2" data-kid="166"><i class="ph ph-check text-[#C9963A]" data-kid="167"></i> Personalized Social Graphics</li>
+                                        <li class="flex items-center gap-2" data-kid="168"><i class="ph ph-check text-[#C9963A]" data-kid="169"></i> Priority Jury Review</li>
+                                    </ul>
+                                </label>
+                            </div>
+
+                            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6" data-kid="170">
+                                <h4 class="text-sm font-bold text-[#0D3D20] mb-4 uppercase tracking-widest" data-kid="171">Payment Methods</h4>
+                                <div class="flex flex-col md:flex-row gap-6 md:items-center" data-kid="172">
+                                    <div class="flex-1" data-kid="173">
+                                        <p class="text-xs text-gray-500 mb-1 font-bold" data-kid="174">UPI ID</p>
+                                        <p class="text-[#1E6B3C] font-mono font-bold" data-kid="175">eazypay.0000054327@icici</p>
+                                    </div>
+                                    <div class="w-px h-10 bg-gray-200 hidden md:block" data-kid="176"></div>
+                                    <div class="flex-1" data-kid="177">
+                                        <p class="text-xs text-gray-500 mb-1 font-bold" data-kid="178">Bank Transfer (ICICI)</p>
+                                        <p class="text-sm font-medium" data-kid="179">A/C: 471401000076 | IFSC: ICIC0004714</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6 flex items-center gap-4" data-kid="180">
+                                    <button type="button" class="flex-1 bg-black text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-900 transition-all" data-kid="181">
+                                        <i class="ph ph-credit-card" data-kid="182"></i> Pay via Razorpay
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="honorary-summary" class="hidden text-center py-10" data-kid="183">
+                            <div class="w-20 h-20 bg-[#1E6B3C]/10 rounded-full flex items-center justify-center mx-auto mb-6" data-kid="184">
+                                <i class="ph ph-seal-check text-[#1E6B3C] text-4xl" data-kid="185"></i>
+                            </div>
+                            <h2 class="text-3xl font-serif font-bold text-[#0D3D20] mb-3" data-kid="186">Almost Finished!</h2>
+                            <p class="text-gray-600 max-w-sm mx-auto" data-kid="187">Review your details and submit for free. Our Jury will evaluate your application based on impact and innovation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="mt-12 flex flex-col md:flex-row gap-4 justify-between border-t border-gray-100 pt-10" data-kid="188">
+                    <button type="button" id="prev-btn" class="hidden px-8 py-4 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-all" onclick="navigate(-1)" data-kid="189">
+                        Previous Step
+                    </button>
+                    <div class="flex-1" data-kid="190"></div>
+                    <button type="button" id="next-btn" class="px-12 py-4 rounded-xl bg-[#1E6B3C] text-white font-bold hover:bg-[#0D3D20] hover:shadow-2xl hover:shadow-[#1E6B3C]/30 shadow-xl shadow-[#1E6B3C]/10 transition-all group" onclick="navigate(1)" data-kid="191">
+                        <span id="next-btn-text" data-kid="192">Continue to Details</span>
+                        <i class="ph ph-arrow-right ml-2 group-hover:translate-x-1 transition-transform" data-kid="193"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        
+        <div class="mt-16 grid md:grid-cols-12 items-center bg-[#0D3D20] rounded-[2rem] p-8 md:p-12 text-white relative overflow-hidden" data-kid="194">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-[#1E6B3C]/30 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" data-kid="195"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-[#C9963A]/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl" data-kid="196"></div>
+            
+            <div class="md:col-span-8 relative z-10" data-kid="197">
+                <div class="flex items-center gap-3 mb-4" data-kid="198">
+                    <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-sm" data-kid="199">
+                        <i class="ph ph-chat-circle-dots text-2xl text-[#C9963A]" data-kid="200"></i>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-[0.3em] text-[#C9963A]" data-kid="201">Support Desk</span>
+                </div>
+                <h3 class="text-3xl font-serif font-bold mb-3" data-kid="202">Stuck somewhere?</h3>
+                <p class="text-green-100/70 text-lg max-w-xl leading-relaxed" data-kid="203">Our nomination experts are ready to guide you. From category selection to documentation, we're here to help.</p>
+            </div>
+            <div class="md:col-span-4 mt-8 md:mt-0 flex md:justify-end relative z-10" data-kid="204">
+                <a href="https://wa.me/917041151714" class="inline-flex items-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#1fae53] hover:-translate-y-1 transition-all shadow-2xl shadow-green-900/40 group" data-kid="205">
+                    <i class="ph ph-whatsapp-logo text-3xl" data-kid="206"></i>
+                    <div class="text-left" data-kid="207">
+                        <span class="block text-[10px] uppercase tracking-wider opacity-80" data-kid="208">Contact us on</span>
+                        <span class="text-lg" data-kid="209">WhatsApp Help</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-10 mt-12" data-kid="210">
+        <div class="max-w-7xl mx-auto px-6" data-kid="211">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16" data-kid="212">
+                <div class="md:col-span-1" data-kid="213">
+                    <div class="flex items-center gap-2 mb-6" data-kid="214">
+                        <div class="w-8 h-8 bg-[#1E6B3C] rounded-lg flex items-center justify-center" data-kid="215">
+                            <i class="ph ph-leaf text-white text-xl" data-kid="216"></i>
+                        </div>
+                        <span class="text-xl font-serif font-bold text-[#0D3D20]" data-kid="217">Greenpreneur</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed" data-kid="218">
+                        India's most comprehensive green entrepreneurship platform celebrating 5 years of sustainable innovation.
+                    </p>
+                    <div class="flex gap-4" data-kid="219">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1E6B3C] hover:bg-green-50 transition-all" data-kid="220"><i class="ph ph-instagram-logo text-xl" data-kid="221"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1E6B3C] hover:bg-green-50 transition-all" data-kid="222"><i class="ph ph-linkedin-logo text-xl" data-kid="223"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1E6B3C] hover:bg-green-50 transition-all" data-kid="224"><i class="ph ph-facebook-logo text-xl" data-kid="225"></i></a>
+                    </div>
+                </div>
+                <div data-kid="226">
+                    <h4 class="text-sm font-bold text-[#0D3D20] mb-6 uppercase tracking-widest" data-kid="227">Links</h4>
+                    <ul class="space-y-4 text-sm text-gray-500" data-kid="228">
+                        <li data-kid="229"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="230">Award Categories</a></li>
+                        <li data-kid="231"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="232">Jury Panel</a></li>
+                        <li data-kid="233"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="234">Past Winners</a></li>
+                        <li data-kid="235"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="236">Sponsorships</a></li>
+                    </ul>
+                </div>
+                <div data-kid="237">
+                    <h4 class="text-sm font-bold text-[#0D3D20] mb-6 uppercase tracking-widest" data-kid="238">Legal</h4>
+                    <ul class="space-y-4 text-sm text-gray-500" data-kid="239">
+                        <li data-kid="240"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="241">Privacy Policy</a></li>
+                        <li data-kid="242"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="243">Terms of Use</a></li>
+                        <li data-kid="244"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="245">NGO Credentials</a></li>
+                        <li data-kid="246"><a href="#" class="hover:text-[#1E6B3C] transition-colors" data-kid="247">FAQs</a></li>
+                    </ul>
+                </div>
+                <div data-kid="248">
+                    <h4 class="text-sm font-bold text-[#0D3D20] mb-6 uppercase tracking-widest" data-kid="249">Contact</h4>
+                    <div class="space-y-4 mb-8" data-kid="250">
+                        <div class="flex items-center gap-3" data-kid="251">
+                            <i class="ph ph-phone text-[#1E6B3C]" data-kid="252"></i>
+                            <span class="text-sm text-gray-500" data-kid="253">+91 70411 51714</span>
+                        </div>
+                        <div class="flex items-center gap-3" data-kid="254">
+                            <i class="ph ph-envelope text-[#1E6B3C]" data-kid="255"></i>
+                            <span class="text-sm text-gray-500" data-kid="256">hello@greenpreneur.in</span>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-gradient-to-br from-[#F9F5EE] to-white rounded-2xl border border-gray-100 shadow-sm" data-kid="257">
+                        <p class="text-[10px] text-[#1E6B3C] font-bold uppercase tracking-widest mb-2" data-kid="258">Organised By</p>
+                        <p class="text-sm text-[#0D3D20] font-bold leading-tight" data-kid="259">1 Million Entrepreneurs International Forum (1MEIF) NGO</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-100 pt-10 flex flex-col md:flex-row justify-between items-center gap-4" data-kid="260">
+                <div class="flex flex-col md:flex-row items-center gap-4" data-kid="261">
+                    <p class="text-sm text-gray-400" data-kid="262">© 2026 Greenpreneur. All rights reserved.</p>
+                    <span class="hidden md:block text-gray-200" data-kid="263">|</span>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold" data-kid="264">Viksit Bharat @2047</p>
+                </div>
+                <p class="text-sm text-[#1E6B3C] font-semibold" data-kid="265">आइए, साथ मिलकर एक बेहतर भविष्य का निर्माण करें।</p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="https://unpkg.com/@phosphor-icons/web" data-kid="266"></script>
+    <script data-kid="267">
+        let currentStep = 1;
+        const totalSteps = 4;
+        const steps = ['Award Track', 'Personal Details', 'About Work', 'Confirmation'];
+        
+        function navigate(direction) {
+            const nextStep = currentStep + direction;
+            
+            // Validate limits
+            if (nextStep < 1 || nextStep > totalSteps) return;
+
+            // Handle step visibility
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            document.getElementById(`step-${nextStep}`).classList.add('active');
+            
+            currentStep = nextStep;
+            updateUI();
+        }
+
+        function updateUI() {
+            // Update progress bar
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            // Update text
+            document.getElementById('step-counter').innerText = `Step ${currentStep} of ${totalSteps}`;
+            document.getElementById('step-title').innerText = steps[currentStep - 1];
+            
+            // Show/Hide Previous Button
+            const prevBtn = document.getElementById('prev-btn');
+            if (currentStep === 1) {
+                prevBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+            }
+
+            // Update Next Button Text
+            const nextBtnText = document.getElementById('next-btn-text');
+            if (currentStep === 1) {
+                nextBtnText.innerText = "Continue to Details";
+            } else if (currentStep === 2) {
+                nextBtnText.innerText = "Continue to Impact";
+            } else if (currentStep === 3) {
+                nextBtnText.innerText = "Final Step: Review";
+            } else {
+                nextBtnText.innerText = "Submit Nomination";
+            }
+
+            // Specific logic for Step 4 summary vs payment
+            if (currentStep === 4) {
+                toggleRatedSteps();
+            }
+        }
+
+        function toggleRatedSteps() {
+            const isRated = document.querySelector('input[name="track"]:checked').value === 'rated';
+            const paymentSection = document.getElementById('rated-payment-section');
+            const summarySection = document.getElementById('honorary-summary');
+            
+            if (isRated) {
+                paymentSection.style.display = 'block';
+                summarySection.style.display = 'none';
+            } else {
+                paymentSection.style.display = 'none';
+                summarySection.style.display = 'block';
+            }
+        }
+
+        // Initialize UI
+        updateUI();
+    </script>
+</div>

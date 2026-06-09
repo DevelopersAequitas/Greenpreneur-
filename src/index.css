@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@source "../index.html";
+@source "./**/*.{ts,tsx,js,jsx}";
+
+@theme {
+  --color-saffron: #FF9933;
+  --color-indian-green: #0B5B3E;
+  --color-ashoka-navy: #0C1B33;
+  --color-primary-green: #0B5B3E;
+  --color-dark-green: #052216;
+  --color-accent-gold: #B38728;
+  --color-leaf-green: #0B5B3E;
+  --color-cream-white: #FCFBF9;
+  --color-pure-white: #FFFFFF;
+  --color-dark-text: #111827;
+  --color-medium-grey: #4B5563;
+  --color-light-grey: #E5E7EB;
+  --color-alert-red: #DC2626;
+  --color-warning-amber: #F59E0B;
+
+  /* SDG Official Colors */
+  --color-sdg-1: #E5243B;
+  --color-sdg-2: #DDA63A;
+  --color-sdg-3: #4C9F38;
+  --color-sdg-4: #C5192D;
+  --color-sdg-5: #EF402C;
+  --color-sdg-6: #26BDE2;
+  --color-sdg-7: #FCC30B;
+  --color-sdg-8: #A21942;
+  --color-sdg-9: #FD6925;
+  --color-sdg-10: #DD1367;
+  --color-sdg-11: #FD9D24;
+  --color-sdg-12: #BF8B2E;
+  --color-sdg-13: #3F7E44;
+  --color-sdg-14: #0A97D9;
+  --color-sdg-15: #56C02B;
+  --color-sdg-16: #00689D;
+  --color-sdg-17: #19486A;
+
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  background-color: #F9F5EE;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-inter { font-family: 'Inter', sans-serif; }
+
+.gold-border { border: 1px solid rgba(201, 150, 58, 0.3); }
+.gold-border-accent { border-left: 4px solid #C9963A; }
+
+.prestigious-shadow {
+  box-shadow: 0 30px 60px -15px rgba(13, 61, 32, 0.12);
+}
+
+.heritage-ornament {
+  background-image: radial-gradient(circle at 1px 1px, #C9963A 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.05;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(to bottom, #C9963A, #B0822F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-link-item {
+  position: relative;
+  color: #1A1A1A;
+  transition: color 0.25s ease;
+}
+.nav-link-item::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #1E6B3C;
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.25s ease;
+}
+.nav-link-item:hover {
+  color: #1E6B3C;
+}
+.nav-link-item:hover::after {
+  transform: scaleX(1);
+}
+.nav-link-item.active {
+  color: #1E6B3C;
+}
+.nav-link-item.active::after {
+  transform: scaleX(1);
+}
+
+.hover-card {
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.hover-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Redesign Animations & Utilities */
+@keyframes flagWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-flag-wave {
+  background: linear-gradient(-45deg, rgba(255, 153, 51, 0.08), rgba(255, 255, 255, 0.95), rgba(19, 136, 8, 0.08));
+  background-size: 200% 200%;
+  animation: flagWave 10s ease infinite;
+}
+
+.animate-sdg-rainbow {
+  background: linear-gradient(
+    90deg,
+    #E5243B, #DDA63A, #4C9F38, #C5192D, #EF402C, #26BDE2,
+    #FCC30B, #A21942, #FD6925, #DD1367, #FD9D24, #BF8B2E,
+    #3F7E44, #0A97D9, #56C02B, #00689D, #19486A
+  );
+  background-size: 1700% 100%;
+  animation: flagWave 30s linear infinite;
+}
+
+.glow-saffron {
+  box-shadow: 0 10px 30px -5px rgba(255, 153, 51, 0.35);
+}
+
+.glow-indian-green {
+  box-shadow: 0 10px 30px -5px rgba(11, 91, 62, 0.4);
+}
+
+.glow-ashoka-navy {
+  box-shadow: 0 10px 30px -5px rgba(12, 27, 51, 0.35);
+}
+
+.lotus-pattern {
+  background-image: radial-gradient(#FF9933 0.6px, transparent 0.6px), radial-gradient(#0B5B3E 0.6px, transparent 0.6px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+  opacity: 0.08;
+}
+
+/* Premium Gold & Emerald Satin Utilities */
+.bg-gold-metallic {
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+}
+
+.text-gold-metallic {
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-gold-lux {
+  box-shadow: 0 12px 30px -5px rgba(179, 135, 40, 0.35);
+}
+
+.bg-emerald-satin {
+  background: linear-gradient(135deg, #052216 0%, #0A5C36 50%, #0B5B3E 100%);
+}
+
+.border-gold-lux {
+  border-color: #B38728;
+}
+
+.btn-premium-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%) !important;
+  color: #052216 !important;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px -5px rgba(179, 135, 40, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none !important;
+}
+
+.btn-premium-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 15px 35px -3px rgba(179, 135, 40, 0.5);
+  filter: brightness(1.05);
+}
+
+.btn-premium-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-premium-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  color: #B38728 !important;
+  border: 1.5px solid #B38728 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.btn-premium-secondary:hover {
+  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%) !important;
+  color: #052216 !important;
+  border-color: transparent !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 30px -5px rgba(179, 135, 40, 0.35);
+}
+
+.btn-premium-secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+
+
+/* Custom Scrollbar for Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

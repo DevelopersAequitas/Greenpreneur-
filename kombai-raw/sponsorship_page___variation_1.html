@@ -1,0 +1,513 @@
+
+<style data-kid="0">
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap');
+
+    .font-serif {
+        font-family: 'Playfair Display', serif;
+    }
+
+    .font-sans {
+        font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-green {
+        background: linear-gradient(135deg, #0D3D20 0%, #1E6B3C 100%);
+    }
+
+    .tier-card {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .tier-title-glow {
+        box-shadow: 0 0 40px -10px rgba(201, 150, 58, 0.2);
+    }
+
+    .tier-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 40px 60px -15px rgba(13, 61, 32, 0.15);
+    }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .float-anim {
+        animation: float 4s ease-in-out infinite;
+    }
+
+    .partner-logo {
+        background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+        border: 1px solid #dcdcdc;
+    }
+</style>
+
+<div class="font-sans text-[#1A1A1A] bg-[#F9F5EE] relative min-h-screen" data-kid="1">
+    
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm py-4 px-6 relative z-50" data-kid="2">
+        <div class="max-w-7xl mx-auto flex items-center justify-between" data-kid="3">
+            <div class="flex items-center gap-3" data-kid="4">
+                <div class="w-10 h-10 bg-[#1E6B3C] rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-[#1E6B3C]/20" data-kid="5">G</div>
+                <div class="flex flex-col" data-kid="6">
+                    <span class="font-serif text-xl font-bold text-[#1E6B3C] leading-none" data-kid="7">GREENPRENEUR</span>
+                    <span class="text-[10px] tracking-[0.3em] uppercase text-[#C9963A] font-bold" data-kid="8">Awards 2026</span>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-8" data-kid="9">
+                <a href="#" class="font-semibold text-sm uppercase tracking-wider text-[#1A1A1A] hover:text-[#1E6B3C] transition-colors" data-kid="10">Home</a>
+                <a href="#" class="font-semibold text-sm uppercase tracking-wider text-[#1A1A1A] hover:text-[#1E6B3C] transition-colors" data-kid="11">About</a>
+                <a href="#" class="font-semibold text-sm uppercase tracking-wider text-[#1A1A1A] hover:text-[#1E6B3C] transition-colors" data-kid="12">Awards</a>
+                <a href="#" class="font-semibold text-sm uppercase tracking-wider text-[#1E6B3C] border-b-2 border-[#1E6B3C] py-1" data-kid="13">Sponsors</a>
+                <a href="#" class="font-semibold text-sm uppercase tracking-wider text-[#1A1A1A] hover:text-[#1E6B3C] transition-colors" data-kid="14">Winners</a>
+            </div>
+            <div class="flex items-center gap-4" data-kid="15">
+                <button class="hidden sm:block px-5 py-2.5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-bold text-sm uppercase tracking-tighter rounded-lg hover:bg-[#1E6B3C]/5 transition-all" data-kid="16">Get Pass</button>
+                <button class="px-5 py-2.5 bg-[#1E6B3C] text-white font-bold text-sm uppercase tracking-tighter rounded-lg hover:bg-[#0D3D20] transition-all shadow-lg shadow-[#1E6B3C]/30" data-kid="17">Apply for Award</button>
+            </div>
+        </div>
+    </nav>
+
+    
+    <header class="gradient-green py-32 px-6 text-white text-center relative overflow-hidden" data-kid="18">
+        
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none" data-kid="19">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-[100px]" data-kid="20"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-[#C9963A] rounded-full blur-[120px]" data-kid="21"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto relative z-10" data-kid="22">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#C9963A] text-xs font-black mb-10 tracking-[0.25em] uppercase" data-kid="23">
+                <span class="w-2 h-2 rounded-full bg-[#C9963A] float-anim" data-kid="24"></span>
+                Partnership Opportunities 2026
+            </div>
+            <h1 class="text-5xl md:text-8xl font-bold font-serif mb-10 leading-[1.1]" data-kid="25">Be a Part of India's Green Economy Movement</h1>
+            <p class="text-xl md:text-2xl text-white/70 mb-14 max-w-2xl mx-auto leading-relaxed font-light" data-kid="26">Join the 5th edition of India's most comprehensive platform celebrating sustainable entrepreneurship and innovation.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6" data-kid="27">
+                <a href="#tiers" class="px-12 py-5 bg-[#C9963A] text-white font-bold rounded-xl hover:bg-[#b08332] hover:scale-105 transition-all shadow-2xl shadow-[#C9963A]/40 text-lg uppercase tracking-wider" data-kid="28">Explore Tiers</a>
+                <a href="#contact" class="px-12 py-5 border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 hover:scale-105 transition-all text-lg uppercase tracking-wider backdrop-blur-sm" data-kid="29">Contact Us</a>
+            </div>
+        </div>
+    </header>
+
+    
+    <section class="py-32 px-6 bg-white border-b border-gray-100" data-kid="30">
+        <div class="max-w-7xl mx-auto" data-kid="31">
+            <div class="flex flex-col lg:flex-row items-end justify-between mb-24 gap-8" data-kid="32">
+                <div class="max-w-2xl" data-kid="33">
+                    <span class="text-[#C9963A] font-bold uppercase tracking-[0.3em] text-xs mb-4 block" data-kid="34">The Value Proposition</span>
+                    <h2 class="text-4xl md:text-6xl font-bold font-serif text-[#1A1A1A] leading-tight" data-kid="35">Why Partner with Greenpreneur?</h2>
+                </div>
+                <div class="lg:w-1/3" data-kid="36">
+                    <p class="text-gray-500 text-lg leading-relaxed" data-kid="37">Position your brand at the center of the sustainability dialogue and connect with the pioneers of India's green future.</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" data-kid="38">
+                <div class="group" data-kid="39">
+                    <div class="w-16 h-16 bg-[#F9F5EE] rounded-3xl flex items-center justify-center text-[#1E6B3C] mb-8 group-hover:bg-[#1E6B3C] group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-sm" data-kid="40">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="41"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" data-kid="42"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 font-serif" data-kid="43">Brand Visibility</h3>
+                    <p class="text-gray-600 leading-relaxed" data-kid="44">Nationwide media reach through Vyapaar Jagat & 1,000+ green story drive integration across all platforms.</p>
+                </div>
+                <div class="group" data-kid="45">
+                    <div class="w-16 h-16 bg-[#F9F5EE] rounded-3xl flex items-center justify-center text-[#1E6B3C] mb-8 group-hover:bg-[#1E6B3C] group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-sm" data-kid="46">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="47"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" data-kid="48"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 font-serif" data-kid="49">Elite Networking</h3>
+                    <p class="text-gray-600 leading-relaxed" data-kid="50">Direct engagement with 500+ high-profile entrepreneurs, corporate CXOs, and industry policy makers.</p>
+                </div>
+                <div class="group" data-kid="51">
+                    <div class="w-16 h-16 bg-[#F9F5EE] rounded-3xl flex items-center justify-center text-[#1E6B3C] mb-8 group-hover:bg-[#1E6B3C] group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-sm" data-kid="52">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="53"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 012.5 2.5v.665M19 10.5a2 2 0 11-4 0 2 2 0 014 0zM12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" data-kid="54"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 font-serif" data-kid="55">ESG Leadership</h3>
+                    <p class="text-gray-600 leading-relaxed" data-kid="56">Demonstrate concrete commitment to UN SDGs and the national vision of Viksit Bharat @2047.</p>
+                </div>
+                <div class="group" data-kid="57">
+                    <div class="w-16 h-16 bg-[#F9F5EE] rounded-3xl flex items-center justify-center text-[#1E6B3C] mb-8 group-hover:bg-[#1E6B3C] group-hover:text-white transition-all duration-500 transform group-hover:rotate-6 shadow-sm" data-kid="58">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="59"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-kid="60"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4 font-serif" data-kid="61">Measurable Impact</h3>
+                    <p class="text-gray-600 leading-relaxed" data-kid="62">Access full attendee insights and high-quality leads from a focused, industry-specific audience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="tiers" class="py-32 px-6 relative bg-[#F9F5EE]" data-kid="63">
+        <div class="max-w-7xl mx-auto" data-kid="64">
+            <div class="text-center mb-24" data-kid="65">
+                <span class="text-[#C9963A] font-bold uppercase tracking-[0.3em] text-xs mb-4 block" data-kid="66">Investment Opportunities</span>
+                <h2 class="text-4xl md:text-7xl font-bold font-serif text-[#1A1A1A] mb-6" data-kid="67">Select Your Impact Level</h2>
+                <div class="w-24 h-1.5 bg-[#C9963A] mx-auto rounded-full mb-8" data-kid="68"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg" data-kid="69">Strategic partnership tiers designed for organizations that want to lead the change.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" data-kid="70">
+                
+                <div class="tier-card relative bg-white rounded-[2rem] border-2 border-[#C9963A] p-12 shadow-2xl flex flex-col tier-title-glow" data-kid="71">
+                    <div class="absolute top-0 right-10 -translate-y-1/2 bg-[#C9963A] text-white px-8 py-2 rounded-full text-[10px] font-black tracking-widest uppercase shadow-lg shadow-[#C9963A]/30" data-kid="72">Elite Tier</div>
+                    <div class="mb-10" data-kid="73">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="74">Title Sponsor</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="75">
+                            <span class="text-6xl font-serif font-black text-[#C9963A]" data-kid="76">₹2L</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="77">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-[#1E6B3C] font-bold tracking-widest uppercase" data-kid="78">Full Naming Rights & Max Exposure</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="79">
+                        <div class="flex items-start gap-4" data-kid="80">
+                            <div class="w-6 h-6 rounded-full bg-[#C9963A]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="81"><svg class="w-3 h-3 text-[#C9963A]" fill="currentColor" viewBox="0 0 20 20" data-kid="82"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" data-kid="83"></path></svg></div>
+                            <span class="text-gray-700 font-medium" data-kid="84">Event naming rights: Presented by Your Brand</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="85">
+                            <div class="w-6 h-6 rounded-full bg-[#C9963A]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="86"><i class="fas fa-check text-[10px] text-[#C9963A]" data-kid="87"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="88">Logo on ALL main branding (Digital, Print, Stage)</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="89">
+                            <div class="w-6 h-6 rounded-full bg-[#C9963A]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="90"><i class="fas fa-check text-[10px] text-[#C9963A]" data-kid="91"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="92">Keynote speaking slot (15 mins)</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="93">
+                            <div class="w-6 h-6 rounded-full bg-[#C9963A]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="94"><i class="fas fa-check text-[10px] text-[#C9963A]" data-kid="95"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="96">Full access to 500+ attendee data</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="97">
+                            <div class="w-6 h-6 rounded-full bg-[#C9963A]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="98"><i class="fas fa-check text-[10px] text-[#C9963A]" data-kid="99"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="100">Premium Coffee Table Book page + Story drive</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 bg-[#0D3D20] text-white font-black rounded-2xl hover:bg-black hover:scale-[1.02] transition-all text-sm uppercase tracking-[0.2em] shadow-xl shadow-[#0D3D20]/20" data-kid="101">Enquire Now</button>
+                </div>
+
+                
+                <div class="tier-card bg-white rounded-[2rem] border border-gray-100 p-12 shadow-xl flex flex-col" data-kid="102">
+                    <div class="mb-10" data-kid="103">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="104">Powered By</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="105">
+                            <span class="text-6xl font-serif font-black text-[#1E6B3C]" data-kid="106">₹1L</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="107">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-bold tracking-widest uppercase" data-kid="108">Premium Co-Branding Presence</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="109">
+                        <div class="flex items-start gap-4" data-kid="110">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="111"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="112"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="113">Co-branding on main stage backdrop</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="114">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="115"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="116"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="117">Featured speaking slot during panel</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="118">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="119"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="120"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="121">Coffee Table Book feature story</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="122">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="123"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="124"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="125">Story integration on VyapaarJagat.com</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-black rounded-2xl hover:bg-[#1E6B3C] hover:text-white transition-all text-sm uppercase tracking-[0.2em]" data-kid="126">Enquire Now</button>
+                </div>
+
+                
+                <div class="tier-card bg-white rounded-[2rem] border border-gray-100 p-12 shadow-xl flex flex-col" data-kid="127">
+                    <div class="mb-10" data-kid="128">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="129">Platinum</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="130">
+                            <span class="text-6xl font-serif font-black text-[#1E6B3C]" data-kid="131">₹75K</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="132">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-bold tracking-widest uppercase" data-kid="133">High Impact Positioning</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="134">
+                        <div class="flex items-start gap-4" data-kid="135">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="136"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="137"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="138">Premium logo placement on all collateral</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="139">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="140"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="141"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="142">On-stage branding during main awards</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="143">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="144"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="145"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="146">VIP management passes & networking access</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-black rounded-2xl hover:bg-[#1E6B3C] hover:text-white transition-all text-sm uppercase tracking-[0.2em]" data-kid="147">Enquire Now</button>
+                </div>
+
+                
+                <div class="tier-card bg-white rounded-[2rem] border border-gray-100 p-12 shadow-xl flex flex-col" data-kid="148">
+                    <div class="mb-10" data-kid="149">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="150">Gold</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="151">
+                            <span class="text-6xl font-serif font-black text-[#1E6B3C]" data-kid="152">₹50K</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="153">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-bold tracking-widest uppercase" data-kid="154">Essential Recognition</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="155">
+                        <div class="flex items-start gap-4" data-kid="156">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="157"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="158"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="159">Logo placement on marketing materials</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="160">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="161"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="162"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="163">Selected stage branding mentions</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="164">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="165"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="166"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="167">4 VIP passes for the gala dinner</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-black rounded-2xl hover:bg-[#1E6B3C] hover:text-white transition-all text-sm uppercase tracking-[0.2em]" data-kid="168">Enquire Now</button>
+                </div>
+
+                
+                <div class="tier-card bg-white rounded-[2rem] border border-gray-100 p-12 shadow-xl flex flex-col" data-kid="169">
+                    <div class="mb-10" data-kid="170">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="171">Silver</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="172">
+                            <span class="text-6xl font-serif font-black text-[#1E6B3C]" data-kid="173">₹25K</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="174">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-bold tracking-widest uppercase" data-kid="175">Strategic Alignment</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="176">
+                        <div class="flex items-start gap-4" data-kid="177">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="178"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="179"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="180">Logo on event banners & website</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="181">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="182"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="183"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="184">Networking access for 2 delegates</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-black rounded-2xl hover:bg-[#1E6B3C] hover:text-white transition-all text-sm uppercase tracking-[0.2em]" data-kid="185">Enquire Now</button>
+                </div>
+
+                
+                <div class="tier-card bg-white rounded-[2rem] border border-gray-100 p-12 shadow-xl flex flex-col" data-kid="186">
+                    <div class="mb-10" data-kid="187">
+                        <h3 class="text-3xl font-bold text-[#0D3D20] mb-4 font-serif" data-kid="188">Category</h3>
+                        <div class="flex items-baseline gap-2 mb-2" data-kid="189">
+                            <span class="text-6xl font-serif font-black text-[#1E6B3C]" data-kid="190">₹10K</span>
+                            <span class="text-gray-400 font-bold text-sm uppercase" data-kid="191">Total Investment</span>
+                        </div>
+                        <p class="text-xs text-gray-500 font-bold tracking-widest uppercase" data-kid="192">Niche Focus</p>
+                    </div>
+                    <div class="space-y-5 mb-12 flex-grow" data-kid="193">
+                        <div class="flex items-start gap-4" data-kid="194">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="195"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="196"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="197">Logo on category trophy & certificate</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="198">
+                            <div class="w-6 h-6 rounded-full bg-[#1E6B3C]/10 flex items-center justify-center shrink-0 mt-0.5" data-kid="199"><i class="fas fa-check text-[10px] text-[#1E6B3C]" data-kid="200"></i></div>
+                            <span class="text-gray-700 font-medium" data-kid="201">Brand mention during category award</span>
+                        </div>
+                    </div>
+                    <button class="w-full py-5 border-2 border-[#1E6B3C] text-[#1E6B3C] font-black rounded-2xl hover:bg-[#1E6B3C] hover:text-white transition-all text-sm uppercase tracking-[0.2em]" data-kid="202">Enquire Now</button>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center" data-kid="203">
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold" data-kid="204">* All slots subject to availability. Terms & Conditions apply.</p>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="py-24 px-6 bg-white border-y border-gray-100" data-kid="205">
+        <div class="max-w-7xl mx-auto" data-kid="206">
+            <div class="text-center mb-16" data-kid="207">
+                <h2 class="text-2xl font-serif font-bold text-gray-400 uppercase tracking-[0.3em]" data-kid="208">Join Our Distinguished Partners</h2>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center justify-items-center opacity-40 grayscale hover:grayscale-0 transition-all duration-700" data-kid="209">
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="210">BRAND SLOT</div>
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="211">BRAND SLOT</div>
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="212">BRAND SLOT</div>
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="213">BRAND SLOT</div>
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="214">BRAND SLOT</div>
+                <div class="h-16 w-full border-2 border-dashed border-gray-200 rounded-2xl flex items-center justify-center font-black text-gray-300 text-[10px] tracking-widest bg-gray-50/50" data-kid="215">BRAND SLOT</div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="contact" class="py-32 px-6" data-kid="216">
+        <div class="max-w-7xl mx-auto" data-kid="217">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-20 items-center" data-kid="218">
+                <div class="lg:col-span-2 bg-[#0D3D20] p-12 lg:p-16 rounded-[3rem] text-white" data-kid="219">
+                    <span class="text-[#C9963A] font-bold uppercase tracking-[0.3em] text-xs mb-6 block" data-kid="220">Secure Your Slot</span>
+                    <h2 class="text-4xl md:text-5xl font-bold font-serif mb-8 leading-tight" data-kid="221">Corporate Enquiry</h2>
+                    <p class="text-lg text-white/70 mb-14 leading-relaxed" data-kid="222">Let's discuss how we can align our platform with your corporate social responsibility goals and ESG vision.</p>
+                    
+                    <div class="space-y-12" data-kid="223">
+                        <div class="flex items-start gap-6 group" data-kid="224">
+                            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#C9963A] group-hover:bg-[#C9963A] group-hover:text-white transition-all duration-300 shrink-0" data-kid="225">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="226"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" data-kid="227"></path></svg>
+                            </div>
+                            <div data-kid="228">
+                                <p class="text-[10px] text-[#C9963A] font-black uppercase tracking-widest mb-2" data-kid="229">Partnership Director</p>
+                                <p class="text-2xl font-bold font-serif" data-kid="230">Vishal Parmar</p>
+                                <p class="text-white/80 font-semibold mt-1" data-kid="231">+91 70411 51714</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-6 group" data-kid="232">
+                            <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-[#C9963A] group-hover:bg-[#C9963A] group-hover:text-white transition-all duration-300 shrink-0" data-kid="233">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-kid="234"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" data-kid="235"></path></svg>
+                            </div>
+                            <div data-kid="236">
+                                <p class="text-[10px] text-[#C9963A] font-black uppercase tracking-widest mb-2" data-kid="237">Email Support</p>
+                                <p class="text-2xl font-bold font-serif" data-kid="238">hello@greenpreneur.in</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3" data-kid="239">
+                    <div class="bg-white p-10 md:p-16 rounded-[3rem] shadow-2xl shadow-[#1E6B3C]/5 border border-gray-100" data-kid="240">
+                        <form class="space-y-8" data-kid="241">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-kid="242">
+                                <div class="space-y-2" data-kid="243">
+                                    <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="244">Full Name</label>
+                                    <input type="text" placeholder="Johnathan Doe" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium" data-kid="245">
+                                </div>
+                                <div class="space-y-2" data-kid="246">
+                                    <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="247">Organization</label>
+                                    <input type="text" placeholder="Your Company Name" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium" data-kid="248">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-kid="249">
+                                <div class="space-y-2" data-kid="250">
+                                    <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="251">Work Email</label>
+                                    <input type="email" placeholder="john@company.com" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium" data-kid="252">
+                                </div>
+                                <div class="space-y-2" data-kid="253">
+                                    <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="254">Contact Number</label>
+                                    <input type="tel" placeholder="+91 00000 00000" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium" data-kid="255">
+                                </div>
+                            </div>
+                            <div class="space-y-2" data-kid="256">
+                                <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="257">Interested Opportunity</label>
+                                <select class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium appearance-none cursor-pointer" data-kid="258">
+                                    <option data-kid="259">Title Sponsor (₹2L)</option>
+                                    <option data-kid="260">Powered By (₹1L)</option>
+                                    <option data-kid="261">Platinum (₹75K)</option>
+                                    <option data-kid="262">Gold (₹50K)</option>
+                                    <option data-kid="263">Silver (₹25K)</option>
+                                    <option data-kid="264">Category Sponsor (₹10K)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2" data-kid="265">
+                                <label class="text-[10px] font-black text-[#1A1A1A] uppercase tracking-widest ml-1" data-kid="266">Project Details</label>
+                                <textarea rows="4" placeholder="How can we help you achieve your goals?" class="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-[#F9F5EE] focus:outline-none focus:ring-4 focus:ring-[#1E6B3C]/10 transition-all font-medium" data-kid="267"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-6 bg-[#C9963A] text-white font-black rounded-2xl hover:bg-[#b08332] hover:scale-[1.01] transition-all shadow-xl shadow-[#C9963A]/20 text-sm uppercase tracking-[0.25em]" data-kid="268">Request Proposal</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="bg-[#0D3D20] text-white pt-32 pb-16 px-6" data-kid="269">
+        <div class="max-w-7xl mx-auto" data-kid="270">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24" data-kid="271">
+                <div class="space-y-8" data-kid="272">
+                    <div class="flex items-center gap-3" data-kid="273">
+                        <div class="w-12 h-12 bg-[#1E6B3C] rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-xl" data-kid="274">G</div>
+                        <div class="flex flex-col" data-kid="275">
+                            <span class="font-serif text-2xl font-bold leading-none" data-kid="276">GREENPRENEUR</span>
+                            <span class="text-[10px] tracking-[0.3em] uppercase text-[#C9963A] font-bold" data-kid="277">Awards 2026</span>
+                        </div>
+                    </div>
+                    <p class="text-white/40 text-sm leading-relaxed max-w-xs" data-kid="278">Building a permanent community across 150+ green economy sectors and amplifying 1,000+ stories of impact.</p>
+                    <div class="flex gap-4" data-kid="279">
+                        <a href="#" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#1E6B3C] transition-all text-xl" data-kid="280"><i class="fab fa-instagram" data-kid="281"></i></a>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#1E6B3C] transition-all text-xl" data-kid="282"><i class="fab fa-linkedin-in" data-kid="283"></i></a>
+                        <a href="#" class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#1E6B3C] transition-all text-xl" data-kid="284"><i class="fab fa-whatsapp" data-kid="285"></i></a>
+                    </div>
+                </div>
+                <div data-kid="286">
+                    <h4 class="text-sm font-black uppercase tracking-[0.2em] text-[#C9963A] mb-10" data-kid="287">Movement</h4>
+                    <ul class="space-y-5 text-white/50 font-medium" data-kid="288">
+                        <li data-kid="289"><a href="#" class="hover:text-white transition-all" data-kid="290">Event Overview</a></li>
+                        <li data-kid="291"><a href="#" class="hover:text-white transition-all" data-kid="292">Award Categories</a></li>
+                        <li data-kid="293"><a href="#" class="hover:text-white transition-all" data-kid="294">Nomination Process</a></li>
+                        <li data-kid="295"><a href="#" class="hover:text-white transition-all" data-kid="296">Jury Panel</a></li>
+                        <li data-kid="297"><a href="#" class="hover:text-white transition-all" data-kid="298">Past Winners</a></li>
+                    </ul>
+                </div>
+                <div data-kid="299">
+                    <h4 class="text-sm font-black uppercase tracking-[0.2em] text-[#C9963A] mb-10" data-kid="300">Participate</h4>
+                    <ul class="space-y-5 text-white/50 font-medium" data-kid="301">
+                        <li data-kid="302"><a href="#" class="hover:text-white transition-all" data-kid="303">Apply as Sponsor</a></li>
+                        <li data-kid="304"><a href="#" class="hover:text-white transition-all" data-kid="305">Exhibit at Event</a></li>
+                        <li data-kid="306"><a href="#" class="hover:text-white transition-all" data-kid="307">Coffee Table Book</a></li>
+                        <li data-kid="308"><a href="#" class="hover:text-white transition-all" data-kid="309">Become a Speaker</a></li>
+                        <li data-kid="310"><a href="#" class="hover:text-white transition-all" data-kid="311">Story Drive</a></li>
+                    </ul>
+                </div>
+                <div data-kid="312">
+                    <h4 class="text-sm font-black uppercase tracking-[0.2em] text-[#C9963A] mb-10" data-kid="313">Connect</h4>
+                    <div class="space-y-6 text-white/50" data-kid="314">
+                        <div class="flex items-start gap-4" data-kid="315">
+                            <i class="fas fa-phone-alt mt-1 text-[#1E6B3C]" data-kid="316"></i>
+                            <div data-kid="317">
+                                <p class="text-xs text-white/30 uppercase tracking-widest mb-1" data-kid="318">Call Us</p>
+                                <p class="text-white font-bold" data-kid="319">+91 70411 51714</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="320">
+                            <i class="fas fa-envelope mt-1 text-[#1E6B3C]" data-kid="321"></i>
+                            <div data-kid="322">
+                                <p class="text-xs text-white/30 uppercase tracking-widest mb-1" data-kid="323">Email</p>
+                                <p class="text-white font-bold" data-kid="324">hello@greenpreneur.in</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4" data-kid="325">
+                            <i class="fas fa-map-marker-alt mt-1 text-[#1E6B3C]" data-kid="326"></i>
+                            <div data-kid="327">
+                                <p class="text-xs text-white/30 uppercase tracking-widest mb-1" data-kid="328">Venue</p>
+                                <p class="text-white font-bold" data-kid="329">Renaissance by Marriott Ahmedabad</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6" data-kid="330">
+                <div class="text-white/20 text-[10px] font-black uppercase tracking-[0.2em] text-center md:text-left" data-kid="331">
+                    © 2026 Greenpreneur | 1 Million Entrepreneurs International Forum | NGO Certified | Viksit Bharat @2047
+                </div>
+                <div class="font-serif italic text-white/30 text-sm" data-kid="332">
+                    आइए, साथ मिलकर एक बेहतर भविष्य का निर्माण करें।
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+    <div class="relative pb-24 overflow-hidden" data-kid="333">
+        <a href="#" class="absolute right-10 bottom-10 w-20 h-20 bg-[#25D366] text-white rounded-[2rem] flex items-center justify-center text-4xl shadow-2xl hover:scale-110 active:scale-95 transition-all z-[100] group" data-kid="334">
+            <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24" data-kid="335"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.301-.15-.1.78-.1-.151 0-.11-.078-.271-.1-.32-.457-.621-1.489-1.247-1.638-1.322-.15-.075-.26-.112-.367.05-.107.163-.414.521-.507.625-.093.104-.186.117-.487.033-.3-.15-1.268-.467-2.414-1.489-.893-.797-1.495-1.78-1.671-2.08-.176-.3-.019-.462.131-.611.135-.134.3-.349.45-.524.15-.175.2-.299.3-.499.1-.2.05-.375-.025-.525-.075-.15-.675-1.625-.925-2.225-.244-.582-.493-.503-.677-.512-.175-.008-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.112 3.226 5.118 4.525.715.309 1.274.494 1.708.632.718.228 1.372.196 1.889.119.576-.087 1.776-.726 2.026-1.426.25-.7 0-1.296-.075-1.422-.075-.125-.275-.2-.575-.35z" data-kid="336"></path></svg>
+            <span class="absolute right-full mr-4 bg-white text-[#1A1A1A] px-4 py-2 rounded-xl text-sm font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap pointer-events-none" data-kid="337">Chat with us</span>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,478 @@
+
+<div class="font-['Inter'] text-[#1A1A1A] bg-[#F9F5EE]" data-kid="0">
+    <style data-kid="1">
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css');
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+
+        .agenda-dot::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            width: 2px;
+            height: 140%;
+            background: #C9963A;
+            opacity: 0.4;
+            transform: translateX(-50%);
+        }
+        .agenda-item:last-child .agenda-dot::after {
+            display: none;
+        }
+
+        .brochure-border {
+            border: 1px solid rgba(201, 150, 58, 0.2);
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .brochure-border::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 1px solid rgba(201, 150, 58, 0.1);
+            pointer-events: none;
+        }
+        .brochure-border:hover {
+            background: rgba(201, 150, 58, 0.08);
+            border-color: rgba(201, 150, 58, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .hero-pattern {
+            background-image: url("https://www.transparenttextures.com/patterns/leaf.png");
+        }
+    </style>
+
+    
+    <nav class="relative z-50 bg-white border-b border-gray-100 px-6 py-6 flex items-center justify-between" data-kid="2">
+        <div class="flex items-center gap-2" data-kid="3">
+            <div class="w-10 h-10 bg-[#1E6B3C] rounded-lg flex items-center justify-center" data-kid="4">
+                <i class="ri-leaf-line text-white text-xl" data-kid="5"></i>
+            </div>
+            <div data-kid="6">
+                <span class="block font-bold text-[#0D3D20] leading-none uppercase tracking-tighter text-xl" data-kid="7">Greenpreneur</span>
+                <span class="block text-[10px] text-[#C9963A] uppercase tracking-widest leading-none" data-kid="8">2026 Edition</span>
+            </div>
+        </div>
+        <div class="hidden lg:flex items-center gap-10 text-base font-semibold uppercase tracking-widest" data-kid="9">
+            <a href="#" class="hover:text-[#1E6B3C] transition-colors text-sm" data-kid="10">Overview</a>
+            <a href="#agenda" class="hover:text-[#1E6B3C] transition-colors text-sm" data-kid="11">Agenda</a>
+            <a href="#venue" class="hover:text-[#1E6B3C] transition-colors text-sm" data-kid="12">Venue</a>
+            <a href="#attendees" class="hover:text-[#1E6B3C] transition-colors text-sm" data-kid="13">Who Should Attend</a>
+        </div>
+        <div class="flex items-center gap-5" data-kid="14">
+            <a href="#" class="hidden sm:block text-[11px] font-bold border-2 border-[#1E6B3C] text-[#1E6B3C] px-7 py-2.5 rounded-lg hover:bg-[#1E6B3C] hover:text-white transition-all uppercase tracking-[0.2em]" data-kid="15">Apply for Award</a>
+            <a href="#register" class="text-[11px] font-bold bg-[#1E6B3C] text-white px-7 py-2.5 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all uppercase tracking-[0.2em]" data-kid="16">Get Pass</a>
+        </div>
+    </nav>
+
+    
+    <header class="relative bg-[#0D3D20] pt-32 pb-40 px-6 overflow-hidden" data-kid="17">
+        
+        <div class="absolute inset-0 hero-pattern opacity-10" data-kid="18"></div>
+        
+        <div class="absolute inset-0" data-kid="19">
+            <div class="absolute -top-24 -left-24 w-[600px] h-[600px] bg-[#C9963A] rounded-full blur-[160px] opacity-10" data-kid="20"></div>
+            <div class="absolute -bottom-24 -right-24 w-[600px] h-[600px] bg-[#1E6B3C] rounded-full blur-[160px] opacity-20" data-kid="21"></div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto text-center relative z-10" data-kid="22">
+            <div class="inline-flex items-center gap-3 px-6 py-2 border border-[#C9963A]/30 rounded-full mb-10 bg-[#0D3D20]/50 backdrop-blur-sm" data-kid="23">
+                <span class="w-2 h-2 bg-[#C9963A] rounded-full animate-ping" data-kid="24"></span>
+                <span class="text-[#C9963A] font-bold text-[10px] md:text-xs uppercase tracking-[0.4em]" data-kid="25">5th Year Milestone Celebration</span>
+            </div>
+            
+            <h1 class="font-serif text-6xl md:text-9xl text-white mb-10 leading-[0.9] tracking-tight" data-kid="26">
+                Greenpreneur<br data-kid="27"><span class="text-[#C9963A]" data-kid="28">2026</span>
+            </h1>
+            
+            <p class="font-sans text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto mb-20 leading-relaxed italic" data-kid="29">
+                India's most comprehensive gathering of green visionaries redefining the sustainability landscape.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto border-t border-white/10 pt-20" data-kid="30">
+                <div class="flex flex-col items-center group" data-kid="31">
+                    <div class="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-[#C9963A]/50 transition-colors" data-kid="32">
+                        <i class="ri-calendar-event-line text-2xl text-[#C9963A]" data-kid="33"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 font-bold" data-kid="34">Date</p>
+                    <p class="text-white font-serif text-2xl" data-kid="35">25 June 2026</p>
+                    <p class="text-gray-500 text-xs mt-1" data-kid="36">Thursday</p>
+                </div>
+                <div class="flex flex-col items-center group" data-kid="37">
+                    <div class="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-[#C9963A]/50 transition-colors" data-kid="38">
+                        <i class="ri-map-pin-2-line text-2xl text-[#C9963A]" data-kid="39"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 font-bold" data-kid="40">Venue</p>
+                    <p class="text-white font-serif text-2xl" data-kid="41">Marriott Hotel</p>
+                    <p class="text-gray-500 text-xs mt-1" data-kid="42">Renaissance, Ahmedabad</p>
+                </div>
+                <div class="flex flex-col items-center group" data-kid="43">
+                    <div class="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center mb-6 group-hover:border-[#C9963A]/50 transition-colors" data-kid="44">
+                        <i class="ri-time-line text-2xl text-[#C9963A]" data-kid="45"></i>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2 font-bold" data-kid="46">Time</p>
+                    <p class="text-white font-serif text-2xl" data-kid="47">2:00 – 9:30 PM</p>
+                    <p class="text-gray-500 text-xs mt-1" data-kid="48">Evening Gala</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    
+    <section id="agenda" class="py-32 px-6 bg-[#FDFCF8] relative overflow-hidden" data-kid="49">
+        <div class="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none hero-pattern" data-kid="50"></div>
+        <div class="max-w-4xl mx-auto relative z-10" data-kid="51">
+            <div class="text-center mb-32" data-kid="52">
+                <h2 class="font-serif text-5xl md:text-7xl text-[#0D3D20] mb-6 tracking-tight" data-kid="53">The Agenda</h2>
+                <p class="text-[#C9963A] font-bold uppercase tracking-[0.4em] text-[10px]" data-kid="54">A Masterclass in Transformation</p>
+                <div class="flex items-center justify-center gap-4 mt-8" data-kid="55">
+                    <div class="h-px w-12 bg-[#C9963A]/30" data-kid="56"></div>
+                    <i class="ri-infinity-line text-[#C9963A] text-xl" data-kid="57"></i>
+                    <div class="h-px w-12 bg-[#C9963A]/30" data-kid="58"></div>
+                </div>
+            </div>
+
+            <div class="space-y-0" data-kid="59">
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="60">
+                    <div class="flex flex-col items-center pt-2" data-kid="61">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="62">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="63"></div>
+                        </div>
+                    </div>
+                    <div data-kid="64">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="65">02:00 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="66">Arrival & Greenpreneur Celebration</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="67">Warm welcome and networking reception for all attendees to kick off the 5th anniversary celebration.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="68">
+                    <div class="flex flex-col items-center pt-2" data-kid="69">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="70">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="71"></div>
+                        </div>
+                    </div>
+                    <div data-kid="72">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="73">03:15 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="74">Panel Discussion: Sustainability in Viksit Bharat</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="75">High-level dialogue on aligning entrepreneurship with India's 2047 sustainable development goals.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="76">
+                    <div class="flex flex-col items-center pt-2" data-kid="77">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="78">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="79"></div>
+                        </div>
+                    </div>
+                    <div data-kid="80">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="81">04:15 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="82">Coffee Table Book Launch</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="83">Exclusive unveiling of "Top 50 Sustainable Leaders" – a premium publication documenting India's green journey.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="84">
+                    <div class="flex flex-col items-center pt-2" data-kid="85">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="86">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="87"></div>
+                        </div>
+                    </div>
+                    <div data-kid="88">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="89">04:30 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="90">Greenpreneur Awards Ceremony</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="91">Honoring excellence across 25+ categories in the green business ecosystem.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="92">
+                    <div class="flex flex-col items-center pt-2" data-kid="93">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="94">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="95"></div>
+                        </div>
+                    </div>
+                    <div data-kid="96">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="97">05:15 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="98">Peers Global Roundtable Conclave</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="99">A curated brainstorming session for industry leaders to forge strategic partnerships.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="100">
+                    <div class="flex flex-col items-center pt-2" data-kid="101">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="102">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="103"></div>
+                        </div>
+                    </div>
+                    <div data-kid="104">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="105">06:45 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="106">Leadership Ceremony & New Member Welcome</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="107">Inducting new members into the 1MEIF community and celebrating visionary leadership.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16 pb-16" data-kid="108">
+                    <div class="flex flex-col items-center pt-2" data-kid="109">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="110">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="111"></div>
+                        </div>
+                    </div>
+                    <div data-kid="112">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="113">07:35 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="114">Peers Global Awards</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="115">Recognizing exceptional global contributions to the green business network.</p>
+                    </div>
+                </div>
+
+                
+                <div class="agenda-item flex gap-8 md:gap-16" data-kid="116">
+                    <div class="flex flex-col items-center pt-2" data-kid="117">
+                        <div class="agenda-dot w-5 h-5 rounded-full bg-[#C9963A] relative z-10 shadow-[0_0_0_8px_rgba(201,150,58,0.1)] flex items-center justify-center" data-kid="118">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full" data-kid="119"></div>
+                        </div>
+                    </div>
+                    <div data-kid="120">
+                        <span class="text-[#C9963A] font-bold text-lg mb-1 block" data-kid="121">08:45 PM</span>
+                        <h3 class="font-serif text-2xl text-[#0D3D20] mb-3" data-kid="122">Gala Dinner & Live Music</h3>
+                        <p class="text-gray-600 leading-relaxed max-w-2xl" data-kid="123">Concluding the evening with a grand dinner and live cultural performances for networking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="venue" class="py-32 px-6 bg-white" data-kid="124">
+        <div class="max-w-6xl mx-auto" data-kid="125">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center" data-kid="126">
+                <div data-kid="127">
+                    <h2 class="font-serif text-4xl md:text-5xl text-[#0D3D20] mb-8" data-kid="128">The Venue</h2>
+                    <p class="text-[#C9963A] font-bold uppercase tracking-widest text-sm mb-6" data-kid="129">Renaissance by Marriott Ahmedabad</p>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8" data-kid="130">
+                        Experience the perfect blend of luxury and sustainability at one of Ahmedabad's most prestigious hospitality destinations. Renaissance by Marriott provides an inspiring setting for the 5th Greenpreneur celebration.
+                    </p>
+                    
+                    <div class="space-y-6" data-kid="131">
+                        <div class="flex gap-4" data-kid="132">
+                            <div class="w-12 h-12 bg-[#F9F5EE] rounded-full flex items-center justify-center shrink-0" data-kid="133">
+                                <i class="ri-parking-box-line text-[#1E6B3C] text-xl" data-kid="134"></i>
+                            </div>
+                            <div data-kid="135">
+                                <h4 class="font-bold text-[#0D3D20]" data-kid="136">Premium Facilities</h4>
+                                <p class="text-gray-500 text-sm" data-kid="137">State-of-the-art conference halls and ample parking for 500+ guests.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4" data-kid="138">
+                            <div class="w-12 h-12 bg-[#F9F5EE] rounded-full flex items-center justify-center shrink-0" data-kid="139">
+                                <i class="ri-restaurant-line text-[#1E6B3C] text-xl" data-kid="140"></i>
+                            </div>
+                            <div data-kid="141">
+                                <h4 class="font-bold text-[#0D3D20]" data-kid="142">Culinary Excellence</h4>
+                                <p class="text-gray-500 text-sm" data-kid="143">Curated green menu featuring local and sustainable ingredients.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4" data-kid="144">
+                            <div class="w-12 h-12 bg-[#F9F5EE] rounded-full flex items-center justify-center shrink-0" data-kid="145">
+                                <i class="ri-map-pin-line text-[#1E6B3C] text-xl" data-kid="146"></i>
+                            </div>
+                            <div data-kid="147">
+                                <h4 class="font-bold text-[#0D3D20]" data-kid="148">Strategic Location</h4>
+                                <p class="text-gray-500 text-sm" data-kid="149">Centrally located in Ahmedabad's business hub, S.G. Highway.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative group" data-kid="150">
+                    <div class="absolute -inset-4 border-2 border-[#C9963A]/20 rounded-2xl group-hover:-inset-6 transition-all duration-500" data-kid="151"></div>
+                    <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800&q=80" alt="Marriott Hotel" class="relative w-full h-[500px] object-cover rounded-xl shadow-2xl" decoding="async" loading="lazy" data-kid="152">
+                    <div class="absolute bottom-16 left-8 right-8 bg-white/95 backdrop-blur-md p-10 rounded-lg shadow-2xl border border-white/20" data-kid="153">
+                        <p class="text-[10px] text-[#C9963A] font-bold uppercase tracking-[0.3em] mb-2" data-kid="154">Location</p>
+                        <p class="text-[#0D3D20] font-bold text-lg leading-tight" data-kid="155">Behind Ganesh Meridian, S.G. Highway, Sola, Ahmedabad</p>
+                        <a href="#" class="inline-flex items-center gap-2 mt-6 text-[#1E6B3C] font-bold text-xs uppercase tracking-widest hover:gap-3 transition-all" data-kid="156">Get Directions <i class="ri-arrow-right-line" data-kid="157"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="attendees" class="py-32 px-6 bg-[#0D3D20] text-white relative overflow-hidden" data-kid="158">
+        <div class="absolute inset-0 hero-pattern opacity-5" data-kid="159"></div>
+        <div class="max-w-6xl mx-auto relative z-10" data-kid="160">
+            <div class="text-center mb-24" data-kid="161">
+                <h2 class="font-serif text-4xl md:text-6xl mb-6" data-kid="162">Who Should Attend</h2>
+                <p class="text-[#C9963A] font-bold uppercase tracking-[0.3em] text-[10px] mb-8" data-kid="163">Uniting the Pillars of Sustainability</p>
+                <p class="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed" data-kid="164">Join the most influential gathering of leaders committed to environmental excellence and economic growth.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" data-kid="165">
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="166">
+                    <i class="ri-leaf-line text-3xl text-[#C9963A] mb-4 block" data-kid="167"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="168">Green Entrepreneurs</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="169">
+                    <i class="ri-building-4-line text-3xl text-[#C9963A] mb-4 block" data-kid="170"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="171">MSME Owners</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="172">
+                    <i class="ri-rocket-2-line text-3xl text-[#C9963A] mb-4 block" data-kid="173"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="174">Sustainable Startups</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="175">
+                    <i class="ri-user-star-line text-3xl text-[#C9963A] mb-4 block" data-kid="176"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="177">CXOs & Executives</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="178">
+                    <i class="ri-heart-pulse-line text-3xl text-[#C9963A] mb-4 block" data-kid="179"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="180">NGO Leaders</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="181">
+                    <i class="ri-bank-line text-3xl text-[#C9963A] mb-4 block" data-kid="182"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="183">Govt Officials</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="184">
+                    <i class="ri-shake-hands-line text-3xl text-[#C9963A] mb-4 block" data-kid="185"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="186">Corporate Sponsors</h4>
+                </div>
+                
+                <div class="brochure-border p-8 text-center bg-white/5 hover:bg-white/10 transition-colors" data-kid="187">
+                    <i class="ri-compass-3-line text-3xl text-[#C9963A] mb-4 block" data-kid="188"></i>
+                    <h4 class="font-bold uppercase tracking-widest text-sm" data-kid="189">Green Architects</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="register" class="bg-[#C9963A] py-20 px-6 relative overflow-hidden" data-kid="190">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-black/5 -skew-x-12 translate-x-1/2" data-kid="191"></div>
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between relative z-10 gap-8" data-kid="192">
+            <div class="text-center md:text-left" data-kid="193">
+                <h2 class="font-serif text-3xl md:text-5xl text-white mb-4" data-kid="194">Secure Your Exclusive Pass</h2>
+                <p class="text-white/80 text-lg font-sans" data-kid="195">Limited slots available for the 5th Year Mega Event. Register before slots fill up.</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 shrink-0" data-kid="196">
+                <button class="px-10 py-5 bg-[#0D3D20] text-white font-bold rounded-lg shadow-2xl hover:bg-[#1E6B3C] transition-all uppercase tracking-[0.2em] text-sm" data-kid="197">Get Your Pass Now</button>
+                <button class="px-10 py-5 bg-white text-[#0D3D20] font-bold rounded-lg shadow-2xl hover:bg-gray-100 transition-all uppercase tracking-[0.2em] text-sm flex items-center gap-2" data-kid="198">
+                    <i class="ri-download-line" data-kid="199"></i> Brochure
+                </button>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="py-20 px-6 bg-[#FDFCF8] border-t border-gray-100" data-kid="200">
+        <div class="max-w-6xl mx-auto" data-kid="201">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left" data-kid="202">
+                <div class="max-w-md" data-kid="203">
+                    <h3 class="font-serif text-3xl text-[#0D3D20] mb-4" data-kid="204">Global Vision, Local Action</h3>
+                    <p class="text-gray-600 text-sm" data-kid="205">Greenpreneur 2026 is strictly aligned with the UN Sustainable Development Goals and the vision for Viksit Bharat @2047.</p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-10 items-center transition-all duration-500" data-kid="206">
+                    <div class="flex flex-col items-center" data-kid="207">
+                        <span class="text-[#0D3D20] font-bold text-[10px] uppercase tracking-[0.2em] mb-3" data-kid="208">Viksit Bharat @2047</span>
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center border border-[#1E6B3C]/10 shadow-sm" data-kid="209">
+                            <i class="ri-flag-line text-[#1E6B3C] text-2xl" data-kid="210"></i>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-4" data-kid="211">
+                        <div class="w-14 h-14 bg-white border border-[#C9963A]/20 flex flex-col items-center justify-center rounded-lg shadow-sm" data-kid="212">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase" data-kid="213">SDG</span>
+                            <span class="font-bold text-[#C9963A] text-sm" data-kid="214">07</span>
+                        </div>
+                        <div class="w-14 h-14 bg-white border border-[#C9963A]/20 flex flex-col items-center justify-center rounded-lg shadow-sm" data-kid="215">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase" data-kid="216">SDG</span>
+                            <span class="font-bold text-[#C9963A] text-sm" data-kid="217">11</span>
+                        </div>
+                        <div class="w-14 h-14 bg-white border border-[#C9963A]/20 flex flex-col items-center justify-center rounded-lg shadow-sm" data-kid="218">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase" data-kid="219">SDG</span>
+                            <span class="font-bold text-[#C9963A] text-sm" data-kid="220">13</span>
+                        </div>
+                        <div class="w-14 h-14 bg-white border border-[#C9963A]/20 flex flex-col items-center justify-center rounded-lg shadow-sm" data-kid="221">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase" data-kid="222">SDG</span>
+                            <span class="font-bold text-[#C9963A] text-sm" data-kid="223">17</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="bg-white py-20 px-6 border-t border-gray-100" data-kid="224">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16" data-kid="225">
+            <div class="md:col-span-2" data-kid="226">
+                <div class="flex items-center gap-2 mb-6" data-kid="227">
+                    <div class="w-10 h-10 bg-[#1E6B3C] rounded flex items-center justify-center" data-kid="228">
+                        <i class="ri-leaf-line text-white text-lg" data-kid="229"></i>
+                    </div>
+                    <span class="font-bold text-[#0D3D20] uppercase tracking-tighter text-xl" data-kid="230">Greenpreneur</span>
+                </div>
+                <p class="text-gray-500 text-sm max-w-sm mb-8 leading-relaxed" data-kid="231">
+                    Organised by 1 Million Entrepreneurs International Forum (1MEIF) NGO. Empowering green stories and building a sustainable future together.
+                </p>
+                <div class="flex gap-4" data-kid="232">
+                    <a href="#" class="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:bg-[#1E6B3C] hover:text-white transition-all" data-kid="233"><i class="ri-facebook-fill" data-kid="234"></i></a>
+                    <a href="#" class="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:bg-[#1E6B3C] hover:text-white transition-all" data-kid="235"><i class="ri-instagram-line" data-kid="236"></i></a>
+                    <a href="#" class="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:bg-[#1E6B3C] hover:text-white transition-all" data-kid="237"><i class="ri-linkedin-fill" data-kid="238"></i></a>
+                    <a href="https://wa.me/917041151714" class="w-10 h-10 border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:bg-[#25D366] hover:text-white transition-all" data-kid="239"><i class="ri-whatsapp-line" data-kid="240"></i></a>
+                </div>
+            </div>
+            <div data-kid="241">
+                <h4 class="font-bold text-sm uppercase tracking-widest text-[#0D3D20] mb-6" data-kid="242">Quick Links</h4>
+                <ul class="space-y-4 text-sm text-gray-500" data-kid="243">
+                    <li data-kid="244"><a href="#" class="hover:text-[#1E6B3C]" data-kid="245">About 1MEIF</a></li>
+                    <li data-kid="246"><a href="#" class="hover:text-[#1E6B3C]" data-kid="247">Award Categories</a></li>
+                    <li data-kid="248"><a href="#" class="hover:text-[#1E6B3C]" data-kid="249">Past Winners</a></li>
+                    <li data-kid="250"><a href="#" class="hover:text-[#1E6B3C]" data-kid="251">Gallery</a></li>
+                </ul>
+            </div>
+            <div data-kid="252">
+                <h4 class="font-bold text-sm uppercase tracking-widest text-[#0D3D20] mb-6" data-kid="253">Contact</h4>
+                <ul class="space-y-4 text-sm text-gray-500" data-kid="254">
+                    <li class="flex items-start gap-3" data-kid="255">
+                        <i class="ri-mail-line mt-1" data-kid="256"></i>
+                        <span data-kid="257">hello@greenpreneur.in</span>
+                    </li>
+                    <li class="flex items-start gap-3" data-kid="258">
+                        <i class="ri-phone-line mt-1" data-kid="259"></i>
+                        <span data-kid="260">+91 70411 51714</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto pt-10 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6" data-kid="261">
+            <p class="text-gray-400 text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-center md:text-left font-medium leading-relaxed" data-kid="262">
+                © 2026 Greenpreneur | CSR No.: CSR00106194 | 80G & 12A Certified NGO | आइए, साथ मिलकर एक बेहतर भविष्य का निर्माण करें।
+            </p>
+            <div class="flex items-center gap-6 opacity-60" data-kid="263">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400" data-kid="264">Partners</span>
+                <div class="h-4 w-px bg-gray-200" data-kid="265"></div>
+                <span class="text-[10px] font-bold text-[#0D3D20]" data-kid="266">CEED</span>
+                <span class="text-[10px] font-bold text-[#0D3D20]" data-kid="267">VYAPAAR JAGAT</span>
+            </div>
+        </div>
+    </footer>
+</div>
