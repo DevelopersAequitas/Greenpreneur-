@@ -23,6 +23,27 @@ router.post('/register', async (req, res) => {
        VALUES (?, ?, ?, ?, ?)`,
       [name.trim(), email.trim().toLowerCase(), phone.trim(), city?.trim() || '', segment || 'Green Entrepreneur']
     );
+
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: 'Event Pass Registration',
+          details: {
+            Phone: phone,
+            City: city || 'N/A',
+            Segment: segment || 'Green Entrepreneur'
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send event confirmation email:', emailErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Event registration successful',

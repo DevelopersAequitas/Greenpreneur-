@@ -163,7 +163,7 @@ router.post('/winners', verifyAdmin, upload.single('profilePicture'), async (req
       categoryId = catRows[0].id;
     } else {
       const slug = category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      const [insertCat] = await pool.query('INSERT INTO award_categories (name, slug, is_active) VALUES (?, ?, 1)', [category, slug]);
+      const [insertCat] = await pool.query('INSERT INTO award_categories (name, slug, group_name, is_active) VALUES (?, ?, "Green Business", 1)', [category, slug]);
       categoryId = insertCat.insertId;
     }
 
@@ -174,7 +174,7 @@ router.post('/winners', verifyAdmin, upload.single('profilePicture'), async (req
       `INSERT INTO nominations (
         track, nominee_name, business_name, phone, email, city, category_id, description, status, payment_status, award_year, profile_picture, website_link
       ) VALUES (
-        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'completed', '2025', ?, ?
+        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'completed', '2026', ?, ?
       )`,
       [nominee_name.trim(), business_name?.trim() || '', city?.trim() || '', categoryId, description?.trim() || '', profilePic, website_link?.trim() || null]
     );
@@ -183,6 +183,272 @@ router.post('/winners', verifyAdmin, upload.single('profilePicture'), async (req
   } catch (error) {
     console.error('Error adding winner:', error);
     res.status(500).json({ success: false, message: 'Error adding winner' });
+  }
+});
+
+// Protected: Get all winners (from both legacy winners and nominations tables)
+router.get('/winners', verifyAdmin, async (req, res) => {
+  try {
+    const query = `
+      SELECT id, name, company, city, award_year, track, impact_text, quote, photo_url, website_link, 'legacy' AS source
+      FROM winners
+      
+      UNION ALL
+      
+      SELECT n.id, n.nominee_name AS name, n.business_name AS company, n.city, n.award_year, n.track,
+             n.description AS impact_text, '' AS quote, n.profile_picture AS photo_url, n.website_link, 'nomination' AS source
+      FROM nominations n
+      JOIN award_categories ac ON n.category_id = ac.id
+      WHERE n.status = 'winner'
+      
+      ORDER BY award_year DESC, name ASC
+    `;
+    const [rows] = await pool.query(query);
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching winners:', error);
+    res.status(500).json({ success: false, message: 'Error fetching winners' });
+  }
+});
+
+// Protected: Delete a winner
+router.delete('/winners/:id', verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { source } = req.query; // 'legacy' or 'nomination'
+
+  if (!id) {
+    return res.status(400).json({ success: false, message: 'Winner ID is required' });
+  }
+
+  try {
+    if (source === 'nomination') {
+      // Revert nominee status back to 'approved' (instead of winner)
+      await pool.query('UPDATE nominations SET status = "approved" WHERE id = ?', [id]);
+    } else {
+      // Delete legacy winner record
+      await pool.query('DELETE FROM winners WHERE id = ?', [id]);
+    }
+    res.json({ success: true, message: 'Winner removed successfully' });
+  } catch (error) {
+    console.error('Error deleting winner:', error);
+    res.status(500).json({ success: false, message: 'Error deleting winner' });
+  }
+});
+
+// Protected: Update a single nomination status (and send email if winning)
+router.patch('/nominations/:id/status', verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!id || !status) {
+    return res.status(400).json({ success: false, message: 'Nomination ID and status are required' });
+  }
+
+  try {
+    // 1. Get current nomination details before update (to send email if they become a winner)
+    const [nomRows] = await pool.query(
+      `SELECT n.nominee_name, n.business_name, n.email, ac.name AS category, n.voting_url, n.status AS old_status
+       FROM nominations n
+       LEFT JOIN award_categories ac ON n.category_id = ac.id
+       WHERE n.id = ?`,
+      [id]
+    );
+
+    if (nomRows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Nomination not found' });
+    }
+
+    const nominee = nomRows[0];
+
+    // 2. Update status in the database
+    await pool.query('UPDATE nominations SET status = ? WHERE id = ?', [status, id]);
+
+    // 3. If they are changed to a winner, send the celebration email
+    if (status === 'winner' && nominee.old_status !== 'winner' && nominee.email) {
+      try {
+        await fetch(`http://localhost:3000/api/send-winner-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: nominee.email,
+            nomineeName: nominee.nominee_name,
+            companyName: nominee.business_name,
+            category: nominee.category,
+            votingUrl: nominee.voting_url
+          })
+        });
+        console.log(`Celebration email triggered for nominee ${nominee.nominee_name}`);
+      } catch (emailErr) {
+        console.error('Failed to trigger celebration email:', emailErr.message);
+      }
+    }
+
+    // 4. If they are changed to approved, send the approval email
+    if (status === 'approved' && nominee.old_status !== 'approved' && nominee.email) {
+      try {
+        await fetch(`http://localhost:3000/api/send-approval`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: nominee.email,
+            nomineeName: nominee.nominee_name,
+            companyName: nominee.business_name,
+            category: nominee.category,
+            votingUrl: nominee.voting_url
+          })
+        });
+        console.log(`Approval email triggered for nominee ${nominee.nominee_name}`);
+      } catch (emailErr) {
+        console.error('Failed to trigger approval email:', emailErr.message);
+      }
+    }
+
+    res.json({ success: true, message: 'Status updated successfully!' });
+  } catch (error) {
+    console.error('Error updating nomination status:', error);
+    res.status(500).json({ success: false, message: 'Error updating nomination status' });
+  }
+});
+
+// Protected: Update multiple nominations status
+router.patch('/nominations/bulk-status', verifyAdmin, async (req, res) => {
+  const { ids, status } = req.body;
+
+  if (!ids || !Array.isArray(ids) || ids.length === 0 || !status) {
+    return res.status(400).json({ success: false, message: 'Invalid payload' });
+  }
+
+  try {
+    if (status === 'winner' || status === 'approved') {
+      const [nominees] = await pool.query(
+        `SELECT n.id, n.nominee_name, n.business_name, n.email, ac.name AS category, n.voting_url, n.status AS old_status
+         FROM nominations n
+         LEFT JOIN award_categories ac ON n.category_id = ac.id
+         WHERE n.id IN (?)`,
+        [ids]
+      );
+      
+      await pool.query('UPDATE nominations SET status = ? WHERE id IN (?)', [status, ids]);
+
+      const endpoint = status === 'winner' ? 'send-winner-email' : 'send-approval';
+
+      for (const nominee of nominees) {
+        if (nominee.old_status !== status && nominee.email) {
+          try {
+            await fetch(`http://localhost:3000/api/${endpoint}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: nominee.email,
+                nomineeName: nominee.nominee_name,
+                companyName: nominee.business_name,
+                category: nominee.category,
+                votingUrl: nominee.voting_url
+              })
+            });
+          } catch (emailErr) {
+            console.error(`Failed to send bulk ${status} email to ${nominee.email}:`, emailErr.message);
+          }
+        }
+      }
+    } else {
+      await pool.query('UPDATE nominations SET status = ? WHERE id IN (?)', [status, ids]);
+    }
+
+    res.json({ success: true, message: 'Selected nominations updated successfully!' });
+  } catch (error) {
+    console.error('Error in bulk status update:', error);
+    res.status(500).json({ success: false, message: 'Error in bulk status update' });
+  }
+});
+
+// Protected: Update a nomination's profile picture or details
+router.patch('/nominations/:id', verifyAdmin, upload.single('profilePicture'), async (req, res) => {
+  const { id } = req.params;
+  const { nominee_name, business_name, description, city, phone, email } = req.body;
+
+  try {
+    let updateFields = [];
+    let queryParams = [];
+
+    if (nominee_name !== undefined) {
+      updateFields.push('nominee_name = ?');
+      queryParams.push(nominee_name.trim());
+    }
+    if (business_name !== undefined) {
+      updateFields.push('business_name = ?');
+      queryParams.push(business_name.trim());
+    }
+    if (description !== undefined) {
+      updateFields.push('description = ?');
+      queryParams.push(description.trim());
+    }
+    if (city !== undefined) {
+      updateFields.push('city = ?');
+      queryParams.push(city.trim());
+    }
+    if (phone !== undefined) {
+      updateFields.push('phone = ?');
+      queryParams.push(phone.trim());
+    }
+    if (email !== undefined) {
+      updateFields.push('email = ?');
+      queryParams.push(email.trim().toLowerCase());
+    }
+
+    if (req.file) {
+      const profilePic = `/uploads/nominations/${req.file.filename}`;
+      updateFields.push('profile_picture = ?');
+      queryParams.push(profilePic);
+    }
+
+    if (updateFields.length === 0) {
+      return res.status(400).json({ success: false, message: 'No fields to update' });
+    }
+
+    queryParams.push(id);
+    await pool.query(
+      `UPDATE nominations SET ${updateFields.join(', ')} WHERE id = ?`,
+      queryParams
+    );
+
+    res.json({ success: true, message: 'Nomination updated successfully!' });
+  } catch (error) {
+    console.error('Error updating nomination details:', error);
+    res.status(500).json({ success: false, message: 'Error updating nomination details' });
+  }
+});
+
+// Protected: Bulk delete records
+router.post('/bulk-delete', verifyAdmin, async (req, res) => {
+  const { ids, type, winners } = req.body;
+
+  if (!ids || !Array.isArray(ids) || ids.length === 0 || !type) {
+    return res.status(400).json({ success: false, message: 'Invalid payload' });
+  }
+
+  try {
+    if (type === 'winners' && winners && Array.isArray(winners)) {
+      for (const w of winners) {
+        if (w.source === 'nomination') {
+          await pool.query('UPDATE nominations SET status = "approved" WHERE id = ?', [w.id]);
+        } else {
+          await pool.query('DELETE FROM winners WHERE id = ?', [w.id]);
+        }
+      }
+    } else {
+      let table = '';
+      if (type === 'events') table = 'event_registrations';
+      else if (type === 'sponsorships') table = 'sponsorships';
+      else table = 'inquiries';
+
+      await pool.query(`DELETE FROM ${table} WHERE id IN (?)`, [ids]);
+    }
+
+    res.json({ success: true, message: 'Selected records deleted successfully!' });
+  } catch (error) {
+    console.error('Error in bulk delete:', error);
+    res.status(500).json({ success: false, message: 'Error in bulk delete' });
   }
 });
 

@@ -83,6 +83,7 @@ export default function ApplyAward() {
         newErrors.email = 'Please enter a valid email';
       }
       if (!formData.city.trim()) newErrors.city = 'City & State is required';
+      if (!profilePicture) newErrors.profilePicture = 'Profile Picture is required';
     }
 
     if (step === 3) {
@@ -112,8 +113,8 @@ export default function ApplyAward() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e) e.preventDefault();
     if (currentStep < totalSteps) {
       handleNext();
       return;
@@ -141,23 +142,26 @@ export default function ApplyAward() {
           setVotingUrl(res.data.voting_url);
         }
 
-        // Trigger Zoho SMTP Email
-        try {
-          await fetch('http://localhost:3000/api/send-nomination', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              track,
-              category: formData.category,
-              nomineeName: formData.name,
-              companyName: formData.business,
-              email: formData.email,
-              phone: formData.phone,
-              website: formData.link,
-            })
-          });
-        } catch (emailErr) {
-          console.error("Failed to send confirmation email:", emailErr);
+        // Trigger Zoho SMTP Email for honorary track immediately
+        if (track === 'honorary') {
+          try {
+            await fetch(`http://${window.location.hostname}:3000/api/send-nomination`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                track,
+                category: formData.category,
+                nomineeName: formData.name,
+                companyName: formData.business,
+                email: formData.email,
+                phone: formData.phone,
+                website: formData.link,
+                votingUrl: res.data?.voting_url || '',
+              })
+            });
+          } catch (emailErr) {
+            console.error("Failed to send confirmation email:", emailErr);
+          }
         }
 
         if (track === 'rated' && res.data && res.data.amount) {
@@ -327,7 +331,7 @@ export default function ApplyAward() {
         </div>
 
         {/* Wizard Form */}
-        <form onSubmit={handleSubmit} className="px-8 md:px-12 py-8">
+        <div className="px-8 md:px-12 py-8">
           {/* STEP 1: CHOOSE TRACK */}
           {currentStep === 1 && (
             <div className="space-y-6">
@@ -538,7 +542,7 @@ export default function ApplyAward() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 pt-6 border-t border-light-grey">
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold uppercase tracking-wider text-medium-grey">
-                    Profile Picture (Optional)
+                    Profile Picture *
                   </label>
                   <input
                     type="file"
@@ -546,10 +550,18 @@ export default function ApplyAward() {
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         setProfilePicture(e.target.files[0]);
+                        setErrors(prev => ({ ...prev, profilePicture: '' }));
                       }
                     }}
-                    className="w-full px-4 py-2.5 bg-cream-white/50 border border-light-grey rounded-lg focus:bg-pure-white focus:ring-2 focus:ring-primary-green/20 outline-none transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary-green/10 file:text-primary-green hover:file:bg-primary-green/20"
+                    className={`w-full px-4 py-2.5 bg-cream-white/50 border rounded-lg focus:bg-pure-white focus:ring-2 focus:ring-primary-green/20 outline-none transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary-green/10 file:text-primary-green hover:file:bg-primary-green/20 ${
+                      errors.profilePicture ? 'border-alert-red' : 'border-light-grey'
+                    }`}
                   />
+                  {errors.profilePicture && (
+                    <span className="text-[10px] text-alert-red flex items-center gap-1">
+                      <AlertCircle className="w-3.5 h-3.5" /> {errors.profilePicture}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold uppercase tracking-wider text-medium-grey">
@@ -921,6 +933,7 @@ export default function ApplyAward() {
 
             {currentStep < totalSteps ? (
               <button
+                key="next-btn"
                 type="button"
                 onClick={handleNext}
                 className="px-8 py-3 btn-premium-primary flex items-center gap-1"
@@ -929,7 +942,9 @@ export default function ApplyAward() {
               </button>
             ) : (
               <button
-                type="submit"
+                key="submit-btn"
+                type="button"
+                onClick={() => handleSubmit()}
                 disabled={isSubmitting}
                 className={`px-8 py-3 btn-premium-primary flex items-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
@@ -937,7 +952,7 @@ export default function ApplyAward() {
               </button>
             )}
           </div>
-        </form>
+        </div>
       </div>
 
       {/* Support Box */}

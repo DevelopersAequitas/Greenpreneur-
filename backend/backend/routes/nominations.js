@@ -105,9 +105,9 @@ router.post('/', upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name:
 
     const nominationId = result.insertId;
 
-    // Generate unique voting URL
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-    const votingUrl = `http://localhost:5173/vote/${nominationId}-${slug}`;
+    const frontendUrl = req.headers.origin || 'http://localhost:5173';
+    const votingUrl = `${frontendUrl}/vote/${nominationId}-${slug}`;
 
     await conn.query('UPDATE nominations SET voting_url = ? WHERE id = ?', [votingUrl, nominationId]);
 
@@ -252,6 +252,9 @@ router.post('/:id/vote', async (req, res) => {
         remarks?.trim() || null
       ]
     );
+
+    // Increment static public_votes counter to stay in sync
+    await db.query('UPDATE nominations SET public_votes = public_votes + 1 WHERE id = ?', [id]);
 
     return res.status(201).json({ success: true, message: 'Vote submitted successfully!' });
   } catch (err) {

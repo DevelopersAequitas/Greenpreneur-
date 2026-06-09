@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Share2, CheckCircle, ArrowRight } from 'lucide-react';
+import { BookOpen, Share2, CheckCircle } from 'lucide-react';
 import { submitCoffeeBookEnquiry } from '../utils/api';
 
 export default function CoffeeTableBook() {

@@ -438,11 +438,11 @@ SELECT
   n.status,
   n.payment_status,
   n.jury_score,
-  n.public_votes,
+  (SELECT COUNT(*) FROM nomination_votes WHERE nomination_id = n.id) AS public_votes,
   n.award_year,
   n.created_at
 FROM nominations n
-JOIN award_categories ac ON n.category_id = ac.id;
+LEFT JOIN award_categories ac ON n.category_id = ac.id;
 
 
 -- Sponsorship pipeline summary

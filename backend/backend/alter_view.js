@@ -19,7 +19,7 @@ async function alterView() {
         n.status,
         n.payment_status,
         n.jury_score,
-        n.public_votes,
+        (SELECT COUNT(*) FROM nomination_votes WHERE nomination_id = n.id) AS public_votes,
         n.award_year,
         n.voting_url,
         n.created_at,

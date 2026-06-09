@@ -5,7 +5,7 @@ import type { Winner } from '../utils/api';
 import { 
   Award, Users, Megaphone, BookOpen, Share2, ArrowRight, MapPin, Clock,
   Heart, Droplets, Zap, TrendingUp, Cpu, Scale, Home as HomeIcon, RefreshCw, 
-  Globe, Fish, Trees, ShieldCheck, Handshake, Download, ChevronRight, Sparkles,
+  Globe, Fish, Trees, ShieldCheck, Handshake, Download, ChevronRight,
   Info, Leaf, Check, X, FileText
 } from 'lucide-react';
 

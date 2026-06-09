@@ -2,8 +2,9 @@ import db from './config/db.js';
 
 async function run() {
   try {
-    const [rows] = await db.query('SELECT id, nominee_name, profile_picture FROM nominations ORDER BY id DESC LIMIT 5');
-    console.log(rows);
+    const [catRows] = await db.query('SELECT * FROM award_categories ORDER BY id DESC LIMIT 5');
+    console.log('--- Award Categories Table ---');
+    console.log(catRows);
   } catch(e) { console.error(e.message); }
   process.exit();
 }

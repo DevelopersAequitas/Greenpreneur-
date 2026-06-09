@@ -1,13 +1,14 @@
 const http = require('http');
 
-const BASE_URL = 'http://localhost:5000/api';
+const TEST_PORT = process.env.TEST_PORT ? parseInt(process.env.TEST_PORT, 10) : 5000;
+const BASE_URL = `http://localhost:${TEST_PORT}/api`;
 
 const makeRequest = (path, method, data) => {
   return new Promise((resolve, reject) => {
     const dataString = data ? JSON.stringify(data) : '';
     const options = {
       hostname: 'localhost',
-      port: 5000,
+      port: TEST_PORT,
       path: '/api' + path,
       method: method,
       headers: {

@@ -87,7 +87,7 @@ export function InquiryForm({
         if (file2) data.append('file2', file2);
       }
 
-      const response = await fetch('http://localhost:5000/api/inquiries', {
+      const response = await fetch(`http://${window.location.hostname}:5000/api/inquiries`, {
         method: 'POST',
         body: data
       });

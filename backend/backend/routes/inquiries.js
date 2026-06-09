@@ -99,6 +99,26 @@ router.post('/', upload.fields([{ name: 'file1', maxCount: 1 }, { name: 'file2',
 
     const [result] = await pool.execute(query, values);
 
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: inquiry_type,
+          details: {
+            Organization: organization || 'N/A',
+            Phone: phone,
+            Message: message || 'N/A'
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send inquiry confirmation email:', emailErr.message);
+    }
+
     res.status(201).json({
       success: true,
       message: 'Inquiry submitted successfully',

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useParams, Navigate } from 'react-router-dom';
 import { InquiryForm } from '../components/InquiryForm';
 import { motion } from 'framer-motion';

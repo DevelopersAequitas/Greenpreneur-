@@ -120,7 +120,7 @@ export default function VoteNominee() {
         container.appendChild(p);
       }
     }
-  }, [nominee?.status, loading]);
+  }, [nominee, loading]);
 
   const fireButtonConfetti = (container: HTMLDivElement | null, btn: HTMLButtonElement | null) => {
     if (btn) {
@@ -200,12 +200,12 @@ export default function VoteNominee() {
     );
   }
 
-  const isWinner = nominee.status === 'winner';
   const initials = nominee.nominee_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   return (
-    <div className="v-page">
-      {!isWinner ? (
+    <div className="min-h-screen bg-[#F9FAFB] flex flex-col w-full">
+      <div className="v-page flex-1 flex items-center justify-center" style={{ minHeight: 'auto', padding: '2rem 1rem' }}>
+        {nominee.status !== 'winner' ? (
         /* ═══ VOTING PAGE ═══ */
         <div className="v-wrap">
           <div className="gold-bar"></div>
@@ -390,6 +390,7 @@ export default function VoteNominee() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

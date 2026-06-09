@@ -40,6 +40,30 @@ coffeeRouter.post('/', async (req, res) => {
       [name.trim(), phone.trim(), email.trim().toLowerCase(), company.trim(),
        selectedPkg, qty, unitPrice, totalAmount, message?.trim() || null]
     );
+
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: 'Coffee Table Book Inquiry',
+          details: {
+            Company: company.trim(),
+            Phone: phone,
+            Package: selectedPkg,
+            Quantity: qty,
+            'Total Amount': `₹${totalAmount}`,
+            Message: message || 'N/A'
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send coffee book confirmation email:', emailErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Coffee Table Book enquiry submitted successfully.',
@@ -79,6 +103,27 @@ contactRouter.post('/', async (req, res) => {
        VALUES (?, ?, ?, ?, ?)`,
       [name.trim(), phone.trim(), email.trim().toLowerCase(), selectedInterest, message.trim()]
     );
+
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: 'Contact Inquiry',
+          details: {
+            Phone: phone,
+            Interest: selectedInterest,
+            Message: message.trim()
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send contact confirmation email:', emailErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Message sent successfully. We will respond within 24 hours.',
@@ -116,6 +161,30 @@ communityRouter.post('/apply', async (req, res) => {
       [name.trim(), email.trim().toLowerCase(), phone.trim(), city?.trim() || '',
        company.trim(), sector || 'General', interest || 'Membership', whyJoin.trim()]
     );
+
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: 'Community Membership Application',
+          details: {
+            Company: company.trim(),
+            Phone: phone,
+            City: city || 'N/A',
+            Sector: sector || 'General',
+            Interest: interest || 'Membership',
+            'Why Join': whyJoin.trim()
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send community confirmation email:', emailErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Community application submitted. Welcome to the Greenpreneur network!',
@@ -140,20 +209,33 @@ winnersRouter.get('/', async (req, res) => {
   const { category, limit = 9, offset = 0 } = req.query;
 
   let query = `
-    SELECT n.id, n.nominee_name AS name, n.business_name AS company, n.city, COALESCE(n.award_year, '2024') AS award_year, n.track,
-           n.description AS impact_text, n.description AS quote, n.profile_picture AS photo_url, 0 AS is_featured,
-           ac.name AS category, ac.slug AS category_slug, n.website_link
-    FROM nominations n
-    JOIN award_categories ac ON n.category_id = ac.id
-    WHERE n.status = 'winner'
+    SELECT id, name, company, city, award_year, track, impact_text, quote, photo_url, is_featured, category, category_slug, website_link
+    FROM (
+      SELECT w.id, w.name, w.company, w.city, COALESCE(w.award_year, '2024') AS award_year, w.track,
+             w.impact_text, w.quote, w.photo_url, w.is_featured,
+             ac.name AS category, ac.slug AS category_slug, w.website_url AS website_link
+      FROM winners w
+      JOIN award_categories ac ON w.category_id = ac.id
+      WHERE w.is_published = 1
+
+      UNION ALL
+
+      SELECT n.id, n.nominee_name AS name, n.business_name AS company, n.city, COALESCE(n.award_year, '2025') AS award_year, n.track,
+             n.description AS impact_text, '' AS quote, n.profile_picture AS photo_url, 0 AS is_featured,
+             ac.name AS category, ac.slug AS category_slug, n.website_link
+      FROM nominations n
+      JOIN award_categories ac ON n.category_id = ac.id
+      WHERE n.status = 'winner'
+    ) combined
+    WHERE 1=1
   `;
   const params = [];
 
   if (category && category !== 'all') {
-    query += ' AND ac.slug = ?';
+    query += ' AND category_slug = ?';
     params.push(category);
   }
-  query += ' ORDER BY n.award_year DESC, n.nominee_name ASC LIMIT ? OFFSET ?';
+  query += ' ORDER BY award_year DESC, name ASC LIMIT ? OFFSET ?';
   params.push(parseInt(limit), parseInt(offset));
 
   try {
@@ -162,13 +244,24 @@ winnersRouter.get('/', async (req, res) => {
     // Also get total count for pagination
     let countQuery = `
       SELECT COUNT(*) as total
-      FROM nominations n
-      JOIN award_categories ac ON n.category_id = ac.id
-      WHERE n.status = 'winner'
+      FROM (
+        SELECT ac.slug AS category_slug
+        FROM winners w
+        JOIN award_categories ac ON w.category_id = ac.id
+        WHERE w.is_published = 1
+
+        UNION ALL
+
+        SELECT ac.slug AS category_slug
+        FROM nominations n
+        JOIN award_categories ac ON n.category_id = ac.id
+        WHERE n.status = 'winner'
+      ) combined
+      WHERE 1=1
     `;
     const countParams = [];
     if (category && category !== 'all') {
-      countQuery += ' AND ac.slug = ?';
+      countQuery += ' AND category_slug = ?';
       countParams.push(category);
     }
     const [countRows] = await db.query(countQuery, countParams);

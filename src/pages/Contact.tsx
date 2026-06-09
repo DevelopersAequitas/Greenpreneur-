@@ -94,7 +94,7 @@ export default function Contact() {
               <div className="relative mb-6">
                 <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-cream-white shadow-md">
                   <img
-                    src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&h=150&q=80"
+                    src="/vishal.jpeg"
                     alt="Vishal Parmar"
                     className="w-full h-full object-cover"
                   />

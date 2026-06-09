@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 
@@ -14,7 +14,7 @@ const AdminRoute = () => {
       }
 
       try {
-        const response = await fetch('http://localhost:5000/api/admin/verify', {
+        const response = await fetch(`http://${window.location.hostname}:5000/api/admin/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

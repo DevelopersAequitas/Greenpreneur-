@@ -4,7 +4,18 @@
 // All HTTP calls to the Greenpreneur backend go through this file
 // =============================================================================
 
-export const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl) {
+    if (envUrl.includes('localhost') && window.location.hostname !== 'localhost') {
+      return envUrl.replace('localhost', window.location.hostname);
+    }
+    return envUrl;
+  }
+  return `http://${window.location.hostname}:5000/api`;
+};
+
+export const BASE_URL = getBaseUrl();
 export const ASSETS_BASE_URL = BASE_URL.replace('/api', '');
 
 // ── Generic fetch helper ──────────────────────────────────────────────────────

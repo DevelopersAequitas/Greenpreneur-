@@ -43,6 +43,29 @@ router.post('/', async (req, res) => {
       [name.trim(), company.trim(), email.trim().toLowerCase(), phone.trim(),
        selectedTier, tierAmount, stallInterest, message?.trim() || null]
     );
+
+    // Trigger Zoho email confirmation asynchronously
+    try {
+      await fetch('http://localhost:3000/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          name: name.trim(),
+          type: 'Sponsorship Inquiry',
+          details: {
+            Company: company.trim(),
+            Phone: phone,
+            Tier: selectedTier,
+            'Stall Interest': stallInterest ? 'Yes' : 'No',
+            Message: message || 'N/A'
+          }
+        })
+      });
+    } catch (emailErr) {
+      console.error('Failed to send sponsorship confirmation email:', emailErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Sponsorship enquiry submitted. Our team will contact you within 24 hours.',

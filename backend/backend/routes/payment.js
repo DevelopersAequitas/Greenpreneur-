@@ -105,13 +105,55 @@ router.post('/verify', async (req, res) => {
     }
 
     // Mark as paid
-    const [result] = await db.query(
-      `UPDATE ?? SET payment_status = 'paid', payment_ref = ? WHERE id = ?`,
-      [tableName, razorpay_payment_id, record_id]
-    );
+    let result;
+    if (module === 'sponsorships') {
+      const [resUpdate] = await db.query(
+        `UPDATE sponsorships SET payment_received = 1, payment_ref = ?, status = 'confirmed' WHERE id = ?`,
+        [razorpay_payment_id, record_id]
+      );
+      result = resUpdate;
+    } else {
+      const [resUpdate] = await db.query(
+        `UPDATE ?? SET payment_status = 'paid', payment_ref = ? WHERE id = ?`,
+        [tableName, razorpay_payment_id, record_id]
+      );
+      result = resUpdate;
+    }
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ success: false, message: 'Payment verified, but record not found' });
+    }
+
+    if (module === 'nominations') {
+      try {
+        const [rows] = await db.query(
+          `SELECT n.nominee_name, n.business_name, n.email, n.phone, n.website_link, n.track, n.voting_url, ac.name AS category_name
+           FROM nominations n
+           LEFT JOIN award_categories ac ON n.category_id = ac.id
+           WHERE n.id = ?`,
+          [record_id]
+        );
+        if (rows.length > 0) {
+          const nom = rows[0];
+          await fetch(`http://localhost:3000/api/send-nomination`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              track: nom.track,
+              category: nom.category_name,
+              nomineeName: nom.nominee_name,
+              companyName: nom.business_name,
+              email: nom.email,
+              phone: nom.phone,
+              website: nom.website_link,
+              votingUrl: nom.voting_url || ''
+            })
+          });
+          console.log(`Payment confirmed: nomination email triggered for ${nom.nominee_name}`);
+        }
+      } catch (emailErr) {
+        console.error('Failed to trigger nomination email after payment verification:', emailErr.message);
+      }
     }
 
     res.json({ success: true, message: 'Payment verified and updated successfully' });
