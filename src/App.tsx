@@ -73,6 +73,12 @@ function App() {
           {/* Dynamic Inquiry Forms */}
           <Route path="inquiry/:type" element={<InquiryPage />} />
 
+          {/* URL Redirects for legacy routes */}
+          <Route path="nominations" element={<Navigate to="/awards/apply" replace />} />
+          <Route path="nominations/*" element={<Navigate to="/awards/apply" replace />} />
+          <Route path="membership" element={<Navigate to="/community" replace />} />
+          <Route path="membership/*" element={<Navigate to="/community" replace />} />
+
           {/* Catch-all Redirect to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

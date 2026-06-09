@@ -284,6 +284,12 @@ export default function Home() {
               >
                 Get Delegate Pass
               </Link>
+              <Link
+                to="/community#join-form"
+                className="px-8 py-4 border border-[#B38728] text-[#B38728] font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#B38728]/10 transition-all rounded-lg"
+              >
+                Join Our Community
+              </Link>
             </div>
 
             {/* Quick legacy stats */}

@@ -127,6 +127,35 @@ router.get('/inquiries', verifyAdmin, async (req, res) => {
   }
 });
 
+// Protected: Get all community applications
+router.get('/community-applications', verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM community_applications ORDER BY created_at DESC');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Error fetching community applications:', error);
+    res.status(500).json({ success: false, message: 'Error fetching community applications' });
+  }
+});
+
+// Protected: Update community application status
+router.patch('/community-applications/:id/status', verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!id || !status) {
+    return res.status(400).json({ success: false, message: 'ID and status are required' });
+  }
+
+  try {
+    await pool.query('UPDATE community_applications SET status = ? WHERE id = ?', [status, id]);
+    res.json({ success: true, message: 'Status updated successfully!' });
+  } catch (error) {
+    console.error('Error updating community application status:', error);
+    res.status(500).json({ success: false, message: 'Error updating community application status' });
+  }
+});
+
 // Protected: Get all sponsorships
 router.get('/sponsorships', verifyAdmin, async (req, res) => {
   try {
@@ -440,6 +469,7 @@ router.post('/bulk-delete', verifyAdmin, async (req, res) => {
       let table = '';
       if (type === 'events') table = 'event_registrations';
       else if (type === 'sponsorships') table = 'sponsorships';
+      else if (type === 'membership') table = 'community_applications';
       else table = 'inquiries';
 
       await pool.query(`DELETE FROM ${table} WHERE id IN (?)`, [ids]);

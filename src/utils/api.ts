@@ -24,8 +24,8 @@ async function request<T>(
   options?: RequestInit
 ): Promise<{ success: boolean; message?: string; data?: T; total?: number }> {
   const isFormData = options?.body instanceof FormData;
-  const headers = isFormData 
-    ? { ...options?.headers } 
+  const headers = isFormData
+    ? { ...options?.headers }
     : { 'Content-Type': 'application/json', ...options?.headers };
 
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -174,21 +174,11 @@ export async function submitContactEnquiry(data: ContactPayload) {
 // =============================================================================
 // COMMUNITY APPLICATION — Community.tsx
 // =============================================================================
-export interface CommunityPayload {
-  name: string;
-  email: string;
-  phone: string;
-  city: string;
-  company: string;
-  sector: string;
-  interest: string;
-  whyJoin: string;
-}
-
-export async function submitCommunityApplication(data: CommunityPayload) {
+export async function submitCommunityApplication(data: FormData) {
+  // NOTE: Do NOT set Content-Type header — browser sets multipart/form-data with boundary automatically
   return request('/community/apply', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: data,
   });
 }
 

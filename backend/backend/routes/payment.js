@@ -99,6 +99,9 @@ router.post('/verify', async (req, res) => {
       case 'coffee-book':
         tableName = 'coffee_table_book_orders';
         break;
+      case 'community':
+        tableName = 'community_applications';
+        break;
       default:
         // Verification succeeded but no DB update requested
         return res.json({ success: true, message: 'Payment verified without DB update' });
@@ -153,6 +156,41 @@ router.post('/verify', async (req, res) => {
         }
       } catch (emailErr) {
         console.error('Failed to trigger nomination email after payment verification:', emailErr.message);
+      }
+    }
+
+    if (module === 'community') {
+      try {
+        const [rows] = await db.query(
+          `SELECT name, email, phone, city, company, website, sector, why_join
+           FROM community_applications
+           WHERE id = ?`,
+          [record_id]
+        );
+        if (rows.length > 0) {
+          const app = rows[0];
+          await fetch(`http://localhost:3000/api/send-confirmation`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: app.email,
+              name: app.name,
+              type: 'Community Membership Confirmation',
+              details: {
+                Company: app.company,
+                Phone: app.phone,
+                City: app.city || 'N/A',
+                Website: app.website || 'N/A',
+                Sector: app.sector || 'General',
+                Interest: 'Membership (Paid ₹2,500)',
+                'Why Join': app.why_join
+              }
+            })
+          });
+          console.log(`Payment confirmed: community email triggered for ${app.name}`);
+        }
+      } catch (emailErr) {
+        console.error('Failed to trigger community confirmation email after payment verification:', emailErr.message);
       }
     }
 

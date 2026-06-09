@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Trophy, Handshake, Calendar, 
-  LogOut, Loader2, ChevronRight, Menu, X, FileText, PlusCircle, Award
+  LogOut, Loader2, ChevronRight, Menu, X, FileText, PlusCircle, Award, Users
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -22,6 +22,8 @@ const AdminDashboard = () => {
   const [editFile, setEditFile] = useState<File | null>(null);
   const [nominationFilter, setNominationFilter] = useState<string>('all');
   const [nominationSort, setNominationSort] = useState<string>('newest');
+  const [membershipPaymentFilter, setMembershipPaymentFilter] = useState<string>('all');
+  const [membershipSort, setMembershipSort] = useState<string>('newest');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewedKeys, setViewedKeys] = useState<string[]>([]);
 
@@ -55,6 +57,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     setSelectedIds([]);
     setSearchQuery(''); // Reset search query on tab change
+    setMembershipPaymentFilter('all');
+    setMembershipSort('newest');
   }, [activeTab]);
 
   const handleLogout = () => {
@@ -102,6 +106,25 @@ const AdminDashboard = () => {
         return (b.public_votes || 0) - (a.public_votes || 0);
       } else if (nominationSort === 'votes-asc') {
         return (a.public_votes || 0) - (b.public_votes || 0);
+      }
+      return 0;
+    });
+  }
+
+  if (activeTab === 'membership' || activeTab === 'community-members') {
+    // 2. Payment Status Filtering
+    if (membershipPaymentFilter === 'paid') {
+      processedData = processedData.filter(row => row.payment_status === 'paid');
+    } else if (membershipPaymentFilter === 'pending') {
+      processedData = processedData.filter(row => row.payment_status === 'pending');
+    }
+
+    // 3. Sorting
+    processedData.sort((a, b) => {
+      if (membershipSort === 'newest') {
+        return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+      } else if (membershipSort === 'oldest') {
+        return new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime();
       }
       return 0;
     });
@@ -226,6 +249,8 @@ const AdminDashboard = () => {
       else if (tabId === 'winners') endpoint = 'winners';
       else if (tabId === 'events') endpoint = 'event-registrations';
       else if (tabId === 'sponsorships') endpoint = 'sponsorships';
+      else if (tabId === 'membership') endpoint = 'community-applications';
+      else if (tabId === 'community-members') endpoint = 'community-applications';
       else {
         // It's one of the 13 forms
         endpoint = `inquiries?type=${tabId}`;
@@ -257,6 +282,7 @@ const AdminDashboard = () => {
     { id: 'add-winner', label: 'Add New Winner', icon: <PlusCircle size={20} /> },
     { id: 'events', label: 'Event Passes', icon: <Calendar size={20} /> },
     { id: 'sponsorships', label: 'Sponsorships (Main)', icon: <Handshake size={20} /> },
+    { id: 'community-members', label: 'Community Members', icon: <Users size={20} /> },
   ];
 
   const inquiryNavItems = [
@@ -719,6 +745,50 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* Membership Filters Bar */}
+        {(activeTab === 'membership' || activeTab === 'community-members') && (
+          <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/20 flex flex-wrap gap-4 items-center">
+            {/* Payment Status Filter */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Payment:</span>
+              <select
+                value={membershipPaymentFilter}
+                onChange={(e) => setMembershipPaymentFilter(e.target.value)}
+                className="border border-gray-200 rounded-lg p-2 text-xs font-semibold focus:ring-primary focus:border-primary outline-none bg-white min-w-[130px] shadow-sm text-gray-700"
+              >
+                <option value="all">All Payment Statuses</option>
+                <option value="paid">Paid Only</option>
+                <option value="pending">Pending Only</option>
+              </select>
+            </div>
+
+            {/* Sorting */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Sort By:</span>
+              <select
+                value={membershipSort}
+                onChange={(e) => setMembershipSort(e.target.value)}
+                className="border border-gray-200 rounded-lg p-2 text-xs font-semibold focus:ring-primary focus:border-primary outline-none bg-white min-w-[150px] shadow-sm text-gray-700"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+              </select>
+            </div>
+
+            {/* Mark All as Read Button */}
+            <button
+              onClick={handleMarkAllRead}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-3 rounded-lg transition-colors text-xs border border-gray-200 flex items-center gap-1.5"
+            >
+              ✓ Mark Current as Read
+            </button>
+            
+            <div className="ml-auto text-xs text-gray-500 font-medium">
+              Showing {processedData.length} entries
+            </div>
+          </div>
+        )}
+
         {/* Table Display Container */}
         <div className="overflow-x-auto">
           {activeTab === 'nominations' ? (
@@ -930,16 +1000,28 @@ const AdminDashboard = () => {
                               )}
                             </button>
                           ) : h === 'status' ? (
-                            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
-                              row[h] === 'winner'
-                                ? 'bg-amber-100 text-amber-800 border-amber-300'
-                                : row[h] === 'approved'
-                                  ? 'bg-green-100 text-green-800 border-green-200'
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border capitalize ${
+                              row[h] === 'winner' || row[h] === 'approved' || row[h] === 'onboarded'
+                                ? 'bg-green-100 text-green-800 border-green-200'
+                                : row[h] === 'under_review' || row[h] === 'vetting'
+                                  ? 'bg-blue-100 text-blue-800 border-blue-200'
                                   : row[h] === 'rejected'
                                     ? 'bg-red-100 text-red-800 border-red-200'
                                     : 'bg-gray-100 text-gray-800 border-gray-200'
                             }`}>
                               {row[h] === 'winner' ? '🏆 Winner' : row[h]}
+                            </span>
+                          ) : h === 'payment_status' ? (
+                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border text-center uppercase w-max ${
+                              row[h] === 'paid'
+                                ? 'bg-green-50 text-green-700 border-green-200'
+                                : row[h] === 'pending'
+                                  ? 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                                  : row[h] === 'failed'
+                                    ? 'bg-red-50 text-red-700 border-red-200'
+                                    : 'bg-gray-50 text-gray-500 border-gray-200'
+                            }`}>
+                              {row[h]}
                             </span>
                           ) : h === 'created_at' 
                             ? (row[h] ? new Date(row[h]).toLocaleString('en-IN', {
@@ -947,10 +1029,10 @@ const AdminDashboard = () => {
                                 timeStyle: 'short'
                               }) : '-')
                             : typeof row[h] === 'string' && row[h].startsWith('/uploads')
-                              ? <a href={`http://${window.location.hostname}:5000${row[h]}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium border border-primary px-3 py-1 rounded">View File</a>
+                              ? <a href={`http://${window.location.hostname}:5000${row[h]}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium border border-primary px-3 py-1 rounded bg-primary/10 transition-colors">View File</a>
                               : typeof row[h] === 'string' && row[h].startsWith('http')
-                                ? <a href={row[h]} target="_blank" rel="noreferrer" className="text-primary hover:underline truncate max-w-[200px] inline-block">Link</a>
-                                : row[h]}
+                                ? <a href={row[h]} target="_blank" rel="noreferrer" className="text-primary hover:underline truncate max-w-[200px] inline-block font-semibold">Link</a>
+                                : row[h] ? String(row[h]) : '-'}
                         </td>
                       ))}
                     </tr>
@@ -1165,7 +1247,7 @@ const AdminDashboard = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Object.entries(selectedRecord).map(([key, val]) => (
-                    <div key={key} className={['description', 'remarks', 'impact_text'].includes(key) ? 'md:col-span-2' : ''}>
+                    <div key={key} className={['description', 'remarks', 'impact_text', 'why_join'].includes(key) ? 'md:col-span-2' : ''}>
                       <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
                         {key.replace(/_/g, ' ')}
                       </p>
@@ -1230,6 +1312,51 @@ const AdminDashboard = () => {
                         >
                           Edit Details / Photo
                         </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'membership' && (
+                    <div className="md:col-span-2 border-t border-gray-100 pt-6 mt-4">
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+                        Manage Application Status
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {['applied', 'under_review', 'approved', 'rejected', 'onboarded'].map((st) => (
+                          <button
+                            key={st}
+                            onClick={async () => {
+                              try {
+                                const token = localStorage.getItem('adminToken');
+                                const res = await fetch(`http://${window.location.hostname}:5000/api/admin/community-applications/${selectedRecord.id}/status`, {
+                                  method: 'PATCH',
+                                  headers: { 
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}` 
+                                  },
+                                  body: JSON.stringify({ status: st })
+                                });
+                                const result = await res.json();
+                                if (result.success) {
+                                  alert(`Status updated to ${st}!`);
+                                  setSelectedRecord(null);
+                                  fetchData('membership');
+                                } else {
+                                  alert('Error: ' + result.message);
+                                }
+                              } catch (err) {
+                                alert('Failed to update status');
+                              }
+                            }}
+                            className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-colors ${
+                              selectedRecord.status === st
+                                ? 'bg-green-800 text-white shadow-sm'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            }`}
+                          >
+                            {st.replace(/_/g, ' ')}
+                          </button>
+                        ))}
                       </div>
                     </div>
                   )}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
-import { submitCommunityApplication } from '../utils/api';
+import { submitCommunityApplication, createPaymentOrder } from '../utils/api';
 
 export default function Community() {
   const [formData, setFormData] = useState({
@@ -10,18 +10,78 @@ export default function Community() {
     city: '',
     company: '',
     sector: 'Waste Management',
-    interest: 'Membership',
     whyJoin: '',
   });
+  const [website, setWebsite] = useState('');
+  const [promoterImage, setPromoterImage] = useState<File | null>(null);
+  const [organizationLogo, setOrganizationLogo] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setter: (file: File | null) => void) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size exceeds the 5MB limit.');
+        e.target.value = ''; // Reset input
+        setter(null);
+      } else {
+        setter(file);
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await submitCommunityApplication(formData);
-      setSubmitted(true);
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('email', formData.email);
+      data.append('phone', formData.phone);
+      data.append('city', formData.city);
+      data.append('company', formData.company);
+      data.append('website', website);
+      data.append('sector', formData.sector);
+      data.append('whyJoin', formData.whyJoin);
+      if (promoterImage) {
+        data.append('promoterImage', promoterImage);
+      }
+      if (organizationLogo) {
+        data.append('organizationLogo', organizationLogo);
+      }
+
+      const res = await submitCommunityApplication(data);
+
+      if (res.success && res.data && res.data.amount) {
+        const { initiateRazorpayPayment } = await import('../utils/razorpay');
+        const orderRes = await createPaymentOrder({ amount: res.data.amount });
+        const orderId = orderRes.data?.order?.id || (orderRes as any).order?.id || (orderRes as any).id;
+
+        if (!orderId) {
+          throw new Error("Invalid order response from server: Missing order ID");
+        }
+
+        initiateRazorpayPayment(
+          {
+            order_id: orderId,
+            amount: res.data.amount,
+            name: formData.name,
+            description: 'Lifetime Community Membership',
+            prefill: {
+              name: formData.name,
+              email: formData.email,
+              contact: formData.phone,
+            },
+            module: 'community',
+            record_id: res.data.id,
+          },
+          () => setSubmitted(true),
+          (err) => alert(err.message || 'Payment failed or cancelled.')
+        );
+      } else {
+        setSubmitted(true);
+      }
     } catch (err: any) {
       alert(err.message || 'Submission failed. Please try again.');
     } finally {
@@ -77,9 +137,15 @@ export default function Community() {
           <h1 className="text-4xl sm:text-6xl font-playfair font-bold mb-6">
             Join India's Green Business Community
           </h1>
-          <p className="text-pure-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="text-pure-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto mb-10">
             A collaborative network of eco-conscious founders, MSMEs, policy advocates, and ESG heads scaling sustainable business models.
           </p>
+          <a
+            href="#join-form"
+            className="inline-flex items-center gap-2 bg-accent-gold text-dark-green font-bold px-8 py-4 rounded-lg text-sm uppercase tracking-wider hover:bg-accent-gold/90 transition-all duration-200 shadow-lg hover:shadow-accent-gold/30 hover:scale-105"
+          >
+            Join Our Community
+          </a>
         </div>
       </section>
 
@@ -173,11 +239,8 @@ export default function Community() {
               Apply For Network Access
             </span>
             <h3 className="text-2xl sm:text-3xl font-playfair font-bold text-dark-green">
-              Register Your Interest
+              Join the Community
             </h3>
-            <p className="text-xs text-medium-grey mt-2 font-light">
-              Fill in your details below. Our community managers will review and reach out within 48 hours.
-            </p>
           </div>
 
           {submitted ? (
@@ -185,9 +248,9 @@ export default function Community() {
               <div className="w-16 h-16 bg-primary-green/10 text-primary-green rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <h4 className="text-xl font-bold text-dark-green mb-2">Registration Submitted!</h4>
+              <h4 className="text-xl font-bold text-dark-green mb-2">Welcome to the Community!</h4>
               <p className="text-sm text-medium-grey max-w-sm mx-auto leading-relaxed font-light">
-                Thank you for applying to the Greenpreneur community. Our secretariat will verify your business profile and contact you on WhatsApp/Email.
+                Thank you for joining the Greenpreneur community. Our team will contact you on WhatsApp/Email shortly.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -270,7 +333,7 @@ export default function Community() {
                 {/* Company */}
                 <div className="flex flex-col">
                   <label htmlFor="company" className="text-xs font-bold text-dark-green uppercase mb-2">
-                    Company / Organization Name *
+                    Business / Organization Name *
                   </label>
                   <input
                     type="text"
@@ -283,66 +346,78 @@ export default function Community() {
                   />
                 </div>
 
-                {/* Sector */}
+                {/* Website */}
                 <div className="flex flex-col">
-                  <label htmlFor="sector" className="text-xs font-bold text-dark-green uppercase mb-2">
-                    Sustainable Sector *
+                  <label htmlFor="website" className="text-xs font-bold text-dark-green uppercase mb-2">
+                    Website Link
                   </label>
-                  <select
-                    id="sector"
-                    value={formData.sector}
-                    onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                    className="w-full p-3 bg-cream-white/50 border border-light-grey rounded focus:outline-none focus:ring-1 focus:ring-accent-gold text-sm text-dark-text"
-                  >
-                    <option value="Waste Management">Waste Management / Recycling</option>
-                    <option value="Renewable Energy">Renewable Energy / Solar</option>
-                    <option value="Sustainable Manufacturing">Sustainable Manufacturing</option>
-                    <option value="Sustainable Agriculture">Organic Farming / AgriTech</option>
-                    <option value="Green Buildings">Green Building / Infrastructure</option>
-                    <option value="Electric Vehicles">Electric Vehicles / EV Infrastructure</option>
-                    <option value="Eco-Friendly Retail">Eco-Friendly Products / Retail</option>
-                    <option value="Other">Other Sustainability Field</option>
-                  </select>
+                  <input
+                    type="url"
+                    id="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="e.g. https://greentech.com"
+                    className="w-full p-3 bg-cream-white/50 border border-light-grey rounded focus:outline-none focus:ring-1 focus:ring-accent-gold text-sm"
+                  />
                 </div>
               </div>
 
-              {/* Interest */}
-              <div className="flex flex-col">
-                <label className="text-xs font-bold text-dark-green uppercase mb-2">
-                  What are you interested in? *
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {[
-                    { val: 'Membership', label: 'Join Community Membership' },
-                    { val: 'StoryDrive', label: 'Submit Story Drive Profile' },
-                    { val: 'Both', label: 'Both Membership & Story' },
-                  ].map((opt) => (
-                    <label
-                      key={opt.val}
-                      className={`p-3 border rounded text-xs font-bold text-center cursor-pointer transition-all ${
-                        formData.interest === opt.val
-                          ? 'bg-primary-green text-pure-white border-primary-green shadow-sm'
-                          : 'bg-cream-white/50 border-light-grey text-medium-grey hover:bg-cream-white hover:text-dark-text'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="interest"
-                        value={opt.val}
-                        checked={formData.interest === opt.val}
-                        onChange={() => setFormData({ ...formData, interest: opt.val })}
-                        className="sr-only"
-                      />
-                      {opt.label}
-                    </label>
-                  ))}
+              <div className="grid sm:grid-cols-2 gap-6">
+                {/* Promoter Image */}
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-dark-green uppercase mb-2">
+                    Upload Promoter Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(e, setPromoterImage)}
+                    className="w-full text-xs text-medium-grey file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary-green/10 file:text-primary-green hover:file:bg-primary-green/20"
+                  />
+                  <p className="text-[10px] text-gray-500 mt-1">Max file size: 5 MB</p>
                 </div>
+
+                {/* Organization Logo */}
+                <div className="flex flex-col">
+                  <label className="text-xs font-bold text-dark-green uppercase mb-2">
+                    Upload Organization Logo
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileChange(e, setOrganizationLogo)}
+                    className="w-full text-xs text-medium-grey file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary-green/10 file:text-primary-green hover:file:bg-primary-green/20"
+                  />
+                  <p className="text-[10px] text-gray-500 mt-1">Max file size: 5 MB</p>
+                </div>
+              </div>
+
+              {/* Sector */}
+              <div className="flex flex-col">
+                <label htmlFor="sector" className="text-xs font-bold text-dark-green uppercase mb-2">
+                  Sustainable Sector / Industry Category *
+                </label>
+                <select
+                  id="sector"
+                  value={formData.sector}
+                  onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                  className="w-full p-3 bg-cream-white/50 border border-light-grey rounded focus:outline-none focus:ring-1 focus:ring-accent-gold text-sm text-dark-text"
+                >
+                  <option value="Waste Management">Waste Management / Recycling</option>
+                  <option value="Renewable Energy">Renewable Energy / Solar</option>
+                  <option value="Sustainable Manufacturing">Sustainable Manufacturing</option>
+                  <option value="Sustainable Agriculture">Organic Farming / AgriTech</option>
+                  <option value="Green Buildings">Green Building / Infrastructure</option>
+                  <option value="Electric Vehicles">Electric Vehicles / EV Infrastructure</option>
+                  <option value="Eco-Friendly Retail">Eco-Friendly Products / Retail</option>
+                  <option value="Other">Other Sustainability Field</option>
+                </select>
               </div>
 
               {/* Why Join */}
               <div className="flex flex-col">
                 <label htmlFor="whyJoin" className="text-xs font-bold text-dark-green uppercase mb-2">
-                  Briefly describe your green business or initiative *
+                  Give brief introduction / Green Initiative *
                 </label>
                 <textarea
                   id="whyJoin"
@@ -355,13 +430,28 @@ export default function Community() {
                 ></textarea>
               </div>
 
+              {/* Payment Summary Box */}
+              <div className="bg-cream-white/60 border border-[#B38728]/30 rounded-xl p-6 space-y-4 shadow-sm">
+                <div className="flex justify-between items-center pb-3 border-b border-light-grey">
+                  <div>
+                    <h4 className="text-sm font-bold text-dark-green uppercase">Lifetime Membership</h4>
+                    <p className="text-xs text-medium-grey mt-0.5">One-time payment for full platform benefits</p>
+                  </div>
+                  <span className="text-base font-bold text-dark-green">₹ 2,500</span>
+                </div>
+                <div className="flex justify-between items-center text-dark-green font-black">
+                  <span>Total Amount</span>
+                  <span className="text-lg">₹ 2,500</span>
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className={`w-full py-4 btn-premium-primary flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 <Send className="w-4 h-4" />
-                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                {isSubmitting ? 'Submitting...' : 'Pay & Submit Application'}
               </button>
             </form>
           )}

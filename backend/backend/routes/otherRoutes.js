@@ -3,6 +3,9 @@
 // =============================================================================
 import { Router as CoffeeRouter } from 'express';
 import db from '../config/db.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 export const coffeeRouter = CoffeeRouter();
 
@@ -141,10 +144,30 @@ contactRouter.post('/', async (req, res) => {
 // =============================================================================
 import { Router as CommunityRouter } from 'express';
 
+// Multer setup for community applications file uploads
+const communityUploadDir = path.join(process.cwd(), 'uploads', 'community');
+if (!fs.existsSync(communityUploadDir)) {
+  fs.mkdirSync(communityUploadDir, { recursive: true });
+}
+
+const communityStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, communityUploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const communityUpload = multer({ 
+  storage: communityStorage,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+});
+
 export const communityRouter = CommunityRouter();
 
-communityRouter.post('/apply', async (req, res) => {
-  const { name, email, phone, city, company, sector, interest, whyJoin } = req.body;
+communityRouter.post('/apply', communityUpload.fields([{ name: 'promoterImage', maxCount: 1 }, { name: 'organizationLogo', maxCount: 1 }]), async (req, res) => {
+  const { name, email, phone, city, company, website, sector, whyJoin } = req.body;
 
   if (!name?.trim() || !email?.trim() || !phone?.trim() || !company?.trim() || !whyJoin?.trim()) {
     return res.status(400).json({ success: false, message: 'Name, email, phone, company and motivation are required' });
@@ -153,42 +176,41 @@ communityRouter.post('/apply', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Invalid email address' });
   }
 
+  const promoterImage = req.files?.promoterImage?.[0]?.filename 
+    ? `/uploads/community/${req.files.promoterImage[0].filename}` 
+    : null;
+  const organizationLogo = req.files?.organizationLogo?.[0]?.filename 
+    ? `/uploads/community/${req.files.organizationLogo[0].filename}` 
+    : null;
+
   try {
     const [result] = await db.query(
       `INSERT INTO community_applications
-         (name, email, phone, city, company, sector, interest, why_join)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [name.trim(), email.trim().toLowerCase(), phone.trim(), city?.trim() || '',
-       company.trim(), sector || 'General', interest || 'Membership', whyJoin.trim()]
+         (name, email, phone, city, company, website, sector, interest, why_join, promoter_image, organization_logo, payment_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+      [
+        name.trim(), 
+        email.trim().toLowerCase(), 
+        phone.trim(), 
+        city?.trim() || '',
+        company.trim(), 
+        website?.trim() || null,
+        sector || 'General', 
+        'Membership', 
+        whyJoin.trim(), 
+        promoterImage, 
+        organizationLogo
+      ]
     );
-
-    // Trigger Zoho email confirmation asynchronously
-    try {
-      await fetch('http://localhost:3000/api/send-confirmation', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          name: name.trim(),
-          type: 'Community Membership Application',
-          details: {
-            Company: company.trim(),
-            Phone: phone,
-            City: city || 'N/A',
-            Sector: sector || 'General',
-            Interest: interest || 'Membership',
-            'Why Join': whyJoin.trim()
-          }
-        })
-      });
-    } catch (emailErr) {
-      console.error('Failed to send community confirmation email:', emailErr.message);
-    }
 
     return res.status(201).json({
       success: true,
       message: 'Community application submitted. Welcome to the Greenpreneur network!',
-      data: { id: result.insertId },
+      data: { 
+        id: result.insertId,
+        amount: 2500,
+        status: 'pending'
+      },
     });
   } catch (err) {
     console.error('[community POST]', err.message);

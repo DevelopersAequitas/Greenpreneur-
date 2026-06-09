@@ -10,7 +10,7 @@ export interface RazorpayOptions {
     email: string;
     contact: string;
   };
-  module: 'nominations' | 'events' | 'sponsorships' | 'coffee-book';
+  module: 'nominations' | 'events' | 'sponsorships' | 'coffee-book' | 'community';
   record_id: number;
 }
 
