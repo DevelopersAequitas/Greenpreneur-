@@ -32,6 +32,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust reverse proxy (needed for Hostinger/Nginx to read the correct IP for rate limiting)
+app.set('trust proxy', 1);
+
 // ── Security & Middleware ─────────────────────────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
