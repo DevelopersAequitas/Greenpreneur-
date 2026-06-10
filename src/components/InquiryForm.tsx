@@ -87,7 +87,10 @@ export function InquiryForm({
         if (file2) data.append('file2', file2);
       }
 
-      const response = await fetch(`http://${window.location.hostname}:5000/api/inquiries`, {
+      const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+      const apiUrl = isProduction ? '/api/inquiries' : `http://${window.location.hostname}:5000/api/inquiries`;
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         body: data
       });

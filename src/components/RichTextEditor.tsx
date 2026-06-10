@@ -36,7 +36,10 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
 
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/upload-inline`, {
+        const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+        const apiPrefix = isProduction ? '' : `http://${window.location.hostname}:5000`;
+
+        const res = await fetch(`${apiPrefix}/api/blogs/upload-inline`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -45,7 +48,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         });
         const result = await res.json();
         if (result.success) {
-          executeCommand('insertImage', `http://${window.location.hostname}:5000${result.url}`);
+          executeCommand('insertImage', `${apiPrefix}${result.url}`);
         } else {
           alert('Failed to upload image: ' + result.message);
         }

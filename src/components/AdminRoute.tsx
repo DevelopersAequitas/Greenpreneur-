@@ -14,7 +14,10 @@ const AdminRoute = () => {
       }
 
       try {
-        const response = await fetch(`http://${window.location.hostname}:5000/api/admin/verify`, {
+        const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+        const apiUrl = isProduction ? '/api/admin/verify' : `http://${window.location.hostname}:5000/api/admin/verify`;
+
+        const response = await fetch(apiUrl, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

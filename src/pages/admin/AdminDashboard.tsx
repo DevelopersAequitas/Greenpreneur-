@@ -8,6 +8,9 @@ import {
 } from 'lucide-react';
 import RichTextEditor from '../../components/RichTextEditor';
 
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const API_PREFIX = isProduction ? '' : `http://${window.location.hostname}:5000`;
+
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<string>('nominations');
   const [data, setData] = useState<any[]>([]);
@@ -198,7 +201,7 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem('adminToken');
         const numericIds = selectedIds.map(id => parseInt(id, 10)).filter(id => !isNaN(id));
-        const res = await fetch(`http://${window.location.hostname}:5000/api/admin/nominations/bulk-status`, {
+        const res = await fetch(`${API_PREFIX}/api/admin/nominations/bulk-status`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -225,7 +228,7 @@ const AdminDashboard = () => {
       try {
         const token = localStorage.getItem('adminToken');
         const numericIds = selectedIds.map(id => parseInt(id, 10)).filter(id => !isNaN(id));
-        const res = await fetch(`http://${window.location.hostname}:5000/api/admin/bulk-delete`, {
+        const res = await fetch(`${API_PREFIX}/api/admin/bulk-delete`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -258,7 +261,7 @@ const AdminDashboard = () => {
       const token = localStorage.getItem('adminToken');
       
       if (tabId === 'blogs') {
-        const response = await fetch(`http://${window.location.hostname}:5000/api/blogs`);
+        const response = await fetch(`${API_PREFIX}/api/blogs`);
         const result = await response.json();
         if (result.success) {
           setData(result.data);
@@ -270,7 +273,7 @@ const AdminDashboard = () => {
       }
 
       if (tabId === 'voice-videos') {
-        const response = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/admin`, {
+        const response = await fetch(`${API_PREFIX}/api/voice-videos/admin`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const result = await response.json();
@@ -296,7 +299,7 @@ const AdminDashboard = () => {
         endpoint = `inquiries?type=${tabId}`;
       }
 
-      const response = await fetch(`http://${window.location.hostname}:5000/api/admin/${endpoint}`, {
+      const response = await fetch(`${API_PREFIX}/api/admin/${endpoint}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const result = await response.json();
@@ -390,7 +393,7 @@ const AdminDashboard = () => {
         formData.append('profilePicture', editFile);
       }
 
-      const res = await fetch(`http://${window.location.hostname}:5000/api/admin/nominations/${selectedRecord.id}`, {
+      const res = await fetch(`${API_PREFIX}/api/admin/nominations/${selectedRecord.id}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -422,7 +425,7 @@ const AdminDashboard = () => {
         formData.append('featured_image', editFile);
       }
 
-      const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/${selectedRecord.id}`, {
+      const res = await fetch(`${API_PREFIX}/api/blogs/${selectedRecord.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -467,7 +470,7 @@ const AdminDashboard = () => {
     setPreviewLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/oembed-info?url=${encodeURIComponent(url)}`, {
+      const res = await fetch(`${API_PREFIX}/api/voice-videos/oembed-info?url=${encodeURIComponent(url)}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const result = await res.json();
@@ -503,7 +506,7 @@ const AdminDashboard = () => {
     setData(prev => prev.map(item => item.id === id ? { ...item, is_active: newStatus } : item));
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${id}`, {
+      const res = await fetch(`${API_PREFIX}/api/voice-videos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -543,7 +546,7 @@ const AdminDashboard = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/admin/reorder`, {
+      const res = await fetch(`${API_PREFIX}/api/voice-videos/admin/reorder`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -572,7 +575,7 @@ const AdminDashboard = () => {
     if (window.confirm(`Are you sure you want to delete the video "${title}"?`)) {
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${id}`, {
+        const res = await fetch(`${API_PREFIX}/api/voice-videos/${id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -595,7 +598,7 @@ const AdminDashboard = () => {
   const handleSaveVoiceVideoChanges = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${selectedRecord.id}`, {
+      const res = await fetch(`${API_PREFIX}/api/voice-videos/${selectedRecord.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -672,7 +675,7 @@ const AdminDashboard = () => {
                     <td className="px-6 py-4">
                       {row.featured_image ? (
                         <img 
-                          src={`http://${window.location.hostname}:5000${row.featured_image}`} 
+                          src={`${API_PREFIX}${row.featured_image}`} 
                           alt={row.title} 
                           className="w-20 h-12 object-cover rounded-md border border-gray-200 shadow-sm animate-pulse-once"
                         />
@@ -700,7 +703,7 @@ const AdminDashboard = () => {
                                 navigate('/admin/login');
                                 return;
                               }
-                              const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/${row.id}`, {
+                              const res = await fetch(`${API_PREFIX}/api/blogs/${row.id}`, {
                                 method: 'DELETE',
                                 headers: { 'Authorization': `Bearer ${token}` }
                               });
@@ -754,7 +757,7 @@ const AdminDashboard = () => {
             const formData = new FormData(e.currentTarget);
             try {
               const token = localStorage.getItem('adminToken');
-              const res = await fetch(`http://${window.location.hostname}:5000/api/blogs`, {
+              const res = await fetch(`${API_PREFIX}/api/blogs`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
@@ -839,7 +842,7 @@ const AdminDashboard = () => {
                         try {
                           const token = localStorage.getItem('adminToken');
                           const winnersToDelete = data.filter(row => selectedIds.includes(`${row.source}-${row.id}`)).map(row => ({ id: row.id, source: row.source }));
-                          const res = await fetch(`http://${window.location.hostname}:5000/api/admin/bulk-delete`, {
+                          const res = await fetch(`${API_PREFIX}/api/admin/bulk-delete`, {
                             method: 'POST',
                             headers: { 
                               'Content-Type': 'application/json',
@@ -941,7 +944,7 @@ const AdminDashboard = () => {
                           if (window.confirm(`Are you sure you want to remove ${row.name} from the winners list?`)) {
                             try {
                               const token = localStorage.getItem('adminToken');
-                              const res = await fetch(`http://${window.location.hostname}:5000/api/admin/winners/${row.id}?source=${row.source}`, {
+                              const res = await fetch(`${API_PREFIX}/api/admin/winners/${row.id}?source=${row.source}`, {
                                 method: 'DELETE',
                                 headers: { 'Authorization': `Bearer ${token}` }
                               });
@@ -979,7 +982,7 @@ const AdminDashboard = () => {
             const formData = new FormData(e.currentTarget);
             try {
               const token = localStorage.getItem('adminToken');
-              const res = await fetch(`http://${window.location.hostname}:5000/api/admin/winners`, {
+              const res = await fetch(`${API_PREFIX}/api/admin/winners`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
@@ -1179,7 +1182,7 @@ const AdminDashboard = () => {
               const finalTitle = customTitle.trim() || fetchedDetails.youtube_title;
               try {
                 const token = localStorage.getItem('adminToken');
-                const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos`, {
+                const res = await fetch(`${API_PREFIX}/api/voice-videos`, {
                   method: 'POST',
                   headers: { 
                     'Content-Type': 'application/json',
@@ -1732,7 +1735,7 @@ const AdminDashboard = () => {
                                 timeStyle: 'short'
                               }) : '-')
                             : typeof row[h] === 'string' && row[h].startsWith('/uploads')
-                              ? <a href={`http://${window.location.hostname}:5000${row[h]}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium border border-primary px-3 py-1 rounded bg-primary/10 transition-colors">View File</a>
+                              ? <a href={`${API_PREFIX}${row[h]}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium border border-primary px-3 py-1 rounded bg-primary/10 transition-colors">View File</a>
                               : typeof row[h] === 'string' && row[h].startsWith('http')
                                 ? <a href={row[h]} target="_blank" rel="noreferrer" className="text-primary hover:underline truncate max-w-[200px] inline-block font-semibold">Link</a>
                                 : row[h] ? String(row[h]) : '-'}
@@ -2055,7 +2058,7 @@ const AdminDashboard = () => {
                         {typeof val === 'string' && val.startsWith('http') 
                           ? <a href={val} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all">{val}</a>
                           : typeof val === 'string' && val.startsWith('/uploads')
-                            ? <a href={`http://${window.location.hostname}:5000${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all font-semibold">View / Download File</a>
+                            ? <a href={`${API_PREFIX}${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all font-semibold">View / Download File</a>
                             : val !== null && val !== undefined ? String(val) : <span className="text-gray-400 italic">Not provided</span>}
                       </div>
                     </div>
@@ -2096,7 +2099,7 @@ const AdminDashboard = () => {
                               onClick={async () => {
                                 try {
                                   const token = localStorage.getItem('adminToken');
-                                  const res = await fetch(`http://${window.location.hostname}:5000/api/admin/nominations/${selectedRecord.id}/status`, {
+                                  const res = await fetch(`${API_PREFIX}/api/admin/nominations/${selectedRecord.id}/status`, {
                                     method: 'PATCH',
                                     headers: { 
                                       'Content-Type': 'application/json',
@@ -2150,7 +2153,7 @@ const AdminDashboard = () => {
                             onClick={async () => {
                               try {
                                 const token = localStorage.getItem('adminToken');
-                                const res = await fetch(`http://${window.location.hostname}:5000/api/admin/community-applications/${selectedRecord.id}/status`, {
+                                const res = await fetch(`${API_PREFIX}/api/admin/community-applications/${selectedRecord.id}/status`, {
                                   method: 'PATCH',
                                   headers: { 
                                     'Content-Type': 'application/json',

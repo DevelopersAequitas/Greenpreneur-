@@ -145,7 +145,10 @@ export default function ApplyAward() {
         // Trigger Zoho SMTP Email for honorary track immediately
         if (track === 'honorary') {
           try {
-            await fetch(`http://${window.location.hostname}:3000/api/send-nomination`, {
+            const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+            const apiUrl = isProduction ? '/api/send-nomination' : `http://${window.location.hostname}:5000/api/send-nomination`;
+
+            await fetch(apiUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

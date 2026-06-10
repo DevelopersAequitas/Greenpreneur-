@@ -5,11 +5,12 @@
 // =============================================================================
 
 const getBaseUrl = () => {
+  const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+  if (isProduction) {
+    return '/api';
+  }
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl) {
-    if (envUrl.includes('localhost') && window.location.hostname !== 'localhost') {
-      return envUrl.replace('localhost', window.location.hostname);
-    }
     return envUrl;
   }
   return `http://${window.location.hostname}:5000/api`;

@@ -15,24 +15,50 @@ const AdminLogin = () => {
     setError('');
     setIsLoading(true);
 
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const apiUrl = isProduction ? '/api/admin/login' : `http://${window.location.hostname}:5000/api/admin/login`;
+
+    // Debug logs
+    console.log('[DEBUG] Login API URL:', apiUrl);
+
     try {
-      const response = await fetch(`http://${window.location.hostname}:5000/api/admin/login`, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      console.log('[DEBUG] Response status:', response.status);
 
-      if (data.success) {
-        localStorage.setItem('adminToken', data.token);
-        localStorage.setItem('adminUser', JSON.stringify(data.user));
-        navigate('/admin/dashboard');
-      } else {
-        setError(data.message || 'Login failed. Please check your credentials.');
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        throw new Error('Server error. Please try again later.');
       }
-    } catch (err) {
-      setError('Server error. Please try again later.');
+
+      console.log('[DEBUG] Data success:', data ? data.success : undefined);
+
+      if (!response.ok || !data || !data.success) {
+        if (response.status === 401) {
+          throw new Error(data?.message || 'Invalid email or password');
+        } else {
+          throw new Error(data?.message || 'Server error. Please try again later.');
+        }
+      }
+
+      localStorage.setItem('adminToken', data.token);
+      localStorage.setItem('adminUser', JSON.stringify(data.user));
+      navigate('/admin/dashboard');
+    } catch (err: any) {
+      console.error('[DEBUG] Login error:', err);
+      if (err.message && err.message !== 'Failed to fetch') {
+        setError(err.message);
+      } else if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
+        setError('Unable to connect to server');
+      } else {
+        setError('Server error. Please try again later.');
+      }
     } finally {
       setIsLoading(false);
     }
