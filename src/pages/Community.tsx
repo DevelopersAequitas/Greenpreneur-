@@ -55,19 +55,29 @@ export default function Community() {
 
       if (res.success && res.data && res.data.amount) {
         const { initiateRazorpayPayment } = await import('../utils/razorpay');
-        const orderRes = await createPaymentOrder({ amount: res.data.amount });
+        const orderRes = await createPaymentOrder({
+          amount: res.data.amount,
+          receipt: `community_${res.data.id}`,
+          notes: {
+            module: 'community',
+            record_id: String(res.data.id),
+          },
+        });
         
-        const orderId = orderRes.data?.order?.id;
-        const keyId = orderRes.data?.key_id;
+        console.log('Create order response:', {
+          success: orderRes?.success,
+          orderId: orderRes?.order?.id,
+          keyIdPrefix: orderRes?.key_id?.substring(0, 8),
+        });
 
-        if (!orderId || !keyId) {
-          throw new Error("Invalid order response from server: Missing order ID or key ID");
+        if (!orderRes?.success || !orderRes?.order?.id || !orderRes?.key_id) {
+          throw new Error('Invalid order response from server: Missing order ID or key ID');
         }
 
         initiateRazorpayPayment(
           {
-            key_id: keyId,
-            order_id: orderId,
+            key_id: orderRes.key_id,
+            order_id: orderRes.order.id,
             amount: res.data.amount,
             name: formData.name,
             description: 'Lifetime Community Membership',

@@ -256,11 +256,11 @@ export interface CreateOrderPayload {
   notes?: Record<string, string>;
 }
 
-export async function createPaymentOrder(data: CreateOrderPayload) {
-  return request<{ order: any; key_id: string }>('/payment/create-order', {
+export async function createPaymentOrder(data: CreateOrderPayload): Promise<{ success: boolean; order: any; key_id: string }> {
+  return request<any>('/payment/create-order', {
     method: 'POST',
     body: JSON.stringify(data),
-  });
+  }) as any;
 }
 
 export interface VerifyPaymentPayload {

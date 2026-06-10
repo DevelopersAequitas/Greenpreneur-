@@ -172,22 +172,32 @@ export default function ApplyAward() {
           const { createPaymentOrder } = await import('../utils/api');
           const { initiateRazorpayPayment } = await import('../utils/razorpay');
           
-          const orderRes = await createPaymentOrder({ amount: res.data.amount });
-          
-          const orderId = orderRes.data?.order?.id;
-          const keyId = orderRes.data?.key_id;
+          const orderRes = await createPaymentOrder({
+            amount: res.data.amount,
+            receipt: `nomination_${res.data.id}`,
+            notes: {
+              module: 'nominations',
+              record_id: String(res.data.id),
+            },
+          });
 
-          if (!orderId || !keyId) {
-            throw new Error("Invalid order response from server: Missing order ID or key ID");
+          console.log('Create order response:', {
+            success: orderRes?.success,
+            orderId: orderRes?.order?.id,
+            keyIdPrefix: orderRes?.key_id?.substring(0, 8),
+          });
+
+          if (!orderRes?.success || !orderRes?.order?.id || !orderRes?.key_id) {
+            throw new Error('Invalid order response from server: Missing order ID or key ID');
           }
 
           initiateRazorpayPayment(
             {
-              key_id: keyId,
-              order_id: orderId,
+              key_id: orderRes.key_id,
+              order_id: orderRes.order.id,
               amount: res.data.amount,
               name: formData.name,
-              description: `Nomination: ${formData.category}`,
+              description: 'Greenpreneur Award Nomination',
               prefill: {
                 name: formData.name,
                 email: formData.email,

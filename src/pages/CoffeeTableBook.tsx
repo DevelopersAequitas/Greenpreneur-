@@ -25,19 +25,29 @@ export default function CoffeeTableBook() {
           const { createPaymentOrder } = await import('../utils/api');
           const { initiateRazorpayPayment } = await import('../utils/razorpay');
           
-          const orderRes = await createPaymentOrder({ amount: (res.data as any).totalAmount, notes: { module: 'coffee-book', record_id: String((res.data as any).id) } });
-          
-          const orderId = orderRes.data?.order?.id;
-          const keyId = orderRes.data?.key_id;
+          const orderRes = await createPaymentOrder({
+            amount: (res.data as any).totalAmount,
+            receipt: `coffeebook_${(res.data as any).id}`,
+            notes: {
+              module: 'coffee-book',
+              record_id: String((res.data as any).id),
+            },
+          });
 
-          if (!orderId || !keyId) {
-            throw new Error("Invalid order response from server: Missing order ID or key ID");
+          console.log('Create order response:', {
+            success: orderRes?.success,
+            orderId: orderRes?.order?.id,
+            keyIdPrefix: orderRes?.key_id?.substring(0, 8),
+          });
+
+          if (!orderRes?.success || !orderRes?.order?.id || !orderRes?.key_id) {
+            throw new Error('Invalid order response from server: Missing order ID or key ID');
           }
 
           initiateRazorpayPayment(
             {
-              key_id: keyId,
-              order_id: orderId,
+              key_id: orderRes.key_id,
+              order_id: orderRes.order.id,
               amount: (res.data as any).totalAmount,
               name: formData.name,
               description: `Coffee Book: ${formData.package}`,
