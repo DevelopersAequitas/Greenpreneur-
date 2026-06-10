@@ -114,7 +114,7 @@ export default function Blogs() {
                     <img
                       src={`${ASSETS_BASE_URL}${blog.featured_image}`}
                       alt={blog.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 bg-gray-50"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-primary-green/20 to-accent-gold/25 flex items-center justify-center">

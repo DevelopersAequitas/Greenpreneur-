@@ -88,11 +88,11 @@ export default function BlogDetail() {
         <div className="bg-pure-white rounded-2xl border border-light-grey shadow-lg overflow-hidden">
           {/* Featured Image */}
           {blog.featured_image ? (
-            <div className="w-full h-[300px] sm:h-[400px] border-b border-light-grey relative overflow-hidden">
+            <div className="w-full h-[300px] sm:h-[420px] border-b border-light-grey relative overflow-hidden bg-gray-50 flex items-center justify-center">
               <img
                 src={`${ASSETS_BASE_URL}${blog.featured_image}`}
                 alt={blog.title}
-                className="w-full h-full object-cover"
+                className="max-w-full max-h-full object-contain"
               />
             </div>
           ) : (

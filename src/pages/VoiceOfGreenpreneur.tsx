@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play, X, Loader2, Video, AlertCircle } from 'lucide-react';
+import { Play, Loader2, Video, AlertCircle, ExternalLink } from 'lucide-react';
 import { BASE_URL } from '../utils/api';
 
 interface VoiceVideo {
@@ -13,7 +13,6 @@ interface VoiceVideo {
 export default function VoiceOfGreenpreneur() {
   const [videos, setVideos] = useState<VoiceVideo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -37,12 +36,8 @@ export default function VoiceOfGreenpreneur() {
   }, []);
 
   const handleVideoClick = (youtubeId: string) => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    if (isMobile) {
-      window.open(`https://www.youtube.com/watch?v=${youtubeId}`, '_blank');
-    } else {
-      setSelectedVideoId(youtubeId);
-    }
+    // Open YouTube in new tab for all devices - avoids Error 153 embedding restrictions
+    window.open(`https://www.youtube.com/watch?v=${youtubeId}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -113,6 +108,10 @@ export default function VoiceOfGreenpreneur() {
                       <Play className="w-6 h-6 fill-current translate-x-0.5" />
                     </div>
                   </div>
+                  {/* Watch on YouTube badge */}
+                  <div className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ExternalLink className="w-3 h-3" /> Watch on YouTube
+                  </div>
                 </div>
 
                 {/* Video Info */}
@@ -126,37 +125,6 @@ export default function VoiceOfGreenpreneur() {
           </div>
         )}
       </main>
-
-      {/* Desktop Lightbox Modal */}
-      {selectedVideoId && (
-        <div 
-          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setSelectedVideoId(null)}
-        >
-          <div 
-            className="w-full max-w-4xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl relative border border-white/10"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedVideoId(null)}
-              className="absolute top-4 right-4 bg-black/60 hover:bg-black text-pure-white p-2 rounded-full border border-white/20 transition-all z-50 cursor-pointer hover:scale-105"
-              aria-label="Close video player"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <iframe
-              width="100%"
-              height="100%"
-              src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="w-full h-full"
-            ></iframe>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

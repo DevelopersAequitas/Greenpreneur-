@@ -263,7 +263,7 @@ export default function Contact() {
                     <div>
                       <h5 className="font-bold text-sm text-gray-900">Registered Secretariat</h5>
                       <p className="text-gray-500 text-xs mt-0.5">
-                        1 Million Entrepreneurs International Forum, AEC Cross Road, Ahmedabad, Gujarat, India.
+                        Shapath 1, 805, Sarkhej - Gandhinagar Hwy, Highway Park Society, Bodakdev, Ahmedabad, Gujarat 380015.
                       </p>
                     </div>
                   </div>
@@ -279,51 +279,6 @@ export default function Contact() {
                         Date: Thursday, 25th June 2026.
                       </p>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="p-8 bg-dark-green rounded-3xl text-pure-white shadow-lg relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary-green/20 rounded-full blur-xl pointer-events-none"></div>
-                <div className="relative z-10 space-y-6">
-                  <div className="flex justify-between items-center border-b border-pure-white/10 pb-4">
-                    <h4 className="font-bold text-lg">NGO Credentials</h4>
-                    <span className="text-[9px] font-bold bg-white/10 border border-white/10 px-3 py-1 rounded-full text-accent-gold uppercase tracking-wider">
-                      VERIFIED
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-xs font-mono">
-                    <div>
-                      <span className="text-pure-white/40 text-[9px] uppercase font-bold block mb-0.5">
-                        CSR NO.
-                      </span>
-                      <span>CSR00106194</span>
-                    </div>
-                    <div>
-                      <span className="text-pure-white/40 text-[9px] uppercase font-bold block mb-0.5">
-                        PAN
-                      </span>
-                      <span>AACCZ1279M</span>
-                    </div>
-                    <div>
-                      <span className="text-pure-white/40 text-[9px] uppercase font-bold block mb-0.5">
-                        TAX DEDUCTIONS
-                      </span>
-                      <span>80G & 12A Certified</span>
-                    </div>
-                    <div>
-                      <span className="text-pure-white/40 text-[9px] uppercase font-bold block mb-0.5">
-                        COMPANY TYPE
-                      </span>
-                      <span>Section 8 NGO</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-pure-white/10 text-xs flex justify-between items-center text-pure-white/60">
-                    <span>Niti Aayog Darpan Certified</span>
-                    <span>MEIF</span>
                   </div>
                 </div>
               </div>

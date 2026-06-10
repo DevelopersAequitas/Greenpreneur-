@@ -695,19 +695,35 @@ const AdminDashboard = () => {
                           if (window.confirm(`Are you sure you want to delete "${row.title}"?`)) {
                             try {
                               const token = localStorage.getItem('adminToken');
+                              if (!token) {
+                                alert('Session expired. Please log in again.');
+                                navigate('/admin/login');
+                                return;
+                              }
                               const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/${row.id}`, {
                                 method: 'DELETE',
                                 headers: { 'Authorization': `Bearer ${token}` }
                               });
-                              const result = await res.json();
-                              if (result.success) {
-                                alert('Blog post deleted successfully');
-                                fetchData('blogs');
+                              let result: any = {};
+                              try { result = await res.json(); } catch (_) { result = {}; }
+                              if (res.status === 401 || res.status === 403) {
+                                // Token expired or invalid — force re-login
+                                localStorage.removeItem('adminToken');
+                                localStorage.removeItem('adminUser');
+                                alert('Your session has expired. Please log in again.');
+                                navigate('/admin/login');
+                                return;
+                              }
+                              if (res.ok && result.success) {
+                                // Remove from local state immediately for instant UI feedback
+                                setData(prev => prev.filter((b: any) => b.id !== row.id));
                               } else {
-                                alert('Failed to delete: ' + result.message);
+                                alert(`Failed to delete: ${result.message || `HTTP ${res.status}`}`);
+                                console.error('Delete failed:', res.status, result);
                               }
                             } catch (err) {
-                              alert('Delete request failed');
+                              console.error('Delete request error:', err);
+                              alert('Delete request failed. Check your network connection.');
                             }
                           }
                         }}

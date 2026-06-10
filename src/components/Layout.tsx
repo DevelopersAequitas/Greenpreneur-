@@ -10,6 +10,7 @@ export default function Layout() {
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [showAllInquiries, setShowAllInquiries] = useState(false);
+  const [showAllQuickLinks, setShowAllQuickLinks] = useState(false);
   const location = useLocation();
 
   const [bannerVisible, setBannerVisible] = useState(() => {
@@ -102,8 +103,8 @@ export default function Layout() {
           <img src="/logo-cropped.png" alt="Greenpreneur" className="h-[45px] lg:h-[50px] w-auto object-contain drop-shadow-sm" />
         </Link>
 
-        {/* Desktop Center Nav Links (9 items, gap 32px) */}
-        <div className="hidden lg:flex items-center gap-8 mx-auto">
+        {/* Desktop Center Nav Links (reduced gap to prevent overflow) */}
+        <div className="hidden lg:flex items-center gap-3 xl:gap-5 mx-auto">
           <NavLink to="/" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
             Home
           </NavLink>
@@ -521,19 +522,42 @@ export default function Layout() {
                   <Link to="/winners" className="hover:text-pure-white transition-colors">Past Winners</Link>
                 </li>
                 <li>
+                  <Link to="/community" className="hover:text-pure-white transition-colors">Community</Link>
+                </li>
+                <li>
+                  <Link to="/voice-of-greenpreneur" className="hover:text-pure-white transition-colors">Voice of Greenpreneur</Link>
+                </li>
+                <li>
+                  <Link to="/blogs" className="hover:text-pure-white transition-colors">Blogs</Link>
+                </li>
+                <li>
                   <Link to="/faqs" className="hover:text-pure-white transition-colors">FAQs</Link>
                 </li>
                 <li>
                   <Link to="/contact" className="hover:text-pure-white transition-colors">Contact Us</Link>
                 </li>
+
+                {showAllQuickLinks && (
+                  <>
+                    <li className="pt-2 border-t border-pure-white/10">
+                      <Link to="/privacy-policy" className="hover:text-pure-white transition-colors">Privacy Policy</Link>
+                    </li>
+                    <li>
+                      <Link to="/terms-conditions" className="hover:text-pure-white transition-colors">Terms &amp; Conditions</Link>
+                    </li>
+                    <li>
+                      <Link to="/refund-cancellation" className="hover:text-pure-white transition-colors">Refund &amp; Cancellation</Link>
+                    </li>
+                  </>
+                )}
+
                 <li>
-                  <Link to="/privacy-policy" className="hover:text-pure-white transition-colors">Privacy Policy</Link>
-                </li>
-                <li>
-                  <Link to="/terms-conditions" className="hover:text-pure-white transition-colors">Terms & Conditions</Link>
-                </li>
-                <li>
-                  <Link to="/refund-cancellation" className="hover:text-pure-white transition-colors">Refund & Cancellation</Link>
+                  <button
+                    onClick={() => setShowAllQuickLinks(!showAllQuickLinks)}
+                    className="text-[#D4AF37] hover:text-pure-white transition-colors text-xs uppercase tracking-wider font-bold flex items-center gap-1 mt-2"
+                  >
+                    {showAllQuickLinks ? '- Show Less' : '+ Show More'}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -631,7 +655,7 @@ export default function Layout() {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
                   <span className="text-xs text-pure-white/70">
-                    Ahmedabad, Gujarat, India (Secretariat office at Peers Global Business Platform)
+                    Shapath 1, 805, Sarkhej - Gandhinagar Hwy, Highway Park Society, Bodakdev, Ahmedabad, Gujarat 380015
                   </span>
                 </div>
               </div>
