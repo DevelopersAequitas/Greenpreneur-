@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Trophy, Handshake, Calendar, 
-  LogOut, Loader2, ChevronRight, Menu, X, FileText, PlusCircle, Award, Users
+  LogOut, Loader2, ChevronRight, Menu, X, FileText, PlusCircle, Award, Users,
+  Video, ArrowUp, ArrowDown
 } from 'lucide-react';
+import RichTextEditor from '../../components/RichTextEditor';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<string>('nominations');
@@ -26,6 +28,16 @@ const AdminDashboard = () => {
   const [membershipSort, setMembershipSort] = useState<string>('newest');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewedKeys, setViewedKeys] = useState<string[]>([]);
+
+  // Voice of Greenpreneur States
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const [fetchedDetails, setFetchedDetails] = useState<{youtube_id: string; youtube_title: string; thumbnail: string} | null>(null);
+  const [customTitle, setCustomTitle] = useState<string>('');
+  const [previewLoading, setPreviewLoading] = useState<boolean>(false);
+  const [videoActive, setVideoActive] = useState<boolean>(true);
+
+  // Blog Editor State
+  const [blogContent, setBlogContent] = useState<string>('');
 
   // Load viewed keys from localStorage on mount
   useEffect(() => {
@@ -59,6 +71,7 @@ const AdminDashboard = () => {
     setSearchQuery(''); // Reset search query on tab change
     setMembershipPaymentFilter('all');
     setMembershipSort('newest');
+    setBlogContent(''); // Reset rich text editor content
   }, [activeTab]);
 
   const handleLogout = () => {
@@ -235,7 +248,7 @@ const AdminDashboard = () => {
   };
 
   const fetchData = async (tabId: string) => {
-    if (tabId === 'add-winner') {
+    if (tabId === 'add-winner' || tabId === 'add-blog' || tabId === 'add-voice-video') {
       setIsLoading(false);
       return;
     }
@@ -243,6 +256,33 @@ const AdminDashboard = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('adminToken');
+      
+      if (tabId === 'blogs') {
+        const response = await fetch(`http://${window.location.hostname}:5000/api/blogs`);
+        const result = await response.json();
+        if (result.success) {
+          setData(result.data);
+        } else {
+          console.error('Failed to fetch blogs');
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      if (tabId === 'voice-videos') {
+        const response = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/admin`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const result = await response.json();
+        if (result.success) {
+          setData(result.data);
+        } else {
+          console.error('Failed to fetch voice videos');
+        }
+        setIsLoading(false);
+        return;
+      }
+
       let endpoint = '';
       
       if (tabId === 'nominations') endpoint = 'nominations';
@@ -280,6 +320,10 @@ const AdminDashboard = () => {
     { id: 'nominations', label: 'Award Nominations', icon: <Trophy size={20} /> },
     { id: 'winners', label: 'Winners List', icon: <Award size={20} /> },
     { id: 'add-winner', label: 'Add New Winner', icon: <PlusCircle size={20} /> },
+    { id: 'blogs', label: 'Manage Blogs', icon: <FileText size={20} /> },
+    { id: 'add-blog', label: 'Add New Blog', icon: <PlusCircle size={20} /> },
+    { id: 'voice-videos', label: 'Voice of Greenpreneur', icon: <Video size={20} /> },
+    { id: 'add-voice-video', label: 'Add Video Link', icon: <PlusCircle size={20} /> },
     { id: 'events', label: 'Event Passes', icon: <Calendar size={20} /> },
     { id: 'sponsorships', label: 'Sponsorships (Main)', icon: <Handshake size={20} /> },
     { id: 'community-members', label: 'Community Members', icon: <Users size={20} /> },
@@ -305,14 +349,27 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (selectedRecord) {
-      setEditForm({
-        nominee_name: selectedRecord.nominee_name || '',
-        business_name: selectedRecord.business_name || '',
-        description: selectedRecord.description || '',
-        city: selectedRecord.city || '',
-        phone: selectedRecord.phone || '',
-        email: selectedRecord.email || '',
-      });
+      if (activeTab === 'blogs') {
+        setEditForm({
+          title: selectedRecord.title || '',
+          content: selectedRecord.content || '',
+          author: selectedRecord.author || 'Greenpreneur Team'
+        });
+      } else if (activeTab === 'voice-videos') {
+        setEditForm({
+          title: selectedRecord.title || '',
+          is_active: selectedRecord.is_active
+        });
+      } else {
+        setEditForm({
+          nominee_name: selectedRecord.nominee_name || '',
+          business_name: selectedRecord.business_name || '',
+          description: selectedRecord.description || '',
+          city: selectedRecord.city || '',
+          phone: selectedRecord.phone || '',
+          email: selectedRecord.email || '',
+        });
+      }
       setEditFile(null);
       setIsEditing(false);
       markAsRead(`${activeTab}-${selectedRecord.id}`);
@@ -354,7 +411,383 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleSaveBlogChanges = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const formData = new FormData();
+      formData.append('title', editForm.title);
+      formData.append('content', editForm.content);
+      formData.append('author', editForm.author);
+      if (editFile) {
+        formData.append('featured_image', editFile);
+      }
+
+      const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/${selectedRecord.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Blog post updated successfully!');
+        setIsEditing(false);
+        setSelectedRecord(null);
+        fetchData('blogs');
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (err) {
+      alert('Failed to save blog changes');
+    }
+  };
+
+  // ── Voice of Greenpreneur Helpers ───────────────────────────────────────────
+  const getYouTubeId = (url: string): string | null => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    if (match && match[2].length === 11) {
+      return match[2];
+    }
+    if (url.trim().length === 11 && !url.includes('/') && !url.includes('.')) {
+      return url.trim();
+    }
+    return null;
+  };
+
+  const handleFetchVideoDetails = async (url: string) => {
+    const videoId = getYouTubeId(url);
+    if (!videoId) {
+      alert('Please enter a valid YouTube video URL or ID.');
+      return;
+    }
+
+    setPreviewLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/oembed-info?url=${encodeURIComponent(url)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const result = await res.json();
+      if (result.success) {
+        setFetchedDetails({
+          youtube_id: videoId,
+          youtube_title: result.title,
+          thumbnail: result.thumbnail
+        });
+      } else {
+        setFetchedDetails({
+          youtube_id: videoId,
+          youtube_title: 'YouTube Video',
+          thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+        });
+        alert(result.message || 'Could not fetch video details. Using default thumbnail.');
+      }
+    } catch (err) {
+      console.error('oEmbed fetch failed:', err);
+      setFetchedDetails({
+        youtube_id: videoId,
+        youtube_title: 'YouTube Video',
+        thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      });
+      alert('Network error. Using default thumbnail preview.');
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
+
+  const handleToggleActive = async (id: number, currentStatus: number) => {
+    const newStatus = currentStatus === 1 ? 0 : 1;
+    setData(prev => prev.map(item => item.id === id ? { ...item, is_active: newStatus } : item));
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ is_active: newStatus })
+      });
+      const result = await res.json();
+      if (!result.success) {
+        alert('Failed to update video status.');
+        fetchData('voice-videos');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating status.');
+      fetchData('voice-videos');
+    }
+  };
+
+  const handleMoveVideo = async (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === processedData.length - 1) return;
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    const currentItem = processedData[index];
+    const targetItem = processedData[targetIndex];
+
+    const currentOrder = currentItem.sort_order;
+    const targetOrder = targetItem.sort_order;
+
+    const updatedData = [...processedData];
+    updatedData[index] = { ...currentItem, sort_order: targetOrder };
+    updatedData[targetIndex] = { ...targetItem, sort_order: currentOrder };
+
+    updatedData.sort((a, b) => a.sort_order - b.sort_order);
+    setData(updatedData);
+
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/admin/reorder`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          orders: [
+            { id: currentItem.id, sort_order: targetOrder },
+            { id: targetItem.id, sort_order: currentOrder }
+          ]
+        })
+      });
+      const result = await res.json();
+      if (!result.success) {
+        alert('Failed to update sorting order.');
+        fetchData('voice-videos');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error updating order on server.');
+      fetchData('voice-videos');
+    }
+  };
+
+  const handleDeleteVideo = async (id: number, title: string) => {
+    if (window.confirm(`Are you sure you want to delete the video "${title}"?`)) {
+      try {
+        const token = localStorage.getItem('adminToken');
+        const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const result = await res.json();
+        if (result.success) {
+          alert('Video deleted successfully.');
+          fetchData('voice-videos');
+        } else {
+          alert('Failed to delete video: ' + result.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Error deleting video.');
+      }
+    }
+  };
+
+  const handleSaveVoiceVideoChanges = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos/${selectedRecord.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title: editForm.title,
+          is_active: editForm.is_active
+        })
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Video updated successfully!');
+        setIsEditing(false);
+        setSelectedRecord(null);
+        fetchData('voice-videos');
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Failed to save video changes.');
+    }
+  };
+
   const renderTable = () => {
+    if (activeTab === 'blogs') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden font-inter">
+          <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <h2 className="text-xl font-bold text-gray-800 font-playfair">Blog Articles</h2>
+              <div className="relative flex-1 sm:w-64 max-w-xs">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search articles..."
+                  className="w-full border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 text-xs focus:ring-primary focus:border-primary outline-none shadow-sm"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-bold"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
+              <button
+                onClick={() => setActiveTab('add-blog')}
+                className="bg-green-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-xs flex items-center gap-1.5 shadow-sm"
+              >
+                <PlusCircle size={16} /> Add Blog Post
+              </button>
+            </div>
+          </div>
+          <div className="overflow-x-auto animate-fade-in">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200 uppercase tracking-wider text-xs">
+                <tr>
+                  <th className="px-6 py-4 w-28">Featured Image</th>
+                  <th className="px-6 py-4">Title</th>
+                  <th className="px-6 py-4">Author</th>
+                  <th className="px-6 py-4">Published Date</th>
+                  <th className="px-6 py-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {processedData.map((row) => (
+                  <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      {row.featured_image ? (
+                        <img 
+                          src={`http://${window.location.hostname}:5000${row.featured_image}`} 
+                          alt={row.title} 
+                          className="w-20 h-12 object-cover rounded-md border border-gray-200 shadow-sm animate-pulse-once"
+                        />
+                      ) : (
+                        <div className="w-20 h-12 bg-gray-100 rounded-md border border-gray-200 flex items-center justify-center text-gray-400 font-bold text-[10px] uppercase">No Image</div>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 text-gray-700 font-semibold max-w-sm truncate">{row.title}</td>
+                    <td className="px-6 py-4 text-gray-700">{row.author}</td>
+                    <td className="px-6 py-4 text-gray-700">{new Date(row.created_at).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 text-gray-750 flex gap-2">
+                      <button
+                        onClick={() => setSelectedRecord(row)}
+                        className="text-green-800 hover:text-green-950 font-semibold text-xs border border-green-200 hover:border-green-400 px-3 py-1 rounded bg-green-50/50 transition-all cursor-pointer"
+                      >
+                        Edit / View
+                      </button>
+                      <button
+                        onClick={async () => {
+                          if (window.confirm(`Are you sure you want to delete "${row.title}"?`)) {
+                            try {
+                              const token = localStorage.getItem('adminToken');
+                              const res = await fetch(`http://${window.location.hostname}:5000/api/blogs/${row.id}`, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}` }
+                              });
+                              const result = await res.json();
+                              if (result.success) {
+                                alert('Blog post deleted successfully');
+                                fetchData('blogs');
+                              } else {
+                                alert('Failed to delete: ' + result.message);
+                              }
+                            } catch (err) {
+                              alert('Delete request failed');
+                            }
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-800 font-semibold text-xs border border-red-200 hover:border-red-400 px-3 py-1 rounded bg-red-50/50 transition-all cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'add-blog') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-4xl font-inter">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 font-playfair">Add New Blog Post</h2>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            if (!blogContent.trim()) {
+              alert('Blog content is required.');
+              return;
+            }
+            const formData = new FormData(e.currentTarget);
+            try {
+              const token = localStorage.getItem('adminToken');
+              const res = await fetch(`http://${window.location.hostname}:5000/api/blogs`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+              });
+              const result = await res.json();
+              if (result.success) {
+                alert('Blog post created successfully!');
+                setBlogContent('');
+                setActiveTab('blogs');
+              } else {
+                alert('Error: ' + result.message);
+              }
+            } catch (err) {
+              alert('Submission failed');
+            }
+          }} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Blog Title *</label>
+                <input type="text" name="title" required className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Author Name</label>
+                <input type="text" name="author" placeholder="Greenpreneur Team" className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Featured Image *</label>
+                <input type="file" name="featured_image" accept="image/*" required className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-primary focus:border-primary outline-none file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary-dark" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Content *</label>
+              <input type="hidden" name="content" value={blogContent} />
+              <RichTextEditor
+                value={blogContent}
+                onChange={setBlogContent}
+                placeholder="Write your blog post content here. Use the formatting toolbar above to style your content, add headers, create lists, and upload images."
+              />
+            </div>
+            <div>
+              <button type="submit" className="bg-green-800 text-white font-semibold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors text-xs uppercase font-bold tracking-wider cursor-pointer">
+                Publish Blog Post
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
     if (activeTab === 'winners') {
       return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -580,6 +1013,260 @@ const AdminDashboard = () => {
             <div>
               <button type="submit" className="bg-green-800 text-white font-semibold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors">
                 Add Winner Directly
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    if (activeTab === 'voice-videos') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden font-inter">
+          <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <h2 className="text-xl font-bold text-gray-800 font-playfair">Voice of Greenpreneur Videos</h2>
+              <div className="relative flex-1 sm:w-64 max-w-xs">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search videos..."
+                  className="w-full border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 text-xs focus:ring-primary focus:border-primary outline-none shadow-sm"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-bold"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
+              <button
+                onClick={() => setActiveTab('add-voice-video')}
+                className="bg-green-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-xs flex items-center gap-1.5 shadow-sm"
+              >
+                <PlusCircle size={16} /> Add Video Link
+              </button>
+            </div>
+          </div>
+          <div className="overflow-x-auto animate-fade-in">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200 uppercase tracking-wider text-xs">
+                <tr>
+                  <th className="px-6 py-4 w-28">Thumbnail</th>
+                  <th className="px-6 py-4">Title & ID</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4 font-bold">Reorder</th>
+                  <th className="px-6 py-4">Date Added</th>
+                  <th className="px-6 py-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {processedData.map((row, index) => (
+                  <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="relative w-24 aspect-video bg-black rounded-md overflow-hidden border border-gray-200 shadow-sm group">
+                        <img 
+                          src={`https://img.youtube.com/vi/${row.youtube_id}/hqdefault.jpg`} 
+                          alt={row.title} 
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-gray-800 font-semibold max-w-sm truncate whitespace-normal leading-tight">{row.title}</span>
+                        <a 
+                          href={`https://www.youtube.com/watch?v=${row.youtube_id}`} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="text-xs text-primary hover:underline font-mono mt-1"
+                        >
+                          ID: {row.youtube_id}
+                        </a>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleToggleActive(row.id, row.is_active)}
+                        className={`px-3 py-1 rounded-full text-xs font-bold border transition-all cursor-pointer ${
+                          row.is_active === 1
+                            ? 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200'
+                            : 'bg-gray-100 text-gray-800 border-gray-200 hover:bg-gray-200'
+                        }`}
+                      >
+                        {row.is_active === 1 ? 'Active' : 'Inactive'}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-1">
+                        <button
+                          disabled={index === 0}
+                          onClick={() => handleMoveVideo(index, 'up')}
+                          className="p-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-gray-650 cursor-pointer"
+                          title="Move Up"
+                        >
+                          <ArrowUp size={16} />
+                        </button>
+                        <button
+                          disabled={index === processedData.length - 1}
+                          onClick={() => handleMoveVideo(index, 'down')}
+                          className="p-1 rounded bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all text-gray-650 cursor-pointer"
+                          title="Move Down"
+                        >
+                          <ArrowDown size={16} />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-gray-600 font-medium">
+                      {row.created_at ? new Date(row.created_at).toLocaleDateString() : '-'}
+                    </td>
+                    <td className="px-6 py-4 text-gray-750 flex gap-2">
+                      <button
+                        onClick={() => setSelectedRecord(row)}
+                        className="text-green-800 hover:text-green-950 font-semibold text-xs border border-green-200 hover:border-green-400 px-3 py-1 rounded bg-green-50/50 transition-all cursor-pointer"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteVideo(row.id, row.title)}
+                        className="text-red-600 hover:text-red-800 font-semibold text-xs border border-red-200 hover:border-red-400 px-3 py-1 rounded bg-red-50/50 transition-all cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'add-voice-video') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-4xl font-inter">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 font-playfair">Add New Video Link</h2>
+          <form 
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!fetchedDetails) {
+                alert('Please fetch video details first.');
+                return;
+              }
+              const finalTitle = customTitle.trim() || fetchedDetails.youtube_title;
+              try {
+                const token = localStorage.getItem('adminToken');
+                const res = await fetch(`http://${window.location.hostname}:5000/api/voice-videos`, {
+                  method: 'POST',
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                  },
+                  body: JSON.stringify({
+                    youtube_id: fetchedDetails.youtube_id,
+                    title: finalTitle,
+                    is_active: videoActive ? 1 : 0
+                  })
+                });
+                const result = await res.json();
+                if (result.success) {
+                  alert('Video added successfully!');
+                  setPreviewUrl('');
+                  setFetchedDetails(null);
+                  setCustomTitle('');
+                  setVideoActive(true);
+                  setActiveTab('voice-videos');
+                } else {
+                  alert('Error: ' + result.message);
+                }
+              } catch (err) {
+                alert('Submission failed');
+              }
+            }} 
+            className="space-y-6"
+          >
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">YouTube Video URL / ID *</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  value={previewUrl}
+                  onChange={(e) => setPreviewUrl(e.target.value)}
+                  placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                  required 
+                  className="flex-1 border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" 
+                />
+                <button
+                  type="button"
+                  onClick={() => handleFetchVideoDetails(previewUrl)}
+                  disabled={previewLoading || !previewUrl}
+                  className="bg-green-800 hover:bg-green-700 text-white font-semibold px-4 py-2.5 rounded-lg disabled:opacity-50 text-xs transition-colors cursor-pointer shrink-0"
+                >
+                  {previewLoading ? 'Fetching...' : 'Fetch Details'}
+                </button>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">Paste a full YouTube URL, short link (youtu.be), or the 11-character video ID.</p>
+            </div>
+
+            {fetchedDetails && (
+              <div className="bg-gray-50 rounded-xl p-6 border border-gray-150 animate-fade-in">
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4">YouTube Video Preview</h3>
+                <div className="flex flex-col md:flex-row gap-4 items-start">
+                  <div className="w-full md:w-48 aspect-video bg-black rounded-lg overflow-hidden border border-gray-200 shadow-sm shrink-0">
+                    <img 
+                      src={fetchedDetails.thumbnail} 
+                      alt={fetchedDetails.youtube_title} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-bold text-gray-400">YouTube Title</p>
+                    <p className="text-sm font-semibold text-gray-800 mt-0.5">{fetchedDetails.youtube_title}</p>
+                    <p className="text-xs text-gray-450 mt-1 font-mono">Video ID: {fetchedDetails.youtube_id}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Custom Title Override (Optional)</label>
+              <input 
+                type="text" 
+                value={customTitle}
+                onChange={(e) => setCustomTitle(e.target.value)}
+                placeholder={fetchedDetails ? fetchedDetails.youtube_title : "Enter title to override the default YouTube title"}
+                className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" 
+              />
+              <p className="text-xs text-gray-400 mt-1">Leave blank to use the default YouTube video title.</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input 
+                type="checkbox" 
+                id="videoActive"
+                checked={videoActive}
+                onChange={(e) => setVideoActive(e.target.checked)}
+                className="rounded border-gray-300 text-green-800 focus:ring-green-700 h-4 w-4" 
+              />
+              <label htmlFor="videoActive" className="text-sm font-semibold text-gray-700 select-none cursor-pointer">
+                Set video as Active (Immediately visible on public page)
+              </label>
+            </div>
+
+            <div>
+              <button 
+                type="submit" 
+                disabled={!fetchedDetails}
+                className="bg-green-800 hover:bg-green-700 disabled:opacity-50 text-white font-bold py-3 px-8 rounded-lg transition-colors text-xs uppercase tracking-wider cursor-pointer"
+              >
+                Save Video
               </button>
             </div>
           </form>
@@ -1157,8 +1844,105 @@ const AdminDashboard = () => {
                 <X size={24} />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto custom-scrollbar">
-              {isEditing && activeTab === 'nominations' ? (
+             <div className="p-6 overflow-y-auto custom-scrollbar">
+              {isEditing && activeTab === 'voice-videos' ? (
+                <div className="grid grid-cols-1 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Video Title</label>
+                    <input
+                      type="text"
+                      value={editForm.title}
+                      onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                      className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary font-semibold text-gray-800"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Status</label>
+                    <select
+                      value={editForm.is_active}
+                      onChange={(e) => setEditForm({ ...editForm, is_active: parseInt(e.target.value, 10) })}
+                      className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary font-semibold text-gray-800 bg-white"
+                    >
+                      <option value={1}>Active</option>
+                      <option value={0}>Inactive</option>
+                    </select>
+                  </div>
+                  <div className="flex gap-3 mt-4 justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setIsEditing(false)}
+                      className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold uppercase transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveVoiceVideoChanges}
+                      className="px-5 py-2.5 bg-green-800 hover:bg-green-700 text-white rounded-lg text-xs font-bold uppercase transition-colors"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              ) : isEditing && activeTab === 'blogs' ? (
+                <div className="grid grid-cols-1 gap-6">
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Blog Title</label>
+                    <input
+                      type="text"
+                      value={editForm.title}
+                      onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
+                      className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary font-semibold"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Author</label>
+                    <input
+                      type="text"
+                      value={editForm.author}
+                      onChange={(e) => setEditForm({ ...editForm, author: e.target.value })}
+                      className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Change Featured Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setEditFile(e.target.files[0]);
+                        }
+                      }}
+                      className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-primary focus:border-primary file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary-dark"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Blog Content</label>
+                    <RichTextEditor
+                      value={editForm.content || ''}
+                      onChange={(val) => setEditForm({ ...editForm, content: val })}
+                      placeholder="Write blog content..."
+                    />
+                  </div>
+                  <div className="flex gap-3 mt-4 justify-end">
+                    <button
+                      type="button"
+                      onClick={() => setIsEditing(false)}
+                      className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold uppercase transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveBlogChanges}
+                      className="px-5 py-2.5 bg-green-800 hover:bg-green-700 text-white rounded-lg text-xs font-bold uppercase transition-colors"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              ) : isEditing && activeTab === 'nominations' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Nominee Name</label>
@@ -1255,11 +2039,33 @@ const AdminDashboard = () => {
                         {typeof val === 'string' && val.startsWith('http') 
                           ? <a href={val} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all">{val}</a>
                           : typeof val === 'string' && val.startsWith('/uploads')
-                            ? <a href={`http://${window.location.hostname}:5000${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all">View Attached File</a>
+                            ? <a href={`http://${window.location.hostname}:5000${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all font-semibold">View / Download File</a>
                             : val !== null && val !== undefined ? String(val) : <span className="text-gray-400 italic">Not provided</span>}
                       </div>
                     </div>
                   ))}
+
+                  {activeTab === 'blogs' && (
+                    <div className="md:col-span-2 border-t border-gray-100 pt-6 mt-4 flex justify-end">
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="px-6 py-2.5 bg-[#B38728] hover:bg-[#a07620] text-white rounded-lg text-xs font-bold uppercase transition-colors"
+                      >
+                        Edit Blog Post
+                      </button>
+                    </div>
+                  )}
+
+                  {activeTab === 'voice-videos' && (
+                    <div className="md:col-span-2 border-t border-gray-100 pt-6 mt-4 flex justify-end">
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="px-6 py-2.5 bg-[#B38728] hover:bg-[#a07620] text-white rounded-lg text-xs font-bold uppercase transition-colors"
+                      >
+                        Edit Video Title
+                      </button>
+                    </div>
+                  )}
 
                   {activeTab === 'nominations' && (
                     <div className="md:col-span-2 border-t border-gray-100 pt-6 mt-4 flex flex-wrap justify-between items-center gap-4">

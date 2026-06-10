@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MessageCircle, MapPin, Calendar, Award, CheckCircle } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, Calendar, Award, CheckCircle } from 'lucide-react';
 import { submitContactEnquiry } from '../utils/api';
 
 export default function Contact() {
@@ -81,12 +81,20 @@ export default function Contact() {
               <p className="text-gray-500 mb-8 max-w-xs text-xs leading-relaxed font-light">
                 "Greenpreneur is more than an event; it's a commitment to India's sustainable growth. Join our national mission."
               </p>
-              <a
-                href="mailto:hello@greenpreneur.in"
-                className="w-full py-3 btn-premium-secondary"
-              >
-                <Mail className="w-4 h-4 text-accent-gold" /> hello@greenpreneur.in
-              </a>
+              <div className="grid grid-cols-2 gap-3 w-full">
+                <a
+                  href="tel:+917041151714"
+                  className="py-3 btn-premium-primary"
+                >
+                  <Phone className="w-4 h-4" /> Call
+                </a>
+                <a
+                  href="https://wa.me/917041151714"
+                  className="py-3 bg-[#25D366] text-pure-white text-center rounded-xl font-bold text-xs shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <MessageCircle className="w-4 h-4" /> WhatsApp
+                </a>
+              </div>
             </div>
 
             {/* Vishal Parmar */}

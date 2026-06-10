@@ -6,7 +6,9 @@ export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
+  const [isMoreDropdownHovered, setIsMoreDropdownHovered] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [showAllInquiries, setShowAllInquiries] = useState(false);
   const location = useLocation();
 
@@ -45,10 +47,13 @@ export default function Layout() {
   // Close mobile menu on path change
   useEffect(() => {
     setIsOpen(false);
+    setMobileDropdownOpen(false);
+    setMobileMoreOpen(false);
     window.scrollTo(0, 0);
   }, [location]);
 
   const isEventAwardsActive = location.pathname === '/event-2026' || location.pathname.startsWith('/awards');
+  const isMoreActive = location.pathname === '/voice-of-greenpreneur' || location.pathname === '/blogs' || location.pathname.startsWith('/blogs');
 
   return (
     <div className="min-h-screen flex flex-col bg-cream-white font-inter">
@@ -182,6 +187,46 @@ export default function Layout() {
           <NavLink to="/community" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
             Community
           </NavLink>
+
+          {/* More Hover Dropdown */}
+          <div
+            className="relative py-2"
+            onMouseEnter={() => setIsMoreDropdownHovered(true)}
+            onMouseLeave={() => setIsMoreDropdownHovered(false)}
+          >
+            <button
+              className={`font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 flex items-center gap-1 cursor-pointer ${
+                isMoreActive
+                  ? 'text-indian-green border-indian-green font-semibold'
+                  : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'
+              }`}
+            >
+              More <span className="text-[12px] text-[#B38728]">▾</span>
+            </button>
+
+            <div
+              className={`absolute left-0 mt-2 w-[220px] bg-pure-white border border-[#E5E7EB] shadow-[0_8px_24px_rgba(0,0,0,0.12)] rounded-lg transition-all duration-200 origin-top-left z-[999] ${
+                isMoreDropdownHovered
+                  ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+                  : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+              }`}
+            >
+              <div className="py-2 flex flex-col">
+                <Link
+                  to="/voice-of-greenpreneur"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Voice of Greenpreneur
+                </Link>
+                <Link
+                  to="/blogs"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Blogs
+                </Link>
+              </div>
+            </div>
+          </div>
           <NavLink to="/faqs" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
             FAQs
           </NavLink>
@@ -293,6 +338,26 @@ export default function Layout() {
             <NavLink to="/community" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
               COMMUNITY
             </NavLink>
+
+            {/* Expandable MORE Drawer */}
+            <div className="flex flex-col border-b border-pure-white/10">
+              <button
+                onClick={() => setMobileMoreOpen(!mobileMoreOpen)}
+                className="w-full flex items-center justify-between py-4 hover:text-accent-gold transition-colors text-left font-bold text-pure-white text-[18px] uppercase cursor-pointer"
+              >
+                <span>MORE</span>
+                <span className={`text-xs transform transition-transform duration-200 ${mobileMoreOpen ? 'rotate-180' : ''}`}>▼</span>
+              </button>
+
+              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileMoreOpen ? 'max-h-[150px] py-2' : 'max-h-0'}`}>
+                <Link to="/voice-of-greenpreneur" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
+                  → Voice of Greenpreneur
+                </Link>
+                <Link to="/blogs" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
+                  → Blogs
+                </Link>
+              </div>
+            </div>
             <NavLink to="/faqs" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
               FAQS
             </NavLink>
@@ -460,6 +525,15 @@ export default function Layout() {
                 </li>
                 <li>
                   <Link to="/contact" className="hover:text-pure-white transition-colors">Contact Us</Link>
+                </li>
+                <li>
+                  <Link to="/privacy-policy" className="hover:text-pure-white transition-colors">Privacy Policy</Link>
+                </li>
+                <li>
+                  <Link to="/terms-conditions" className="hover:text-pure-white transition-colors">Terms & Conditions</Link>
+                </li>
+                <li>
+                  <Link to="/refund-cancellation" className="hover:text-pure-white transition-colors">Refund & Cancellation</Link>
                 </li>
               </ul>
             </div>

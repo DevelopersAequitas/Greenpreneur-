@@ -25,6 +25,8 @@ import winnersRouter from './routes/winners.js';
 import paymentRouter from './routes/payment.js';
 import inquiriesRouter from './routes/inquiries.js';
 import adminRouter from './routes/admin.js';
+import blogsRouter from './routes/blogs.js';
+import voiceVideosRouter from './routes/voiceVideos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -159,6 +161,8 @@ app.use('/api/winners',      winnersRouter);
 app.use('/api/payment',      paymentRouter);
 app.use('/api/inquiries',    inquiriesRouter);
 app.use('/api/admin',        adminRouter);
+app.use('/api/blogs',        blogsRouter);
+app.use('/api/voice-videos', voiceVideosRouter);
 
 // ── Email Routes (merged from root server.js) ─────────────────────────────────
 
@@ -330,3 +334,4 @@ app.listen(PORT, () => {
 });
 
 export default app;
+// Trigger dev api restart - run now port freed

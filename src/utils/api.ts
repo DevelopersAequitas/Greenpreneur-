@@ -276,3 +276,25 @@ export async function verifyPayment(data: VerifyPaymentPayload) {
     body: JSON.stringify(data),
   });
 }
+
+// =============================================================================
+// BLOGS
+// =============================================================================
+export interface Blog {
+  id: number;
+  title: string;
+  slug: string;
+  content: string;
+  featured_image: string | null;
+  author: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getBlogs() {
+  return request<Blog[]>('/blogs');
+}
+
+export async function getBlogBySlug(slug: string) {
+  return request<Blog>(`/blogs/slug/${slug}`);
+}

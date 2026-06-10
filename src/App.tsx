@@ -16,6 +16,12 @@ import FAQs from './pages/FAQs';
 import Contact from './pages/Contact';
 import VoteNominee from './pages/VoteNominee';
 import InquiryPage from './pages/InquiryPage';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
+import RefundCancellation from './pages/RefundCancellation';
+import Blogs from './pages/Blogs';
+import BlogDetail from './pages/BlogDetail';
+import VoiceOfGreenpreneur from './pages/VoiceOfGreenpreneur';
 
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin';
@@ -66,6 +72,18 @@ function App() {
           
           {/* Secretariat Contact Details */}
           <Route path="contact" element={<Contact />} />
+
+          {/* Legal Pages */}
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="terms-conditions" element={<TermsConditions />} />
+          <Route path="refund-cancellation" element={<RefundCancellation />} />
+
+          {/* Blogs Routes */}
+          <Route path="blogs" element={<Blogs />} />
+          <Route path="blogs/:slug" element={<BlogDetail />} />
+
+          {/* Voice of Greenpreneur Video Gallery */}
+          <Route path="voice-of-greenpreneur" element={<VoiceOfGreenpreneur />} />
           
           {/* Voting Page */}
           <Route path="vote/:slug" element={<VoteNominee />} />
