@@ -56,14 +56,17 @@ export default function Community() {
       if (res.success && res.data && res.data.amount) {
         const { initiateRazorpayPayment } = await import('../utils/razorpay');
         const orderRes = await createPaymentOrder({ amount: res.data.amount });
-        const orderId = orderRes.data?.order?.id || (orderRes as any).order?.id || (orderRes as any).id;
+        
+        const orderId = orderRes.data?.order?.id;
+        const keyId = orderRes.data?.key_id;
 
-        if (!orderId) {
-          throw new Error("Invalid order response from server: Missing order ID");
+        if (!orderId || !keyId) {
+          throw new Error("Invalid order response from server: Missing order ID or key ID");
         }
 
         initiateRazorpayPayment(
           {
+            key_id: keyId,
             order_id: orderId,
             amount: res.data.amount,
             name: formData.name,

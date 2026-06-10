@@ -1,6 +1,7 @@
 import { verifyPayment } from './api';
 
 export interface RazorpayOptions {
+  key_id: string;
   order_id: string;
   amount: number;
   name: string;
@@ -25,7 +26,7 @@ export function initiateRazorpayPayment(
   }
 
   const rzpOptions = {
-    key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_YourKeyIdHere',
+    key: options.key_id,
     amount: options.amount * 100, // Amount in paise
     currency: 'INR',
     name: 'Greenpreneur 2026',
@@ -59,11 +60,23 @@ export function initiateRazorpayPayment(
     theme: {
       color: '#1E6B3C', // Primary Green
     },
+    modal: {
+      ondismiss: function () {
+        onFail(new Error('Payment cancelled by user'));
+      },
+    },
   };
 
   const rzp = new (window as any).Razorpay(rzpOptions);
   rzp.on('payment.failed', function (response: any) {
-    onFail(new Error(response.error.description));
+    console.error('Razorpay payment failed:', {
+      code: response?.error?.code,
+      description: response?.error?.description,
+      source: response?.error?.source,
+      step: response?.error?.step,
+      reason: response?.error?.reason,
+    });
+    onFail(new Error(response?.error?.description || 'Payment failed'));
   });
 
   rzp.open();

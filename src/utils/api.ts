@@ -257,7 +257,7 @@ export interface CreateOrderPayload {
 }
 
 export async function createPaymentOrder(data: CreateOrderPayload) {
-  return request<{ order: any }>('/payment/create-order', {
+  return request<{ order: any; key_id: string }>('/payment/create-order', {
     method: 'POST',
     body: JSON.stringify(data),
   });

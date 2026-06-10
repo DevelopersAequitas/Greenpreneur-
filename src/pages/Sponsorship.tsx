@@ -27,9 +27,17 @@ export default function Sponsorship() {
           
           const orderRes = await createPaymentOrder({ amount: (res.data as any).amount, notes: { module: 'sponsorships', record_id: String((res.data as any).id) } });
           
+          const orderId = orderRes.data?.order?.id;
+          const keyId = orderRes.data?.key_id;
+
+          if (!orderId || !keyId) {
+            throw new Error("Invalid order response from server: Missing order ID or key ID");
+          }
+
           initiateRazorpayPayment(
             {
-              order_id: (orderRes.data as any).order.id,
+              key_id: keyId,
+              order_id: orderId,
               amount: (res.data as any).amount,
               name: formData.name,
               description: `Sponsorship: ${formData.tier}`,
