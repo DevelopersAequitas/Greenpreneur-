@@ -45,27 +45,54 @@ app.use(helmet({
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:5000',
   'http://127.0.0.1:5173',
+  'http://127.0.0.1:5000',
+
+  // Live domain before SSL
+  'http://greenpreneur.in',
+  'http://www.greenpreneur.in',
+
+  // Live domain after SSL
   'https://greenpreneur.in',
   'https://www.greenpreneur.in',
 ];
+
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
 
+const normalizeOrigin = (origin) => {
+  if (!origin) return origin;
+  return origin.replace(/\/$/, '');
+};
+
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow server-to-server requests, curl, Postman, same-origin calls without Origin header
     if (!origin) return callback(null, true);
-    const isLocal = origin.startsWith('http://localhost') ||
-                    origin.startsWith('http://127.0.0.1') ||
-                    /^http:\/\/(?:192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+)(?::\d+)?$/.test(origin);
-    if (isLocal || allowedOrigins.indexOf(origin) !== -1) {
+
+    const cleanOrigin = normalizeOrigin(origin);
+
+    const isLocal =
+      cleanOrigin.startsWith('http://localhost') ||
+      cleanOrigin.startsWith('http://127.0.0.1') ||
+      /^http:\/\/(?:192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+)(?::\d+)?$/.test(cleanOrigin);
+
+    const isGreenpreneurDomain =
+      /^https?:\/\/(www\.)?greenpreneur\.in$/.test(cleanOrigin);
+
+    if (isLocal || isGreenpreneurDomain || allowedOrigins.includes(cleanOrigin)) {
       return callback(null, true);
     }
+
+    console.error('Blocked by CORS:', cleanOrigin);
     return callback(new Error('CORS policy error'), false);
   },
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  optionsSuccessStatus: 204,
 }));
 
 app.use(express.json({ limit: '5mb' }));
