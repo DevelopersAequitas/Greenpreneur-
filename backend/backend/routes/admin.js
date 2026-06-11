@@ -264,6 +264,87 @@ router.delete('/winners/:id', verifyAdmin, async (req, res) => {
   }
 });
 
+// Protected: Get all gallery sponsors
+router.get('/gallery-sponsors', verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM sponsors ORDER BY created_at DESC');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching gallery sponsors' });
+  }
+});
+
+// Protected: Add a new gallery sponsor
+router.post('/gallery-sponsors', verifyAdmin, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const { name, role, org, tags } = req.body;
+    if (!name || !org) return res.status(400).json({ success: false, message: 'Name and Org are required' });
+    const profilePic = req.file ? `/uploads/nominations/${req.file.filename}` : null;
+    await pool.query(
+      'INSERT INTO sponsors (name, role, org, tags, photo_url) VALUES (?, ?, ?, ?, ?)',
+      [name.trim(), role?.trim() || 'Sponsor', org.trim(), tags || null, profilePic]
+    );
+    res.json({ success: true, message: 'Sponsor added successfully!' });
+  } catch (error) {
+    console.error('Error adding sponsor:', error);
+    res.status(500).json({ success: false, message: 'Error adding sponsor' });
+  }
+});
+
+// Protected: Get all partners
+router.get('/partners', verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM partners ORDER BY created_at DESC');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching partners' });
+  }
+});
+
+// Protected: Add a new partner
+router.post('/partners', verifyAdmin, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const { name, role, org, tags } = req.body;
+    if (!name || !role || !org) return res.status(400).json({ success: false, message: 'Name, Role, and Org are required' });
+    const profilePic = req.file ? `/uploads/nominations/${req.file.filename}` : null;
+    await pool.query(
+      'INSERT INTO partners (name, role, org, tags, photo_url) VALUES (?, ?, ?, ?, ?)',
+      [name.trim(), role.trim(), org.trim(), tags || null, profilePic]
+    );
+    res.json({ success: true, message: 'Partner added successfully!' });
+  } catch (error) {
+    console.error('Error adding partner:', error);
+    res.status(500).json({ success: false, message: 'Error adding partner' });
+  }
+});
+
+// Protected: Get all jury
+router.get('/jury', verifyAdmin, async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM jury ORDER BY created_at DESC');
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching jury' });
+  }
+});
+
+// Protected: Add a new jury
+router.post('/jury', verifyAdmin, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const { name, role, org, tags } = req.body;
+    if (!name || !role || !org) return res.status(400).json({ success: false, message: 'Name, Role, and Org are required' });
+    const profilePic = req.file ? `/uploads/nominations/${req.file.filename}` : null;
+    await pool.query(
+      'INSERT INTO jury (name, role, org, tags, photo_url) VALUES (?, ?, ?, ?, ?)',
+      [name.trim(), role.trim(), org.trim(), tags || null, profilePic]
+    );
+    res.json({ success: true, message: 'Jury added successfully!' });
+  } catch (error) {
+    console.error('Error adding jury:', error);
+    res.status(500).json({ success: false, message: 'Error adding jury' });
+  }
+});
+
 // Protected: Update a single nomination status (and send email if winning)
 router.patch('/nominations/:id/status', verifyAdmin, async (req, res) => {
   const { id } = req.params;
@@ -470,6 +551,9 @@ router.post('/bulk-delete', verifyAdmin, async (req, res) => {
       if (type === 'events') table = 'event_registrations';
       else if (type === 'sponsorships') table = 'sponsorships';
       else if (type === 'membership') table = 'community_applications';
+      else if (type === 'gallery-sponsors') table = 'sponsors';
+      else if (type === 'partners') table = 'partners';
+      else if (type === 'jury') table = 'jury';
       else table = 'inquiries';
 
       await pool.query(`DELETE FROM ${table} WHERE id IN (?)`, [ids]);

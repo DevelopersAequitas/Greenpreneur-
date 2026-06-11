@@ -6,8 +6,10 @@ export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isDropdownHovered, setIsDropdownHovered] = useState(false);
+  const [isCommunityDropdownHovered, setIsCommunityDropdownHovered] = useState(false);
   const [isMoreDropdownHovered, setIsMoreDropdownHovered] = useState(false);
   const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
+  const [mobileCommunityOpen, setMobileCommunityOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [showAllInquiries, setShowAllInquiries] = useState(false);
   const [showAllQuickLinks, setShowAllQuickLinks] = useState(false);
@@ -49,12 +51,24 @@ export default function Layout() {
   useEffect(() => {
     setIsOpen(false);
     setMobileDropdownOpen(false);
+    setMobileCommunityOpen(false);
     setMobileMoreOpen(false);
     window.scrollTo(0, 0);
   }, [location]);
 
-  const isEventAwardsActive = location.pathname === '/event-2026' || location.pathname.startsWith('/awards');
-  const isMoreActive = location.pathname === '/voice-of-greenpreneur' || location.pathname === '/blogs' || location.pathname.startsWith('/blogs');
+  const isEventAwardsActive = 
+    location.pathname === '/event-2026' || 
+    location.pathname.startsWith('/awards') ||
+    location.pathname.startsWith('/sponsors') ||
+    location.pathname === '/coffee-table-book';
+
+  const isCommunityActive =
+    location.pathname === '/community' ||
+    location.pathname === '/voice-of-greenpreneur';
+
+  const isMoreActive =
+    location.pathname === '/jury' ||
+    location.pathname === '/partners';
 
   return (
     <div className="min-h-screen flex flex-col bg-cream-white font-inter">
@@ -92,7 +106,7 @@ export default function Layout() {
       <nav
         style={{ height: '72px' }}
         className={`fixed left-0 w-full z-[1000] bg-pure-white flex items-center justify-between px-4 lg:px-10 transition-all duration-300 ${
-          bannerVisible && !scrolled ? 'top-10' : 'top-0'
+          bannerVisible ? 'top-10' : 'top-0'
         } ${scrolled ? 'shadow-[0_4px_20px_rgba(0,0,0,0.06)]' : ''}`}
       >
         {/* Dynamic metallic gold ribbon divider below navigation */}
@@ -172,22 +186,65 @@ export default function Layout() {
                 >
                   Why Attend
                 </a>
+                <Link
+                  to="/sponsors/opportunities"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Sponsors
+                </Link>
+                <Link
+                  to="/coffee-table-book"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  The Book
+                </Link>
               </div>
             </div>
           </div>
 
-          <NavLink to="/sponsors/opportunities" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
-            Sponsors
-          </NavLink>
-          <NavLink to="/coffee-table-book" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
-            The Book
-          </NavLink>
           <NavLink to="/winners" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
             Winners
           </NavLink>
-          <NavLink to="/community" className={({ isActive }) => `font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 ${isActive ? 'text-indian-green border-indian-green' : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'}`}>
-            Community
-          </NavLink>
+
+          {/* Community Hover Dropdown */}
+          <div
+            className="relative py-2"
+            onMouseEnter={() => setIsCommunityDropdownHovered(true)}
+            onMouseLeave={() => setIsCommunityDropdownHovered(false)}
+          >
+            <button
+              className={`font-inter text-[13px] font-semibold uppercase tracking-[0.8px] whitespace-nowrap py-1 border-b-2 transition-all duration-200 flex items-center gap-1 cursor-pointer ${
+                isCommunityActive
+                  ? 'text-indian-green border-indian-green font-semibold'
+                  : 'text-[#1A1A1A] border-transparent hover:text-[#B38728] hover:border-[#B38728]'
+              }`}
+            >
+              Community <span className="text-[12px] text-[#B38728]">▾</span>
+            </button>
+
+            <div
+              className={`absolute left-0 mt-2 w-[220px] bg-pure-white border border-[#E5E7EB] shadow-[0_8px_24px_rgba(0,0,0,0.12)] rounded-lg transition-all duration-200 origin-top-left z-[999] ${
+                isCommunityDropdownHovered
+                  ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto'
+                  : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+              }`}
+            >
+              <div className="py-2 flex flex-col">
+                <Link
+                  to="/community"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Community Hub
+                </Link>
+                <Link
+                  to="/voice-of-greenpreneur"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Voice of Greenpreneur
+                </Link>
+              </div>
+            </div>
+          </div>
 
           {/* More Hover Dropdown */}
           <div
@@ -214,16 +271,16 @@ export default function Layout() {
             >
               <div className="py-2 flex flex-col">
                 <Link
-                  to="/voice-of-greenpreneur"
+                  to="/jury"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
                 >
-                  Voice of Greenpreneur
+                  Jury
                 </Link>
                 <Link
-                  to="/blogs"
+                  to="/partners"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
                 >
-                  Blogs
+                  Partners
                 </Link>
               </div>
             </div>
@@ -305,7 +362,7 @@ export default function Layout() {
                 <span className={`text-xs transform transition-transform duration-200 ${mobileDropdownOpen ? 'rotate-185' : ''}`}>▼</span>
               </button>
 
-              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileDropdownOpen ? 'max-h-[300px] py-2' : 'max-h-0'}`}>
+              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileDropdownOpen ? 'max-h-[350px] py-2' : 'max-h-0'}`}>
                 <Link to="/event-2026" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Event Overview
                 </Link>
@@ -324,21 +381,38 @@ export default function Layout() {
                 <a href="/awards/overview#why-attend" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Why Attend
                 </a>
+                <Link to="/sponsors/opportunities" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Sponsors
+                </Link>
+                <Link to="/coffee-table-book" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → The Book
+                </Link>
               </div>
             </div>
 
-            <NavLink to="/sponsors/opportunities" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
-              SPONSORS
-            </NavLink>
-            <NavLink to="/coffee-table-book" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
-              THE BOOK
-            </NavLink>
             <NavLink to="/winners" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
               WINNERS
             </NavLink>
-            <NavLink to="/community" onClick={() => setIsOpen(false)} className="py-4 border-b border-pure-white/10 text-pure-white hover:text-accent-gold transition-colors font-bold uppercase">
-              COMMUNITY
-            </NavLink>
+
+            {/* Expandable COMMUNITY Drawer */}
+            <div className="flex flex-col border-b border-pure-white/10">
+              <button
+                onClick={() => setMobileCommunityOpen(!mobileCommunityOpen)}
+                className="w-full flex items-center justify-between py-4 hover:text-accent-gold transition-colors text-left font-bold text-pure-white text-[18px] uppercase cursor-pointer"
+              >
+                <span>COMMUNITY</span>
+                <span className={`text-xs transform transition-transform duration-200 ${mobileCommunityOpen ? 'rotate-180' : ''}`}>▼</span>
+              </button>
+
+              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileCommunityOpen ? 'max-h-[150px] py-2' : 'max-h-0'}`}>
+                <Link to="/community" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Community Hub
+                </Link>
+                <Link to="/voice-of-greenpreneur" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Voice of Greenpreneur
+                </Link>
+              </div>
+            </div>
 
             {/* Expandable MORE Drawer */}
             <div className="flex flex-col border-b border-pure-white/10">
@@ -351,11 +425,11 @@ export default function Layout() {
               </button>
 
               <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileMoreOpen ? 'max-h-[150px] py-2' : 'max-h-0'}`}>
-                <Link to="/voice-of-greenpreneur" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
-                  → Voice of Greenpreneur
+                <Link to="/jury" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Jury
                 </Link>
-                <Link to="/blogs" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
-                  → Blogs
+                <Link to="/partners" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Partners
                 </Link>
               </div>
             </div>

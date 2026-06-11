@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getWinners, ASSETS_BASE_URL } from '../utils/api';
 import type { Winner } from '../utils/api';
+import GoogleReviews from '../components/GoogleReviews';
+import HallOfGreen from '../components/HallOfGreen';
 import { 
   Award, Users, Megaphone, BookOpen, Share2, ArrowRight, MapPin, Clock,
   Heart, Droplets, Zap, TrendingUp, Cpu, Scale, Home as HomeIcon, RefreshCw, 
@@ -42,7 +44,7 @@ export default function Home() {
   const [isEventCompleted, setIsEventCompleted] = useState(false);
   const [activeWinner, setActiveWinner] = useState(0);
   const [hoveredSdg, setHoveredSdg] = useState<number | null>(null);
-  const [selectedSdg, setSelectedSdg] = useState<typeof sdgData[0] | null>(null);
+  const [selectedSdg, setSelectedSdg] = useState<typeof sdgData[0] | null>(sdgData[0]);
   const [joinStatus, setJoinStatus] = useState<'idle' | 'success'>('idle');
   const [joinRole, setJoinRole] = useState('entrepreneur');
   const [dbWinners, setDbWinners] = useState<any[]>([]);
@@ -315,79 +317,141 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Graphical Centerpiece: Spinning multicolor SDG Wheel with Ashoka Chakra */}
-          <div className="lg:col-span-5 flex justify-center relative select-none">
+          {/* Graphical Centerpiece: Spinning multicolor SDG Wheel with Ashoka Chakra & Trophy Base */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative select-none mt-10 lg:mt-0 group">
             {/* Spinning Halo */}
-            <div className="absolute -inset-10 bg-radial from-[#B38728]/10 via-[#0B5B3E]/5 to-transparent blur-2xl animate-pulse"></div>
+            <div className="absolute -inset-10 bg-radial from-[#B38728]/20 via-[#0B5B3E]/10 to-transparent blur-2xl group-hover:from-[#B38728]/40 transition-all duration-700 animate-pulse"></div>
             
-            <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:w-[400px] flex items-center justify-center">
-              {/* SDG Outer Wheel */}
-              <svg className="w-full h-full animate-spin-slow origin-center drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]" viewBox="0 0 100 100">
-                {sdgData.map((sdg, index) => {
-                  const segmentAngle = 360 / 17;
-                  const startAngle = index * segmentAngle;
-                  const endAngle = startAngle + segmentAngle;
-                  const radStart = (startAngle - 90) * (Math.PI / 180);
-                  const radEnd = (endAngle - 90) * (Math.PI / 180);
-                  const radiusInner = 32;
-                  const radiusOuter = 48;
+            {/* The SDG Wheel (Trophy Top) */}
+            <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] flex items-center justify-center z-10 group-hover:scale-105 transition-transform duration-500">
+              
+              {/* Spinning Container for both outer wheel and inner chakra */}
+              <div className="w-full h-full absolute inset-0 animate-spin-slow origin-center">
+                {/* SDG Outer Wheel */}
+                <svg className="w-full h-full drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]" viewBox="0 0 100 100">
+                  {sdgData.map((sdg, index) => {
+                    const segmentAngle = 360 / 17;
+                    const startAngle = index * segmentAngle;
+                    const endAngle = startAngle + segmentAngle;
+                    const radStart = (startAngle - 90) * (Math.PI / 180);
+                    const radEnd = (endAngle - 90) * (Math.PI / 180);
+                    const radiusInner = 32;
+                    const radiusOuter = 48;
 
-                  const x1 = 50 + radiusInner * Math.cos(radStart);
-                  const y1 = 50 + radiusInner * Math.sin(radStart);
-                  const x2 = 50 + radiusOuter * Math.cos(radStart);
-                  const y2 = 50 + radiusOuter * Math.sin(radStart);
-                  const x3 = 50 + radiusOuter * Math.cos(radEnd);
-                  const y3 = 50 + radiusOuter * Math.sin(radEnd);
-                  const x4 = 50 + radiusInner * Math.cos(radEnd);
-                  const y4 = 50 + radiusInner * Math.sin(radEnd);
+                    const x1 = 50 + radiusInner * Math.cos(radStart);
+                    const y1 = 50 + radiusInner * Math.sin(radStart);
+                    const x2 = 50 + radiusOuter * Math.cos(radStart);
+                    const y2 = 50 + radiusOuter * Math.sin(radStart);
+                    const x3 = 50 + radiusOuter * Math.cos(radEnd);
+                    const y3 = 50 + radiusOuter * Math.sin(radEnd);
+                    const x4 = 50 + radiusInner * Math.cos(radEnd);
+                    const y4 = 50 + radiusInner * Math.sin(radEnd);
 
-                  return (
-                    <path
-                      key={sdg.id}
-                      d={`M ${x1} ${y1} L ${x2} ${y2} A ${radiusOuter} ${radiusOuter} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${radiusInner} ${radiusInner} 0 0 0 ${x1} ${y1} Z`}
-                      fill={sdg.color}
-                      className="transition-all duration-300 hover:brightness-110 cursor-pointer"
-                      onClick={() => setSelectedSdg(sdg)}
-                    />
-                  );
-                })}
-              </svg>
-
-              {/* Ashoka Chakra in the center (Navy Blue, 24 spokes) */}
-              <div className="absolute w-[140px] h-[140px] sm:w-[176px] sm:h-[176px] bg-pure-white rounded-full border-4 border-ashoka-navy shadow-inner flex items-center justify-center p-2 z-10">
-                <svg className="w-full h-full text-ashoka-navy" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2.5" />
-                  <circle cx="50" cy="50" r="8" fill="currentColor" />
-                  {/* spokes */}
-                  {Array.from({ length: 24 }).map((_, i) => {
-                    const angle = i * (360 / 24);
                     return (
-                      <line
-                        key={i}
-                        x1="50"
-                        y1="50"
-                        x2={50 + 43 * Math.cos((angle * Math.PI) / 180)}
-                        y2={50 + 43 * Math.sin((angle * Math.PI) / 180)}
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-                    );
-                  })}
-                  {/* outer dots */}
-                  {Array.from({ length: 24 }).map((_, i) => {
-                    const angle = i * (360 / 24);
-                    return (
-                      <circle
-                        key={i}
-                        cx={50 + 44 * Math.cos((angle * Math.PI) / 180)}
-                        cy={50 + 44 * Math.sin((angle * Math.PI) / 180)}
-                        r="1.2"
-                        fill="currentColor"
+                      <path
+                        key={sdg.id}
+                        d={`M ${x1} ${y1} L ${x2} ${y2} A ${radiusOuter} ${radiusOuter} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${radiusInner} ${radiusInner} 0 0 0 ${x1} ${y1} Z`}
+                        fill={sdg.color}
+                        className="transition-all duration-300 hover:brightness-110 cursor-pointer"
+                        onClick={() => setSelectedSdg(sdg)}
                       />
                     );
                   })}
                 </svg>
+
+                {/* Ashoka Chakra in the center (Navy Blue, 24 spokes) */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-[58%] h-[58%] bg-pure-white rounded-full border-4 border-ashoka-navy shadow-inner flex items-center justify-center p-2 z-10">
+                    <svg className="w-full h-full text-ashoka-navy" viewBox="0 0 100 100">
+                      <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2.5" />
+                      <circle cx="50" cy="50" r="8" fill="currentColor" />
+                      {/* spokes */}
+                      {Array.from({ length: 24 }).map((_, i) => {
+                        const angle = i * (360 / 24);
+                        return (
+                          <line
+                            key={i}
+                            x1="50"
+                            y1="50"
+                            x2={50 + 43 * Math.cos((angle * Math.PI) / 180)}
+                            y2={50 + 43 * Math.sin((angle * Math.PI) / 180)}
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                          />
+                        );
+                      })}
+                      {/* outer dots */}
+                      {Array.from({ length: 24 }).map((_, i) => {
+                        const angle = i * (360 / 24);
+                        return (
+                          <circle
+                            key={i}
+                            cx={50 + 44 * Math.cos((angle * Math.PI) / 180)}
+                            cy={50 + 44 * Math.sin((angle * Math.PI) / 180)}
+                            r="1.2"
+                            fill="currentColor"
+                          />
+                        );
+                      })}
+                    </svg>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            {/* Trophy Pedestal Base (Flat and Wide, properly attached to circle) */}
+            <div className="relative z-0 -mt-2 sm:-mt-3 md:-mt-4 pointer-events-none transition-all duration-500 flex justify-center">
+              <svg viewBox="0 0 500 120" className="w-[280px] sm:w-[350px] md:w-[420px] h-auto drop-shadow-[0_15px_20px_rgba(0,0,0,0.6)]">
+                <defs>
+                  <linearGradient id="marble" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#1c1f26" />
+                    <stop offset="15%" stopColor="#2c303a" />
+                    <stop offset="35%" stopColor="#414654" />
+                    <stop offset="50%" stopColor="#252932" />
+                    <stop offset="70%" stopColor="#3c414e" />
+                    <stop offset="85%" stopColor="#20232b" />
+                    <stop offset="100%" stopColor="#121418" />
+                  </linearGradient>
+                  <linearGradient id="edge-light" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#5b616e" />
+                    <stop offset="100%" stopColor="#2a2e37" />
+                  </linearGradient>
+                  <linearGradient id="edge-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#1a1c22" />
+                    <stop offset="100%" stopColor="#0d0e11" />
+                  </linearGradient>
+                  <linearGradient id="gold-text" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#BF953F" />
+                    <stop offset="50%" stopColor="#FCF6BA" />
+                    <stop offset="100%" stopColor="#B38728" />
+                  </linearGradient>
+                </defs>
+
+                <g>
+                  {/* Neck (connects wheel to base) */}
+                  <rect x="210" y="0" width="80" height="20" fill="url(#marble)" />
+                  
+                  {/* Top thin lip */}
+                  <rect x="50" y="20" width="400" height="6" rx="1" fill="url(#edge-light)" />
+                  <path d="M50 26 L450 26 L455 34 L45 34 Z" fill="url(#edge-dark)" />
+                  
+                  {/* Main Flat Block */}
+                  <rect x="45" y="34" width="410" height="46" fill="url(#marble)" />
+                  
+                  {/* Bottom Bevels */}
+                  <path d="M45 80 L455 80 L465 90 L35 90 Z" fill="url(#edge-dark)" />
+                  <rect x="35" y="90" width="430" height="6" rx="1" fill="url(#edge-light)" />
+                  <path d="M35 96 L465 96 L470 104 L30 104 Z" fill="url(#edge-dark)" />
+                  
+                  {/* Engraved Text */}
+                  <text x="250" y="65" fill="url(#gold-text)" fontSize="24" className="font-playfair font-bold uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-[0.2em]" textAnchor="middle">
+                    Greenpreneur Awards
+                  </text>
+                  
+                  {/* Bottom Base Lip */}
+                  <rect x="30" y="104" width="440" height="12" rx="2" fill="#111216" />
+                </g>
+              </svg>
             </div>
           </div>
         </div>
@@ -482,7 +546,10 @@ export default function Home() {
               return (
                 <button
                   key={sdg.id}
-                  onMouseEnter={() => setHoveredSdg(sdg.id)}
+                  onMouseEnter={() => {
+                    setHoveredSdg(sdg.id);
+                    setSelectedSdg(sdg);
+                  }}
                   onMouseLeave={() => setHoveredSdg(null)}
                   onClick={() => setSelectedSdg(sdg)}
                   style={{ 
@@ -598,10 +665,10 @@ export default function Home() {
             {/* Counters */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                { label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Saplings', icon: Trees, shadow: 'glow-indian-green' },
-                { label: 'CO2 Reduced', val: metrics.co2, color: '#B38728', unit: 'Metric Tons', icon: Globe, shadow: 'shadow-gold-lux' },
-                { label: 'Waste Diverted', val: metrics.waste, color: '#AB833C', unit: 'Tons', icon: RefreshCw, shadow: '' },
-                { label: 'Green Jobs Created', val: metrics.jobs, color: '#0C1B33', unit: 'New Placements', icon: Users, shadow: 'glow-ashoka-navy' }
+                { label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Saplings Growing', icon: Trees, shadow: 'glow-indian-green' },
+                { label: 'Carbon Saved', val: metrics.co2, color: '#B38728', unit: 'Tons Saved', icon: Globe, shadow: 'shadow-gold-lux' },
+                { label: 'Waste Recycled', val: metrics.waste, color: '#AB833C', unit: 'Tons Recycled', icon: RefreshCw, shadow: '' },
+                { label: 'Green Jobs Created', val: metrics.jobs, color: '#0C1B33', unit: 'Careers Started', icon: Users, shadow: 'glow-ashoka-navy' }
               ].map((m, idx) => {
                 const IconComp = m.icon;
                 return (
@@ -622,7 +689,7 @@ export default function Home() {
                         {m.val.toLocaleString()}
                       </span>
                       <span className="text-[10px] font-bold text-medium-grey tracking-wider uppercase">
-                        {m.unit} Live
+                        {m.unit}
                       </span>
                     </div>
                   </div>
@@ -679,12 +746,12 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Card 3: Amplify */}
+          {/* Card 3: Promote */}
           <div className="bg-cream-white p-10 text-center rounded-2xl border-t-4 border-[#0B5B3E] shadow-sm hover:shadow-md transition-all duration-300 relative group">
             <div className="w-16 h-16 bg-[#B38728]/10 flex items-center justify-center mx-auto mb-8 text-[#B38728] group-hover:bg-gold-metallic group-hover:text-dark-green transition-all rounded-xl shadow-inner">
               <Megaphone className="w-8 h-8" />
             </div>
-            <h3 className="font-playfair text-2xl font-black mb-4 text-dark-green tracking-tight">AMPLIFY</h3>
+            <h3 className="font-playfair text-2xl font-black mb-4 text-dark-green tracking-tight">PROMOTE</h3>
             <p className="text-gray-500 text-sm mb-8 leading-relaxed font-semibold">
               Publish stories of 1,000+ green entrepreneurs on VyapaarJagat.com and feature leaders in our premium Coffee Table Book.
             </p>
@@ -930,47 +997,14 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          {/* Past Winners Testimonial */}
-          <div className="max-w-4xl mx-auto mt-20 bg-cream-white border border-[#B38728]/25 p-8 sm:p-12 rounded-3xl shadow-sm relative">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <img
-                src={displayWinners[activeWinner]?.image}
-                alt={displayWinners[activeWinner]?.name}
-                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-[#B38728] object-cover shadow-md shrink-0"
-              />
-              <div className="flex-grow text-left">
-                <span className="text-xs font-black uppercase tracking-widest text-[#B38728]">
-                  Winner {displayWinners[activeWinner]?.year} • {displayWinners[activeWinner]?.sdg ? `SDG ${displayWinners[activeWinner]?.sdg} ` : ''}{displayWinners[activeWinner]?.sdgName}
-                </span>
-                <h4 className="font-playfair text-2xl font-black text-dark-green mt-1">
-                  {displayWinners[activeWinner]?.name}
-                </h4>
-                <p className="text-xs text-medium-grey font-bold mb-4 uppercase">
-                  {displayWinners[activeWinner]?.company} ({displayWinners[activeWinner]?.city})
-                </p>
-                <p className="text-gray-600 text-sm italic leading-relaxed font-semibold">
-                  "{displayWinners[activeWinner]?.quote}"
-                </p>
-              </div>
-            </div>
-
-            {/* Slider dots */}
-            <div className="flex justify-center gap-2 mt-8 md:mt-4">
-              {displayWinners.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveWinner(i)}
-                  className={`w-3.5 h-3.5 rounded-full transition-colors cursor-pointer ${
-                    activeWinner === i ? 'bg-indian-green' : 'bg-light-grey hover:bg-medium-grey'
-                  }`}
-                  aria-label={`Slide ${i + 1}`}
-                ></button>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
+
+      {/* SECTION - HALL OF GREEN GALLERY */}
+      <HallOfGreen />
+
+      {/* Real-time Google Reviews Widget */}
+      <GoogleReviews />
 
       {/* SECTION 9: THE COFFEE TABLE BOOK */}
       <section className="py-24 bg-dark-green text-pure-white relative overflow-hidden z-10 border-y border-light-grey">

@@ -260,6 +260,11 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem('adminToken');
       
+      if (['add-gallery-sponsor', 'add-partner', 'add-jury'].includes(tabId)) {
+        setIsLoading(false);
+        return;
+      }
+      
       if (tabId === 'blogs') {
         const response = await fetch(`${API_PREFIX}/api/blogs`);
         const result = await response.json();
@@ -294,6 +299,9 @@ const AdminDashboard = () => {
       else if (tabId === 'sponsorships') endpoint = 'sponsorships';
       else if (tabId === 'membership') endpoint = 'community-applications';
       else if (tabId === 'community-members') endpoint = 'community-applications';
+      else if (tabId === 'gallery-sponsors') endpoint = 'gallery-sponsors';
+      else if (tabId === 'partners') endpoint = 'partners';
+      else if (tabId === 'jury') endpoint = 'jury';
       else {
         // It's one of the 13 forms
         endpoint = `inquiries?type=${tabId}`;
@@ -323,6 +331,12 @@ const AdminDashboard = () => {
     { id: 'nominations', label: 'Award Nominations', icon: <Trophy size={20} /> },
     { id: 'winners', label: 'Winners List', icon: <Award size={20} /> },
     { id: 'add-winner', label: 'Add New Winner', icon: <PlusCircle size={20} /> },
+    { id: 'gallery-sponsors', label: 'Manage Sponsors', icon: <Handshake size={20} /> },
+    { id: 'add-gallery-sponsor', label: 'Add Sponsor', icon: <PlusCircle size={20} /> },
+    { id: 'jury', label: 'Manage Jury', icon: <Users size={20} /> },
+    { id: 'add-jury', label: 'Add Jury', icon: <PlusCircle size={20} /> },
+    { id: 'partners', label: 'Manage Partners', icon: <Handshake size={20} /> },
+    { id: 'add-partner', label: 'Add Partner', icon: <PlusCircle size={20} /> },
     { id: 'blogs', label: 'Manage Blogs', icon: <FileText size={20} /> },
     { id: 'add-blog', label: 'Add New Blog', icon: <PlusCircle size={20} /> },
     { id: 'voice-videos', label: 'Voice of Greenpreneur', icon: <Video size={20} /> },
@@ -1032,6 +1046,66 @@ const AdminDashboard = () => {
             <div>
               <button type="submit" className="bg-green-800 text-white font-semibold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors">
                 Add Winner Directly
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    if (['add-gallery-sponsor', 'add-partner', 'add-jury'].includes(activeTab)) {
+      const typeLabel = activeTab === 'add-gallery-sponsor' ? 'Sponsor' : activeTab === 'add-partner' ? 'Partner' : 'Jury Member';
+      const endpointMap: any = {
+        'add-gallery-sponsor': 'gallery-sponsors',
+        'add-partner': 'partners',
+        'add-jury': 'jury'
+      };
+      
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-4xl">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New {typeLabel}</h2>
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            try {
+              const token = localStorage.getItem('adminToken');
+              const res = await fetch(`${API_PREFIX}/api/admin/${endpointMap[activeTab]}`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+              });
+              const result = await res.json();
+              if (result.success) {
+                alert(`${typeLabel} added successfully!`);
+                setActiveTab(activeTab.replace('add-', ''));
+              } else {
+                alert('Error: ' + result.message);
+              }
+            } catch (err) {
+              alert('Submission failed');
+            }
+          }} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <input type="text" name="name" required className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role/Designation</label>
+                <input type="text" name="role" placeholder={`e.g. ${typeLabel}`} className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Organization *</label>
+                <input type="text" name="org" required className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Portrait Picture (Image)</label>
+                <input type="file" name="profilePicture" accept="image/*" className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary" />
+              </div>
+            </div>
+            <div>
+              <button type="submit" className="bg-green-800 text-white font-semibold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors">
+                Add {typeLabel}
               </button>
             </div>
           </form>

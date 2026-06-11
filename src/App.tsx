@@ -12,6 +12,8 @@ import Sponsorship from './pages/Sponsorship';
 import CoffeeTableBook from './pages/CoffeeTableBook';
 import Community from './pages/Community';
 import Winners from './pages/Winners';
+import Jury from './pages/Jury';
+import Partners from './pages/Partners';
 import FAQs from './pages/FAQs';
 import Contact from './pages/Contact';
 import VoteNominee from './pages/VoteNominee';
@@ -66,6 +68,8 @@ function App() {
           
           {/* Past Winners */}
           <Route path="winners" element={<Winners />} />
+          <Route path="jury" element={<Jury />} />
+          <Route path="partners" element={<Partners />} />
           
           {/* Frequently Asked Questions */}
           <Route path="faqs" element={<FAQs />} />

@@ -299,3 +299,28 @@ export async function getBlogs() {
 export async function getBlogBySlug(slug: string) {
   return request<Blog>(`/blogs/slug/${slug}`);
 }
+
+// =============================================================================
+// GALLERY (Hall of Green)
+// =============================================================================
+export interface GalleryPerson {
+  id: number;
+  name: string;
+  role: string;
+  org: string;
+  tags: any;
+  photo_url: string | null;
+  bg_gradient: string | null;
+}
+
+export async function getGallerySponsors() {
+  return request<GalleryPerson[]>('/gallery/sponsors');
+}
+
+export async function getPartners() {
+  return request<GalleryPerson[]>('/gallery/partners');
+}
+
+export async function getJury() {
+  return request<GalleryPerson[]>('/gallery/jury');
+}

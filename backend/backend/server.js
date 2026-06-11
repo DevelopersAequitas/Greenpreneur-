@@ -27,6 +27,7 @@ import inquiriesRouter from './routes/inquiries.js';
 import adminRouter from './routes/admin.js';
 import blogsRouter from './routes/blogs.js';
 import voiceVideosRouter from './routes/voiceVideos.js';
+import { galleryRouter } from './routes/gallery.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -190,6 +191,7 @@ app.use('/api/inquiries',    inquiriesRouter);
 app.use('/api/admin',        adminRouter);
 app.use('/api/blogs',        blogsRouter);
 app.use('/api/voice-videos', voiceVideosRouter);
+app.use('/api/gallery',      galleryRouter);
 
 // ── Email Routes (merged from root server.js) ─────────────────────────────────
 

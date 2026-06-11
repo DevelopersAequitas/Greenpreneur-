@@ -479,6 +479,90 @@ app.post('/api/send-confirmation', async (req, res) => {
   }
 });
 
+// 5. Google Reviews Endpoint
+app.get('/api/google-reviews', async (req, res) => {
+  try {
+    const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+    const placeId = process.env.GOOGLE_PLACE_ID;
+
+    // If credentials exist, fetch live from Google
+    if (apiKey && placeId) {
+      const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,user_ratings_total,rating&key=${apiKey}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.status === 'OK' && data.result) {
+        const formattedData = {
+          aggregate: {
+            rating: data.result.rating,
+            totalReviews: data.result.user_ratings_total,
+            label: data.result.rating >= 4.5 ? "EXCELLENT" : "GREAT"
+          },
+          reviews: data.result.reviews.map(review => ({
+            id: review.time, // Using timestamp as unique ID
+            authorName: review.author_name,
+            profilePhotoUrl: review.profile_photo_url,
+            rating: review.rating,
+            relativeTimeDescription: review.relative_time_description,
+            text: review.text
+          }))
+        };
+        return res.status(200).json(formattedData);
+      } else {
+        console.warn('Google API returned non-OK status, falling back to mock data. Status:', data.status);
+      }
+    }
+
+    // Fallback data if keys are missing or API fails
+    const fallbackData = {
+      aggregate: {
+        rating: 5.0,
+        totalReviews: 169,
+        label: "EXCELLENT"
+      },
+      reviews: [
+        {
+          id: 1,
+          authorName: "Alpa's recipe",
+          profilePhotoUrl: "https://lh3.googleusercontent.com/a-/ALV-UjX1aW",
+          rating: 5,
+          relativeTimeDescription: "4 March 2023",
+          text: "Thank u for this wonderful opportunity...to share my journey as a Mompreneur...It was our pleasure..."
+        },
+        {
+          id: 2,
+          authorName: "Surabhi Joshi",
+          profilePhotoUrl: "https://lh3.googleusercontent.com/a-/ALV-UjW",
+          rating: 5,
+          relativeTimeDescription: "18 February 2023",
+          text: "Thank you for giving opportunity to share view on such a large platform."
+        },
+        {
+          id: 3,
+          authorName: "Dr. Kavita Saxena",
+          profilePhotoUrl: "https://lh3.googleusercontent.com/a-/ALV-UjY",
+          rating: 5,
+          relativeTimeDescription: "12 February 2023",
+          text: "Fempreneur talk show is a great initiative by Vyapaar Jagat and am sure such initiatives will contribute immensely in helping n supporting..."
+        },
+        {
+          id: 4,
+          authorName: "Jyotsna Joshi",
+          profilePhotoUrl: "https://lh3.googleusercontent.com/a-/ALV-UjZ",
+          rating: 5,
+          relativeTimeDescription: "12 February 2023",
+          text: "It's a really nice experience"
+        }
+      ]
+    };
+
+    res.status(200).json(fallbackData);
+  } catch (error) {
+    console.error('Error fetching Google Reviews:', error);
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Email notification service is running on http://localhost:${PORT}`);
 });

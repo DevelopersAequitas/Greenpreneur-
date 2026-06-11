@@ -290,177 +290,127 @@ export default function CoffeeTableBook() {
         </div>
       </section>
 
-      {/* Application and Payment section */}
+      {/* Application section */}
       <section id="apply" className="py-20 px-6 bg-dark-green text-pure-white relative overflow-hidden">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Form */}
-            <div className="bg-pure-white/5 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-pure-white/10 shadow-xl">
-              <h3 className="font-playfair text-2xl font-bold mb-1">Apply for Feature</h3>
-              <p className="text-xs text-pure-white/60 mb-8">
-                Submit details below. Our editorial board will contact you to request photos and draft copy.
-              </p>
+        <div className="max-w-2xl mx-auto relative z-10">
+          {/* Form */}
+          <div className="bg-pure-white/5 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-pure-white/10 shadow-xl">
+            <h3 className="font-playfair text-2xl font-bold mb-1">Apply for Feature</h3>
+            <p className="text-xs text-pure-white/60 mb-8">
+              Submit details below. Our editorial board will contact you to request photos and draft copy.
+            </p>
 
-              {submitted ? (
-                <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-primary-green/20 text-accent-gold rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
-                    <CheckCircle className="w-8 h-8" />
-                  </div>
-                  <h4 className="font-bold text-lg mb-1 text-pure-white">Application Recorded</h4>
-                  <p className="text-xs text-pure-white/70 px-4 leading-relaxed">
-                    Thank you, <strong>{formData.name}</strong>. Your request to feature <strong>{formData.company}</strong> has been sent to our editorial desk. We will reach out on WhatsApp/Email.
-                  </p>
+            {submitted ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-primary-green/20 text-accent-gold rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                  <CheckCircle className="w-8 h-8" />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
-                        placeholder="Your Name"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                        Mobile Number
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
-                        placeholder="+91 XXXXX XXXXX"
-                      />
-                    </div>
-                  </div>
-
+                <h4 className="font-bold text-lg mb-1 text-pure-white">Application Recorded</h4>
+                <p className="text-xs text-pure-white/70 px-4 leading-relaxed">
+                  Thank you, <strong>{formData.name}</strong>. Your request to feature <strong>{formData.company}</strong> has been sent to our editorial desk. We will reach out on WhatsApp/Email.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
-                      className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
-                      placeholder="hello@greenpreneur.in"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                      Business Name
+                      Full Name
                     </label>
                     <input
                       type="text"
                       required
-                      value={formData.company}
-                      onChange={(e) => setFormData((p) => ({ ...p, company: e.target.value }))}
+                      value={formData.name}
+                      onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                       className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
-                      placeholder="Enter company name"
+                      placeholder="Your Name"
                     />
                   </div>
-
                   <div>
                     <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                      Inclusion Package Selection
+                      Mobile Number
                     </label>
-                    <select
-                      value={formData.package}
-                      onChange={(e) => setFormData((p) => ({ ...p, package: e.target.value }))}
+                    <input
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
                       className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
-                    >
-                      <option value="back-cover">Back Cover (₹50,000)</option>
-                      <option value="inside-cover">Inside Front/Back Cover (₹40,000)</option>
-                      <option value="full-page">Full-Page Advertisement (₹20,000)</option>
-                      <option value="feature-story">Inside Feature Story (₹15,000)</option>
-                      <option value="editorial">Green Editorial Spread (₹10,000)</option>
-                      <option value="member-feature">Inside Feature - Members (₹5,000)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
-                      Brief Message (Optional)
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.message}
-                      onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
-                      className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white resize-none"
-                      placeholder="Any specific requests or category mentions..."
-                    ></textarea>
-                  </div>
-
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className={`w-full py-3.5 btn-premium-primary ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-
-            {/* Payment Details */}
-            <div className="flex flex-col justify-center space-y-8">
-              <div>
-                <h3 className="font-playfair text-3xl font-bold mb-4">Payment & Confirmation</h3>
-                <p className="text-xs text-pure-white/70 leading-relaxed font-light">
-                  Your payments go directly to support MEIF's green training and entrepreneurship drives. UPI or bank transfer options are open below.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="bg-pure-white/5 border border-pure-white/10 rounded-2xl p-6 flex items-center gap-6">
-                  <div className="w-16 h-12 bg-pure-white rounded-lg flex items-center justify-center p-2 text-dark-green font-bold font-serif">
-                    UPI
-                  </div>
-                  <div>
-                    <span className="text-[9px] uppercase tracking-widest text-accent-gold block mb-0.5">
-                      UPI Address
-                    </span>
-                    <span className="font-mono text-sm block">eazypay.0000054327@icici</span>
+                      placeholder="+91 XXXXX XXXXX"
+                    />
                   </div>
                 </div>
 
-                <div className="bg-pure-white/5 border border-pure-white/10 rounded-2xl p-6 space-y-4">
-                  <h4 className="text-xs font-bold text-accent-gold uppercase tracking-wider border-b border-pure-white/10 pb-2">
-                    Bank Transfer Details
-                  </h4>
-                  <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs font-mono">
-                    <span className="text-pure-white/40">Account Name:</span>
-                    <span>1 Million Entrepreneurs Intl Forum</span>
-                    <span className="text-pure-white/40">Bank:</span>
-                    <span>ICICI Bank</span>
-                    <span className="text-pure-white/40">Account No:</span>
-                    <span>471401000076</span>
-                    <span className="text-pure-white/40">IFSC Code:</span>
-                    <span>ICIC0004714</span>
-                    <span className="text-pure-white/40">Branch:</span>
-                    <span>AEC Cross Road, Ahmedabad</span>
-                  </div>
+                <div>
+                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
+                    placeholder="hello@greenpreneur.in"
+                  />
                 </div>
 
-                <div className="pt-4 text-center">
-                  <p className="text-[10px] text-pure-white/60 italic">
-                    You will be redirected to the secure Razorpay checkout after clicking "Submit Feature Request".
-                  </p>
+                <div>
+                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    Business Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.company}
+                    onChange={(e) => setFormData((p) => ({ ...p, company: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
+                    placeholder="Enter company name"
+                  />
                 </div>
-              </div>
-            </div>
+
+                <div>
+                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    Inclusion Package Selection
+                  </label>
+                  <select
+                    value={formData.package}
+                    onChange={(e) => setFormData((p) => ({ ...p, package: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white"
+                  >
+                    <option value="back-cover">Back Cover (₹50,000)</option>
+                    <option value="inside-cover">Inside Front/Back Cover (₹40,000)</option>
+                    <option value="full-page">Full-Page Advertisement (₹20,000)</option>
+                    <option value="feature-story">Inside Feature Story (₹15,000)</option>
+                    <option value="editorial">Green Editorial Spread (₹10,000)</option>
+                    <option value="member-feature">Inside Feature - Members (₹5,000)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    Brief Message (Optional)
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={formData.message}
+                    onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
+                    className="w-full px-4 py-2.5 bg-black/35 border border-pure-white/20 rounded-lg text-xs outline-none focus:border-accent-gold text-pure-white resize-none"
+                    placeholder="Any specific requests or category mentions..."
+                  ></textarea>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={`w-full py-3.5 btn-premium-primary ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Submit Feature Request'}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </section>
