@@ -608,7 +608,7 @@ export default function Home() {
             {/* Counters */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                { label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Saplings Planted', icon: Trees, shadow: 'glow-indian-green' },
+                {label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Young Trees Planted', icon: Trees, shadow: 'glow-indian-green'},
                 { label: 'Carbon Saved', val: metrics.co2, color: '#B38728', unit: 'Tons Saved', icon: Globe, shadow: 'shadow-gold-lux' },
                 { label: 'Waste Recycled', val: metrics.waste, color: '#AB833C', unit: 'Tons Recycled', icon: RefreshCw, shadow: '' },
                 { label: 'Green Jobs Created', val: metrics.jobs, color: '#0C1B33', unit: 'Careers Started', icon: Users, shadow: 'glow-ashoka-navy' }
