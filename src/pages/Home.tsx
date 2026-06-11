@@ -586,7 +586,7 @@ export default function Home() {
               <div className="space-y-5">
                 <div>
                   <div className="flex justify-between text-xs font-bold text-dark-green mb-1.5">
-                    <span>Viksit Bharat Net-Zero Goal (Phase 1)</span>
+                    <span>National Net-Zero Carbon Target</span>
                     <span>72%</span>
                   </div>
                   <div className="w-full h-3 bg-light-grey rounded-full overflow-hidden">
@@ -595,7 +595,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="flex justify-between text-xs font-bold text-dark-green mb-1.5">
-                    <span>MSME Circularity Transition</span>
+                    <span>Green Business Transition</span>
                     <span>48%</span>
                   </div>
                   <div className="w-full h-3 bg-light-grey rounded-full overflow-hidden">
@@ -608,7 +608,7 @@ export default function Home() {
             {/* Counters */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                { label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Saplings Growing', icon: Trees, shadow: 'glow-indian-green' },
+                { label: 'Trees Planted', val: metrics.trees, color: '#0B5B3E', unit: 'Saplings Planted', icon: Trees, shadow: 'glow-indian-green' },
                 { label: 'Carbon Saved', val: metrics.co2, color: '#B38728', unit: 'Tons Saved', icon: Globe, shadow: 'shadow-gold-lux' },
                 { label: 'Waste Recycled', val: metrics.waste, color: '#AB833C', unit: 'Tons Recycled', icon: RefreshCw, shadow: '' },
                 { label: 'Green Jobs Created', val: metrics.jobs, color: '#0C1B33', unit: 'Careers Started', icon: Users, shadow: 'glow-ashoka-navy' }
