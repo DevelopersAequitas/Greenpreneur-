@@ -24,12 +24,12 @@ export default function Layout() {
 
   useEffect(() => {
     getNominationCount()
-      .then(res => {
+      .then((res: any) => {
         if (res.success && res.data) {
           setNominationCount(100 + res.data.count);
         }
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.error('Failed to fetch nomination count:', err);
       });
   }, []);
