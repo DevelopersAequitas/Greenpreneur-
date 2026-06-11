@@ -178,7 +178,7 @@ export default function CoffeeTableBook() {
           <div className="flex flex-col items-center">
             <div className="w-14 h-14 rounded-full overflow-hidden mb-3 border-2 border-accent-gold shadow-md">
               <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80"
+                src="/pravin.png"
                 alt="Dr. Pravin Parmar"
                 className="w-full h-full object-cover"
               />
