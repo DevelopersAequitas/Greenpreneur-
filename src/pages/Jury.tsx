@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Users, Award, X, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Users, X } from 'lucide-react';
 import { getJury, BASE_URL } from '../utils/api';
 
 interface JuryMember {

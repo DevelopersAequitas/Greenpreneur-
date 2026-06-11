@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getWinners, ASSETS_BASE_URL } from '../utils/api';
-import type { Winner } from '../utils/api';
 import GoogleReviews from '../components/GoogleReviews';
 import HallOfGreen from '../components/HallOfGreen';
 import { 
@@ -42,30 +40,11 @@ const sdgData = [
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isEventCompleted, setIsEventCompleted] = useState(false);
-  const [activeWinner, setActiveWinner] = useState(0);
   const [hoveredSdg, setHoveredSdg] = useState<number | null>(null);
   const [selectedSdg, setSelectedSdg] = useState<typeof sdgData[0] | null>(sdgData[0]);
   const [joinStatus, setJoinStatus] = useState<'idle' | 'success'>('idle');
   const [joinRole, setJoinRole] = useState('entrepreneur');
-  const [dbWinners, setDbWinners] = useState<any[]>([]);
 
-  useEffect(() => {
-    getWinners({}, 5).then(res => {
-      if (res.data && res.data.length > 0) {
-        setDbWinners(res.data.map((w: Winner) => ({
-          name: w.name,
-          company: w.company,
-          category: w.category,
-          city: w.city,
-          year: w.award_year || '2024',
-          sdg: '',
-          sdgName: w.category,
-          image: w.photo_url ? `${ASSETS_BASE_URL}${w.photo_url}` : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80',
-          quote: w.quote || 'Greenpreneur is an active community.',
-        })));
-      }
-    }).catch(console.error);
-  }, []);
 
   // Real-time ticking metrics state
   const [metrics, setMetrics] = useState({
@@ -115,43 +94,7 @@ export default function Home() {
     return () => clearInterval(metricsInterval);
   }, []);
 
-  const pastWinners = [
-    {
-      name: 'Rohan Shah',
-      company: 'EcoCycle Solutions',
-      category: 'Waste Management',
-      city: 'Ahmedabad',
-      year: '2025',
-      sdg: 12,
-      sdgName: 'Responsible Consumption',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80',
-      quote: 'Winning the Rated Challenge in 2025 completely shifted our business trajectory. The media stories published on VyapaarJagat brought us 3 major corporate clients.',
-    },
-    {
-      name: 'Anjali Desai',
-      company: 'GreenWeave Textures',
-      category: 'Sustainable Textiles',
-      city: 'Surat',
-      year: '2024',
-      sdg: 12,
-      sdgName: 'Responsible Consumption',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80',
-      quote: 'The Honorary Award nomination process was transparent and prestigious. Being felicitated at AMA Ahmedabad by industry stalwarts was a lifetime achievement.',
-    },
-    {
-      name: 'Dr. Amit Patel',
-      company: 'AgriSustain Organics',
-      category: 'Sustainable Agriculture',
-      city: 'Rajkot',
-      year: '2023',
-      sdg: 15,
-      sdgName: 'Life on Land',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80',
-      quote: 'Greenpreneur is not just an award event; it is an active community. The connections we made at the Peers Global Conclave helped us raise our seed round.',
-    },
-  ];
 
-  const displayWinners = dbWinners.length > 0 ? dbWinners : pastWinners;
 
   const featuredStartups = [
     {

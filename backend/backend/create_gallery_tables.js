@@ -49,7 +49,7 @@ async function createTables() {
 
     await pool.query(sponsorsQuery);
     console.log('✅ sponsors table created/verified');
-    await pool.query(partnersQuery);
+    await pool.query(partnersQuery);  
     console.log('✅ partners table created/verified');
     await pool.query(juryQuery);
     console.log('✅ jury table created/verified');

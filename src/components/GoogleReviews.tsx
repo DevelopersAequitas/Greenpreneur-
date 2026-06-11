@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Review {

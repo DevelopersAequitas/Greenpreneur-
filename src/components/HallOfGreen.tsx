@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Award, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,8 +18,6 @@ interface PersonData {
   tier?: string;
 }
 
-const RANK_EMOJI: Record<string, string> = {};
-const TIER_LABEL: Record<string, string> = {};
 const SECTION_LABELS: Record<TabType, string> = {
   winners: 'Category Winners',
   sponsors: 'Our Sponsors',

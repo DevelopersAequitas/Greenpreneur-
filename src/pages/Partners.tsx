@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Globe, X } from 'lucide-react';
 import { getPartners, BASE_URL } from '../utils/api';
 
