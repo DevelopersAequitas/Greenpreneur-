@@ -137,6 +137,16 @@ router.post('/', upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name:
   } finally {
     conn.release();
   }
+});// ── GET /api/nominations/count ──────────────────────────────────────────────
+// Returns the total count of nominations
+router.get('/count', async (_req, res) => {
+  try {
+    const [rows] = await db.query('SELECT COUNT(*) as count FROM nominations');
+    return res.json({ success: true, count: rows[0].count });
+  } catch (err) {
+    console.error('[nominations GET count]', err.message);
+    return res.status(500).json({ success: false, message: 'Failed to fetch count' });
+  }
 });
 
 

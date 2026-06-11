@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import { getNominationCount } from '../utils/api';
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,12 +23,15 @@ export default function Layout() {
   const [nominationCount, setNominationCount] = useState(100);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() > 0.4) {
-        setNominationCount(prev => prev + 1);
-      }
-    }, 4500);
-    return () => clearInterval(interval);
+    getNominationCount()
+      .then(res => {
+        if (res.success && res.data) {
+          setNominationCount(100 + res.data.count);
+        }
+      })
+      .catch(err => {
+        console.error('Failed to fetch nomination count:', err);
+      });
   }, []);
 
   const dismissBanner = () => {

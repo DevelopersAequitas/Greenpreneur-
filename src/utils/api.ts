@@ -324,3 +324,8 @@ export async function getPartners() {
 export async function getJury() {
   return request<GalleryPerson[]>('/gallery/jury');
 }
+
+export async function getNominationCount() {
+  return request<{ count: number }>('/nominations/count');
+}
+
