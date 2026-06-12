@@ -176,7 +176,6 @@ export async function submitContactEnquiry(data: ContactPayload) {
 // COMMUNITY APPLICATION — Community.tsx
 // =============================================================================
 export async function submitCommunityApplication(data: FormData) {
-  // NOTE: Do NOT set Content-Type header — browser sets multipart/form-data with boundary automatically
   return request<{ id: number; amount: number; status: string }>('/community/apply', {
     method: 'POST',
     body: data,
@@ -328,4 +327,3 @@ export async function getJury() {
 export async function getNominationCount() {
   return request<{ count: number }>('/nominations/count');
 }
-
