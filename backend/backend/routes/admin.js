@@ -203,7 +203,7 @@ router.post('/winners', verifyAdmin, upload.single('profilePicture'), async (req
       `INSERT INTO nominations (
         track, nominee_name, business_name, phone, email, city, category_id, description, status, payment_status, award_year, profile_picture, website_link
       ) VALUES (
-        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'completed', '2026', ?, ?
+        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'paid', '2026', ?, ?
       )`,
       [nominee_name.trim(), business_name?.trim() || '', city?.trim() || '', categoryId, description?.trim() || '', profilePic, website_link?.trim() || null]
     );
