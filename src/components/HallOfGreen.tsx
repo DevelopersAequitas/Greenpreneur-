@@ -88,7 +88,7 @@ export default function HallOfGreen() {
         };
 
         setDbData({
-          winners: (wRes.data || []).map(row => formatPerson(row, 'Winner')),
+          winners: (wRes.data || []).map(row => formatPerson(row, row.category || 'Winner')),
           sponsors: (sRes.data || []).map(row => formatPerson(row, 'Sponsor')),
           partners: (pRes.data || []).map(row => formatPerson(row, 'Partner')),
           jury: (jRes.data || []).map(row => formatPerson(row, 'Jury Member'))
