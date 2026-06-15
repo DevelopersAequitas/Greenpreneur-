@@ -189,11 +189,18 @@ export default function Winners() {
                   className="bg-pure-white border border-light-grey rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:border-accent-gold cursor-pointer"
                 >
                   <div>
-                    <div className="relative h-48 overflow-hidden bg-cream-white border-b border-light-grey">
+                    <div className="relative h-80 overflow-hidden bg-cream-white border-b border-light-grey flex items-center justify-center">
+                      {/* Blurred background to fill container edges */}
+                      <img
+                        src={winner.image}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 scale-110 pointer-events-none"
+                      />
+                      {/* Full uncropped image centered */}
                       <img
                         src={winner.image}
                         alt={winner.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="relative max-w-full max-h-full object-contain z-10 group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
 
@@ -271,11 +278,18 @@ export default function Winners() {
             {/* Scrollable container for modal */}
             <div className="overflow-y-auto w-full">
               {/* Modal Image/Header */}
-              <div className="aspect-video w-full relative bg-dark-green">
-                <img src={selectedWinner.image} alt={selectedWinner.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="aspect-video w-full relative bg-dark-green flex items-center justify-center overflow-hidden">
+                {/* Blurred background image */}
+                <img
+                  src={selectedWinner.image}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                />
+                {/* Crisp centered uncropped image */}
+                <img src={selectedWinner.image} alt={selectedWinner.name} className="relative max-w-full max-h-full object-contain z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent z-20 pointer-events-none"></div>
                 
-                <div className="absolute bottom-6 left-6 right-6 text-pure-white">
+                <div className="absolute bottom-6 left-6 right-6 text-pure-white z-30">
                   <span className="text-[10px] text-accent-gold font-bold uppercase tracking-widest block mb-2">
                     {selectedWinner.category}
                   </span>
