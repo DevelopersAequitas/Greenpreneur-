@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Award, Search, Tag, MapPin, Star, ExternalLink, Loader2 } from 'lucide-react';
+import { Award, Search, Tag, MapPin, Star, ExternalLink, Loader2, X } from 'lucide-react';
 import { getWinners, ASSETS_BASE_URL } from '../utils/api';
 
 interface Winner {
@@ -23,6 +23,7 @@ export default function Winners() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
+  const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
   const limit = 9;
 
   const fetchWinners = async (currentOffset: number, reset: boolean = false) => {
@@ -184,48 +185,34 @@ export default function Winners() {
               {filteredWinners.map((winner) => (
                 <div
                   key={winner.id}
-                  className="bg-pure-white border border-light-grey rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:border-accent-gold"
+                  onClick={() => setSelectedWinner(winner)}
+                  className="bg-pure-white border border-light-grey rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:border-accent-gold cursor-pointer"
                 >
                   <div>
-                    <div className="relative h-48 overflow-hidden bg-dark-green">
+                    <div className="relative h-48 overflow-hidden bg-cream-white border-b border-light-grey">
                       <img
                         src={winner.image}
                         alt={winner.name}
-                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark-green to-transparent"></div>
-                      <div className="absolute top-4 right-4 bg-accent-gold text-pure-white px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                        Edition {winner.year}
-                      </div>
-                      
-                      <div className="absolute bottom-4 left-4 text-pure-white">
-                        <span className="text-[10px] text-accent-gold font-bold uppercase tracking-widest block mb-1">
-                          {winner.category}
-                        </span>
-                        <h4 className="font-playfair text-xl font-bold leading-tight">
-                          {winner.name}
-                        </h4>
-                      </div>
                     </div>
 
                     <div className="p-6 space-y-4">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="font-bold text-dark-green flex items-center gap-1.5">
-                          <Star className="w-3.5 h-3.5 text-accent-gold fill-accent-gold" />
-                          {winner.company}
+                      <div>
+                        <span className="text-[10px] text-accent-gold font-bold uppercase tracking-widest block mb-1.5">
+                          {winner.category}
                         </span>
-                        <span className="text-medium-grey flex items-center gap-1 font-light">
-                          <MapPin className="w-3.5 h-3.5 text-accent-gold" />
-                          {winner.city}
-                        </span>
+                        <h4 className="font-playfair text-dark-green text-xl font-bold leading-snug">
+                          {winner.name}
+                        </h4>
                       </div>
 
-                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-light">
+                      <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-light line-clamp-3">
                         {winner.impact}
                       </p>
 
                       {winner.quote && (
-                        <div className="bg-cream-white/70 p-4 rounded-lg border-l-4 border-accent-gold italic text-[11px] leading-relaxed text-gray-500 font-light">
+                        <div className="bg-cream-white/70 p-4 rounded-lg border-l-4 border-accent-gold italic text-[11px] leading-relaxed text-gray-500 font-light line-clamp-2">
                           "{winner.quote}"
                         </div>
                       )}
@@ -237,15 +224,10 @@ export default function Winners() {
                       Jury Verified
                     </span>
                     {winner.link && (
-                      <a
-                        href={winner.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-[10px] font-bold text-medium-grey hover:text-accent-gold uppercase tracking-widest flex items-center gap-1 transition-colors"
-                      >
+                      <span className="text-[10px] font-bold text-medium-grey hover:text-accent-gold uppercase tracking-widest flex items-center gap-1 transition-colors">
                         Read Story
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </span>
                     )}
                   </div>
                 </div>
@@ -267,6 +249,98 @@ export default function Winners() {
           </>
         )}
       </main>
+
+      {/* Detail Modal Overlay */}
+      {selectedWinner && (
+        <div 
+          className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedWinner(null)}
+        >
+          <div 
+            className="bg-pure-white w-full max-w-lg rounded-2xl overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedWinner(null)}
+              className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 hover:bg-black/80 text-pure-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Scrollable container for modal */}
+            <div className="overflow-y-auto w-full">
+              {/* Modal Image/Header */}
+              <div className="aspect-video w-full relative bg-dark-green">
+                <img src={selectedWinner.image} alt={selectedWinner.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                
+                <div className="absolute bottom-6 left-6 right-6 text-pure-white">
+                  <span className="text-[10px] text-accent-gold font-bold uppercase tracking-widest block mb-2">
+                    {selectedWinner.category}
+                  </span>
+                  <h3 className="text-2xl font-bold leading-tight font-playfair">{selectedWinner.name}</h3>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6 space-y-6">
+                <div className="flex flex-wrap gap-4 text-xs">
+                  {selectedWinner.company && (
+                    <div className="flex items-center gap-1.5 font-bold text-dark-green">
+                      <Star className="w-4 h-4 text-accent-gold fill-accent-gold" />
+                      <span>{selectedWinner.company}</span>
+                    </div>
+                  )}
+                  {selectedWinner.city && (
+                    <div className="flex items-center gap-1.5 text-medium-grey font-light">
+                      <MapPin className="w-4 h-4 text-accent-gold" />
+                      <span>{selectedWinner.city}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1.5 text-medium-grey font-light">
+                    <Award className="w-4 h-4 text-accent-gold" />
+                    <span>Edition {selectedWinner.year}</span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-dark-green uppercase tracking-widest border-b border-light-grey pb-2">
+                    Impact & Achievements
+                  </h4>
+                  <p className="text-sm text-dark-text leading-relaxed font-light whitespace-pre-line">
+                    {selectedWinner.impact}
+                  </p>
+                </div>
+
+                {selectedWinner.quote && (
+                  <div className="bg-cream-white p-5 rounded-xl border-l-4 border-accent-gold italic text-xs leading-relaxed text-gray-500 font-light shadow-sm">
+                    "{selectedWinner.quote}"
+                  </div>
+                )}
+
+                {/* Footer/CTA */}
+                <div className="flex items-center justify-between pt-4 border-t border-light-grey/60">
+                  <span className="text-[10px] font-bold text-primary-green uppercase tracking-widest flex items-center gap-1">
+                    Jury Verified
+                  </span>
+                  {selectedWinner.link && (
+                    <a
+                      href={selectedWinner.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-5 py-2 bg-accent-gold text-pure-white text-xs font-bold uppercase tracking-wider rounded hover:bg-dark-green transition-all flex items-center gap-1.5 shadow-sm"
+                    >
+                      Read Full Story
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
