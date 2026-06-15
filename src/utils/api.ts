@@ -102,6 +102,8 @@ export interface EventRegistrationPayload {
   phone: string;
   city: string;
   segment: string;
+  pass_type?: string;
+  pass_amount?: number;
 }
 
 export async function registerForEvent(data: EventRegistrationPayload) {

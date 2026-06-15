@@ -10,6 +10,7 @@ export default function Event2026() {
     city: '',
     segment: 'Green Entrepreneur',
   });
+  const [passOption, setPassOption] = useState<'no_dinner' | 'with_dinner'>('no_dinner');
   const [registered, setRegistered] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,8 +19,44 @@ export default function Event2026() {
     if (formData.name && formData.email && formData.phone) {
       setIsSubmitting(true);
       try {
-        await registerForEvent(formData);
-        setRegistered(true);
+        const passAmount = passOption === 'with_dinner' ? 1500 : 750;
+        const passTypeName = passOption === 'with_dinner' ? 'Delegate (With Dinner)' : 'Delegate (Without Dinner)';
+
+        const res = await registerForEvent({
+          ...formData,
+          pass_type: passTypeName,
+          pass_amount: passAmount,
+        }) as any;
+
+        if (res.success) {
+          if (res.requiresPayment && res.order) {
+            const { initiateRazorpayPayment } = await import('../utils/razorpay');
+            initiateRazorpayPayment(
+              {
+                key_id: res.key_id,
+                order_id: res.order.id,
+                amount: passAmount,
+                name: formData.name,
+                description: `Greenpreneur 2026 - ${passTypeName}`,
+                prefill: {
+                  name: formData.name,
+                  email: formData.email,
+                  contact: formData.phone,
+                },
+                module: 'events',
+                record_id: res.registrationId,
+              },
+              () => {
+                setRegistered(true);
+              },
+              (err) => {
+                alert(err.message || 'Payment failed or cancelled.');
+              }
+            );
+          } else {
+            setRegistered(true);
+          }
+        }
       } catch (err: any) {
         alert(err.message || 'Registration failed. Please try again.');
       } finally {
@@ -262,15 +299,15 @@ export default function Event2026() {
                 <div className="w-16 h-16 bg-primary-green/10 text-primary-green rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
                   <CheckCircle className="w-8 h-8" />
                 </div>
-                <h4 className="font-bold text-dark-green text-lg mb-1">Pass Requested!</h4>
+                <h4 className="font-bold text-dark-green text-lg mb-1">Pass Secured Successfully!</h4>
                 <p className="text-xs text-medium-grey px-4 leading-relaxed">
-                  Thank you, <strong>{formData.name}</strong>. Your delegate registration has been recorded. Our secretariat team will reach out on WhatsApp/SMS to confirm availability.
+                  Thank you, <strong>{formData.name}</strong>. Your delegate pass for <strong>{passOption === 'with_dinner' ? 'Delegate (With Dinner)' : 'Delegate (Without Dinner)'}</strong> has been successfully booked and paid. A confirmation email and ticket details will be sent to you shortly.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-1.5">
                     Full Name
                   </label>
                   <input
@@ -284,7 +321,7 @@ export default function Event2026() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-1.5">
                     Mobile Number (WhatsApp)
                   </label>
                   <input
@@ -298,7 +335,7 @@ export default function Event2026() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-1.5">
                     Email Address
                   </label>
                   <input
@@ -312,7 +349,7 @@ export default function Event2026() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-1.5">
                     City & State
                   </label>
                   <input
@@ -326,7 +363,7 @@ export default function Event2026() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-1.5">
                     Attendee Profile Segment
                   </label>
                   <select
@@ -343,19 +380,56 @@ export default function Event2026() {
                   </select>
                 </div>
 
+                <div>
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-medium-grey block mb-2">
+                    Select Pass Option
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className={`flex flex-col p-4 border rounded-xl cursor-pointer transition-all ${passOption === 'no_dinner' ? 'border-primary-green bg-primary-green/5 shadow-sm' : 'border-light-grey bg-pure-white hover:border-medium-grey'}`}>
+                      <input
+                        type="radio"
+                        name="passOption"
+                        value="no_dinner"
+                        checked={passOption === 'no_dinner'}
+                        onChange={() => setPassOption('no_dinner')}
+                        className="sr-only"
+                      />
+                      <span className="font-bold text-xs text-dark-green mb-1">Without Dinner</span>
+                      <span className="text-[10px] text-medium-grey mb-3">General access to event sessions & awards.</span>
+                      <span className="text-sm font-bold text-primary-green mt-auto">₹750</span>
+                    </label>
+
+                    <label className={`flex flex-col p-4 border rounded-xl cursor-pointer transition-all ${passOption === 'with_dinner' ? 'border-primary-green bg-primary-green/5 shadow-sm' : 'border-light-grey bg-pure-white hover:border-medium-grey'}`}>
+                      <input
+                        type="radio"
+                        name="passOption"
+                        value="with_dinner"
+                        checked={passOption === 'with_dinner'}
+                        onChange={() => setPassOption('with_dinner')}
+                        className="sr-only"
+                      />
+                      <span className="font-bold text-xs text-dark-green mb-1 flex items-center justify-between">
+                        With Dinner <span className="bg-accent-gold/25 text-[#A07020] text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Popular</span>
+                      </span>
+                      <span className="text-[10px] text-medium-grey mb-3">Access to event sessions & Gala Networking Dinner.</span>
+                      <span className="text-sm font-bold text-primary-green mt-auto">₹1,500</span>
+                    </label>
+                  </div>
+                </div>
+
                 <div className="pt-2">
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className={`w-full py-4 btn-premium-primary text-sm flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                   >
-                    {isSubmitting ? 'REGISTERING...' : 'REGISTER AS DELEGATE'} 
+                    {isSubmitting ? 'PROCESSING...' : `PAY & REGISTER (₹${passOption === 'with_dinner' ? '1,500' : '750'})`} 
                     <ChevronRight className="w-4 h-4" strokeWidth={3} />
                   </button>
                 </div>
 
                 <div className="text-[10px] text-center text-medium-grey font-light">
-                  Passes are first-come first-served. General passes do not include voting credentials.
+                  Passes are first-come first-served. Registration includes GST and gateway charges.
                 </div>
               </form>
             )}

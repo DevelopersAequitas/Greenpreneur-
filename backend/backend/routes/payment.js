@@ -195,6 +195,39 @@ router.post('/verify', async (req, res) => {
       }
     }
 
+    if (module === 'events') {
+      try {
+        const [rows] = await db.query(
+          `SELECT name, email, phone, city, segment, pass_type, pass_amount
+           FROM event_registrations
+           WHERE id = ?`,
+          [record_id]
+        );
+        if (rows.length > 0) {
+          const reg = rows[0];
+          await fetch(`http://localhost:5000/api/send-confirmation`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: reg.email,
+              name: reg.name,
+              type: 'Event Pass Registration',
+              details: {
+                Phone: reg.phone,
+                City: reg.city || 'N/A',
+                Segment: reg.segment || 'Green Entrepreneur',
+                'Pass Type': reg.pass_type,
+                Amount: `₹${reg.pass_amount} (Paid via Razorpay)`
+              }
+            })
+          });
+          console.log(`Payment confirmed: event registration email triggered for ${reg.name}`);
+        }
+      } catch (emailErr) {
+        console.error('Failed to trigger event registration email after payment verification:', emailErr.message);
+      }
+    }
+
     res.json({ success: true, message: 'Payment verified and updated successfully' });
   } catch (error) {
     console.error('[Payment Error] verify:', error);
