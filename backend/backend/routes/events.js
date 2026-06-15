@@ -80,25 +80,38 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Otherwise, create a Razorpay order
-    const rzp = getRazorpayInstance();
-    const options = {
-      amount: amount * 100, // Razorpay works in paise
-      currency: 'INR',
-      receipt: `event_reg_${recordId}`,
-      notes: {
-        module: 'events',
-        record_id: String(recordId)
-      }
-    };
+    // Otherwise, create a Razorpay order if keys are configured
+    let requiresPayment = true;
+    let order = null;
+    const key_id = process.env.RAZORPAY_KEY_ID;
 
-    const order = await rzp.orders.create(options);
+    if (!key_id || !process.env.RAZORPAY_KEY_SECRET) {
+      console.warn('⚠️ Razorpay keys not configured. Bypassing payment check for local development.');
+      requiresPayment = false;
+      // Mark registration as paid directly for local testing
+      await db.query(
+        `UPDATE event_registrations SET payment_status = 'paid', payment_ref = 'local_test_bypass' WHERE id = ?`,
+        [recordId]
+      );
+    } else {
+      const rzp = getRazorpayInstance();
+      const options = {
+        amount: amount * 100, // Razorpay works in paise
+        currency: 'INR',
+        receipt: `event_reg_${recordId}`,
+        notes: {
+          module: 'events',
+          record_id: String(recordId)
+        }
+      };
+      order = await rzp.orders.create(options);
+    }
 
     return res.status(201).json({
       success: true,
-      requiresPayment: true,
+      requiresPayment,
       order,
-      key_id: process.env.RAZORPAY_KEY_ID,
+      key_id,
       registrationId: recordId
     });
 
