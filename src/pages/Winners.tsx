@@ -189,18 +189,11 @@ export default function Winners() {
                   className="bg-pure-white border border-light-grey rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:border-accent-gold cursor-pointer"
                 >
                   <div>
-                    <div className="relative h-80 overflow-hidden bg-cream-white border-b border-light-grey flex items-center justify-center">
-                      {/* Blurred background to fill container edges */}
-                      <img
-                        src={winner.image}
-                        alt=""
-                        className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 scale-110 pointer-events-none"
-                      />
-                      {/* Full uncropped image centered */}
+                    <div className="relative h-72 overflow-hidden bg-cream-white border-b border-light-grey">
                       <img
                         src={winner.image}
                         alt={winner.name}
-                        className="relative max-w-full max-h-full object-contain z-10 group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
 
@@ -228,7 +221,7 @@ export default function Winners() {
 
                   <div className="p-6 pt-0 border-t border-light-grey/40 mt-4 flex items-center justify-between">
                     <span className="text-[10px] font-bold text-primary-green uppercase tracking-widest flex items-center gap-1">
-                      Jury Verified
+                      Speakers & Jury Verified
                     </span>
                     {winner.link && (
                       <span className="text-[10px] font-bold text-medium-grey hover:text-accent-gold uppercase tracking-widest flex items-center gap-1 transition-colors">
@@ -278,15 +271,8 @@ export default function Winners() {
             {/* Scrollable container for modal */}
             <div className="overflow-y-auto w-full">
               {/* Modal Image/Header */}
-              <div className="aspect-video w-full relative bg-dark-green flex items-center justify-center overflow-hidden">
-                {/* Blurred background image */}
-                <img
-                  src={selectedWinner.image}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
-                />
-                {/* Crisp centered uncropped image */}
-                <img src={selectedWinner.image} alt={selectedWinner.name} className="relative max-w-full max-h-full object-contain z-10" />
+              <div className="h-[360px] sm:h-[420px] w-full relative bg-dark-green overflow-hidden">
+                <img src={selectedWinner.image} alt={selectedWinner.name} className="w-full h-full object-cover object-top" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent z-20 pointer-events-none"></div>
                 
                 <div className="absolute bottom-6 left-6 right-6 text-pure-white z-30">
@@ -336,7 +322,7 @@ export default function Winners() {
                 {/* Footer/CTA */}
                 <div className="flex items-center justify-between pt-4 border-t border-light-grey/60">
                   <span className="text-[10px] font-bold text-primary-green uppercase tracking-widest flex items-center gap-1">
-                    Jury Verified
+                    Speakers & Jury Verified
                   </span>
                   {selectedWinner.link && (
                     <a

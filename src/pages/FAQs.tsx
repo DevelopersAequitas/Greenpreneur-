@@ -71,7 +71,7 @@ export default function FAQs() {
               Honorary Awards
             </h5>
             <p className="text-xs text-medium-grey">
-              100% Jury evaluated. <strong>FREE</strong> to nominate. For exceptional lifetime or sector contributions. Vetted strictly by merit.
+              100% Speakers & jury evaluated. <strong>FREE</strong> to nominate. For exceptional lifetime or sector contributions. Vetted strictly by merit.
             </p>
           </div>
           <div className="bg-accent-gold/5 p-4 rounded-lg border border-accent-gold/20">
@@ -80,7 +80,7 @@ export default function FAQs() {
               Rated Challenge
             </h5>
             <p className="text-xs text-medium-grey">
-              75% Jury + 25% Public Voting. Nominal fee (₹2,000 to ₹5,000) for premium marketing creatives, voting link, and editorial support.
+              75% Speakers & jury + 25% Public Voting. Nominal fee (₹2,000 to ₹5,000) for premium marketing creatives, voting link, and editorial support.
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function FAQs() {
     {
       id: 'how-public-voting-works',
       question: 'How does public voting work?',
-      answer: 'For the Rated Challenge, once nominated, you receive a personalised voting link and social media creatives. Your network can vote for you online. This constitutes 25% of your final score, with the remaining 75% coming from our expert Jury.',
+      answer: 'For the Rated Challenge, once nominated, you receive a personalised voting link and social media creatives. Your network can vote for you online. This constitutes 25% of your final score, with the remaining 75% coming from our expert Speakers & jury.',
       category: 'awards',
     },
     // Event

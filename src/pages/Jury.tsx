@@ -53,7 +53,7 @@ export default function Jury() {
           return {
             id: row.id.toString(),
             name: row.name,
-            role: row.role || 'Jury Member',
+            role: row.role || 'Speakers & Jury Member',
             org: row.org || '',
             tags: tagsArray,
             photoUrl: getFullUrl(row.photo_url),
@@ -103,7 +103,7 @@ export default function Jury() {
             <Users className="w-4 h-4" /> Valuation Board
           </div>
           <h1 className="text-pure-white text-4xl sm:text-5xl md:text-6xl font-playfair font-bold mb-6">
-            Jury of the Year
+            Speakers & Jury of the Year
           </h1>
           <p className="text-pure-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
             Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2026.
@@ -137,12 +137,12 @@ export default function Jury() {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-light-grey shadow-sm">
             <div className="w-12 h-12 border-4 border-[#2E7D32] border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p className="text-medium-grey text-sm font-bold uppercase tracking-widest">Loading Jury Panel...</p>
+            <p className="text-medium-grey text-sm font-bold uppercase tracking-widest">Loading Speakers & Jury Panel...</p>
           </div>
         ) : filteredJury.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-xl border border-light-grey shadow-sm">
             <Users className="w-12 h-12 text-[#2E7D32]/40 mx-auto mb-4" />
-            <p className="text-gray-500 text-sm mb-2">No jury members found matching your search.</p>
+            <p className="text-gray-500 text-sm mb-2">No speakers or jury members found matching your search.</p>
             <button
               onClick={() => setSearchQuery('')}
               className="text-xs text-[#2E7D32] font-bold underline"

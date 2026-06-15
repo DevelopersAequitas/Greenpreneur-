@@ -152,7 +152,7 @@ export default function Partners() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
-            {filteredPartners.filter(item => item.photoUrl).map((item) => {
+             {filteredPartners.filter(item => item.photoUrl).map((item) => {
               // Determine Badge logic
               const shortRole = item.role.replace(' Partner', '');
               
@@ -160,32 +160,31 @@ export default function Partners() {
                 <div 
                   key={item.id}
                   onClick={() => setSelectedPerson(item)}
-                  className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100"
+                  className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100 flex flex-col justify-between"
                 >
-                  {/* Photo or Fallback Gradient */}
-                  {item.photoUrl ? (
-                    <img src={item.photoUrl} alt={item.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div 
-                      className="w-full h-full flex items-center justify-center text-4xl font-black text-white/90"
-                      style={{ background: item.bg }}
-                    >
-                      {item.initials}
-                    </div>
-                  )}
+                  {/* Logo Container */}
+                  <div className="flex-1 bg-white flex items-center justify-center p-6 relative">
+                    {item.photoUrl ? (
+                      <img src={item.photoUrl} alt={item.name} className="w-full h-full object-contain" />
+                    ) : (
+                      <div 
+                        className="w-full h-full flex items-center justify-center text-4xl font-black text-white/90 rounded-lg"
+                        style={{ background: item.bg }}
+                      >
+                        {item.initials}
+                      </div>
+                    )}
 
-                  {/* Partner Role Badge */}
-                  <div className="absolute top-2 right-2 z-10 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider bg-black/60 text-white shadow-md backdrop-blur-sm border border-white/10">
-                    {shortRole}
+                    {/* Partner Role Badge */}
+                    <div className="absolute top-3 right-3 z-10 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm backdrop-blur-sm">
+                      {shortRole}
+                    </div>
                   </div>
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                  
-                  {/* Text Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                    <h4 className="text-white text-sm md:text-base font-bold leading-tight mb-1">{item.name}</h4>
-                    <p className="text-white/80 text-[11px] md:text-xs leading-tight line-clamp-1">{item.org}</p>
+                  {/* Clean Footer Text Area */}
+                  <div className="p-4 bg-gray-50 border-t border-gray-100 text-left">
+                    <h4 className="text-gray-800 text-sm font-bold leading-tight mb-1 truncate">{item.name}</h4>
+                    <p className="text-gray-500 text-[11px] leading-tight truncate">{item.org}</p>
                   </div>
                 </div>
               );

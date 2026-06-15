@@ -108,7 +108,7 @@ export default function Community() {
       desc: 'Exclusive access to virtual and offline panels discussing sustainability regulations, policy changes, and circular systems.',
     },
     {
-      title: 'Jury & Expert Advisory',
+      title: 'Speakers, Jury & Expert Advisory',
       desc: 'Receive mentorship from green technology specialists, ESG consultants, and successful green founders.',
     },
     {

@@ -379,7 +379,7 @@ export default function ApplyAward() {
                   </div>
                   <h3 className="text-lg font-bold text-dark-green mb-2">Honorary Award</h3>
                   <p className="text-xs text-medium-grey mb-4">
-                    For lifetime or legacy sector achievements. Strictly evaluated by our 50% jury framework.
+                    For lifetime or legacy sector achievements. Strictly evaluated by our 50% Speakers & jury framework.
                   </p>
                   <ul className="space-y-2 text-xs text-gray-700">
                     <li className="flex items-center gap-2">
@@ -388,7 +388,7 @@ export default function ApplyAward() {
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-primary-green shrink-0" />
-                      <span>100% merit-based Jury decision</span>
+                      <span>100% merit-based Speakers & jury decision</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-primary-green shrink-0" />
@@ -431,7 +431,7 @@ export default function ApplyAward() {
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-primary-green shrink-0" />
-                      <span>75% Jury Weight + 25% Public Vote</span>
+                      <span>75% Speakers & jury Weight + 25% Public Vote</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <Check className="w-3.5 h-3.5 text-primary-green shrink-0" />
@@ -902,7 +902,7 @@ export default function ApplyAward() {
                     Review Your Details
                   </h3>
                   <p className="text-xs text-medium-grey max-w-sm mx-auto">
-                    You have selected the <strong>Honorary Track (Free nomination)</strong>. Review your application data below and click submit to send it directly to our jury panel.
+                    You have selected the <strong>Honorary Track (Free nomination)</strong>. Review your application data below and click submit to send it directly to our Speakers & jury panel.
                   </p>
                 </div>
               )}

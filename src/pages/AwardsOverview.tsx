@@ -17,7 +17,7 @@ export default function AwardsOverview() {
     },
     {
       num: '03',
-      title: 'Jury Review',
+      title: 'Speakers & Jury Review',
       desc: 'Our panel of judges evaluates entries. Rated track nominees start public voting drives.',
       icon: Scale,
     },
@@ -108,7 +108,7 @@ export default function AwardsOverview() {
                   </p>
                   <div className="space-y-4 mb-8">
                     {[
-                      '100% Expert Jury Evaluation',
+                      '100% Expert Speakers & Jury Evaluation',
                       'Zero Registration/Nomination Fees',
                       'Free Business Profile Verification',
                       'Grand Felicitation at Marriott Ahmedabad',
@@ -150,7 +150,7 @@ export default function AwardsOverview() {
                   </p>
                   <div className="space-y-4 mb-8">
                     {[
-                      '75% Jury Weight + 25% Public Voting',
+                      '75% Speakers & Jury Weight + 25% Public Voting',
                       'Nominee Listed on Voting Platform',
                       'Personalized Creative Assets & Badge',
                       'VyapaarJagat Directory Lifetime Listing',

@@ -72,7 +72,8 @@ export default function Layout() {
 
   const isMoreActive =
     location.pathname === '/jury' ||
-    location.pathname === '/partners';
+    location.pathname === '/partners' ||
+    location.pathname.startsWith('/blogs');
 
   return (
     <div className="min-h-screen flex flex-col bg-cream-white font-inter">
@@ -182,7 +183,7 @@ export default function Layout() {
                   href="/awards/overview#jury"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150"
                 >
-                  Jury Panel 2026
+                  Speakers & Jury Panel 2026
                 </a>
                 <a
                   href="/awards/overview#why-attend"
@@ -278,13 +279,19 @@ export default function Layout() {
                   to="/jury"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
                 >
-                  Jury
+                  Speakers & Jury
                 </Link>
                 <Link
                   to="/partners"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
                 >
                   Partners
+                </Link>
+                <Link
+                  to="/blogs"
+                  className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150 font-semibold"
+                >
+                  Blogs
                 </Link>
               </div>
             </div>
@@ -380,7 +387,7 @@ export default function Layout() {
                   → How to Nominate
                 </Link>
                 <a href="/awards/overview#jury" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
-                  → Jury Panel 2026
+                  → Speakers & Jury Panel 2026
                 </a>
                 <a href="/awards/overview#why-attend" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Why Attend
@@ -428,12 +435,15 @@ export default function Layout() {
                 <span className={`text-xs transform transition-transform duration-200 ${mobileMoreOpen ? 'rotate-180' : ''}`}>▼</span>
               </button>
 
-              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileMoreOpen ? 'max-h-[150px] py-2' : 'max-h-0'}`}>
+              <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileMoreOpen ? 'max-h-[200px] py-2' : 'max-h-0'}`}>
                 <Link to="/jury" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
-                  → Jury
+                  → Speakers & Jury
                 </Link>
                 <Link to="/partners" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
                   → Partners
+                </Link>
+                <Link to="/blogs" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white font-bold">
+                  → Blogs
                 </Link>
               </div>
             </div>

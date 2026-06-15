@@ -149,7 +149,7 @@ export default function TermsConditions() {
               <h4 className="font-bold text-dark-green text-sm uppercase tracking-wider">Recognition</h4>
               <p className="text-sm">India’s first rated awards which has a three-stage process.</p>
               <ul className="list-disc pl-5 text-sm space-y-1">
-                <li>Award assessment: 75% through Jury assessment & 25% through Public Votes.</li>
+                <li>Award assessment: 75% through Speakers & jury assessment & 25% through Public Votes.</li>
                 <li>Nominee gets personalized creative & voting link for promoting on social media.</li>
                 <li>Online branding with a reach of millions of impressions.</li>
                 <li>Entry to attend the Offline Award felicitation ceremony.</li>

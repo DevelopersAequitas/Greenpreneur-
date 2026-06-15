@@ -22,7 +22,7 @@ const SECTION_LABELS: Record<TabType, string> = {
   winners: 'Category Winners',
   sponsors: 'Our Sponsors',
   partners: 'Partner Organisations',
-  jury: 'Jury of the Year'
+  jury: 'Speakers & Jury'
 };
 
 import { getWinners, getGallerySponsors, getPartners, getJury, BASE_URL } from '../utils/api';
@@ -91,7 +91,7 @@ export default function HallOfGreen() {
           winners: (wRes.data || []).map(row => formatPerson(row, row.category || 'Winner')),
           sponsors: (sRes.data || []).map(row => formatPerson(row, 'Sponsor')),
           partners: (pRes.data || []).map(row => formatPerson(row, 'Partner')),
-          jury: (jRes.data || []).map(row => formatPerson(row, 'Jury Member'))
+          jury: (jRes.data || []).map(row => formatPerson(row, 'Speakers & Jury Member'))
         });
 
       } catch (err) {
@@ -119,7 +119,7 @@ export default function HallOfGreen() {
       case 'winners': return { label: 'View All Winners', path: '/winners' };
       case 'sponsors': return { label: 'View All Sponsors', path: '/sponsors/opportunities' };
       case 'partners': return { label: 'View All Partners', path: '/partners' };
-      case 'jury': return { label: 'View All Jury', path: '/jury' };
+      case 'jury': return { label: 'View All Speakers & Jury', path: '/jury' };
       default: return { label: 'Load More', path: '/' };
     }
   };
@@ -164,7 +164,7 @@ export default function HallOfGreen() {
                 }`}
               >
                 <span>{emoji}</span>
-                <span className="capitalize">{tab}</span>
+                <span className="capitalize">{tab === 'jury' ? 'Speakers & Jury' : tab}</span>
                 <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${
                   isActive ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
                 }`}>
@@ -185,13 +185,40 @@ export default function HallOfGreen() {
         {/* Gallery Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 max-w-[1020px] mx-auto">
           {items.filter(item => item.photoUrl).slice(0, 6).map((item) => {
-            // Determine Badge logic
-            let Badge = null;
-            if (activeTab === 'partners') {
-              const shortRole = item.role.replace(' Partner', '');
-              Badge = (
-                <div className="absolute top-2 right-2 z-10 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider bg-black/50 text-white shadow-md backdrop-blur-sm border border-white/10">
-                  {shortRole}
+            const isBrand = activeTab === 'partners' || activeTab === 'sponsors';
+
+            if (isBrand) {
+              const shortRole = item.role.replace(' Partner', '').replace(' Sponsor', '');
+              return (
+                <div 
+                  key={item.id}
+                  onClick={() => setSelectedPerson(item)}
+                  className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100 flex flex-col justify-between"
+                >
+                  {/* Logo Container */}
+                  <div className="flex-1 bg-white flex items-center justify-center p-4 relative">
+                    {item.photoUrl ? (
+                      <img src={item.photoUrl} alt={item.name} className="w-full h-full object-contain" />
+                    ) : (
+                      <div 
+                        className="w-full h-full flex items-center justify-center text-3xl font-black text-white/90 rounded-lg"
+                        style={{ background: item.bg }}
+                      >
+                        {item.initials}
+                      </div>
+                    )}
+
+                    {/* Badge */}
+                    <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm">
+                      {shortRole}
+                    </div>
+                  </div>
+
+                  {/* Clean Footer Text Area */}
+                  <div className="p-3 bg-gray-50 border-t border-gray-100 text-left">
+                    <h4 className="text-gray-800 text-xs font-bold leading-tight mb-0.5 truncate">{item.name}</h4>
+                    <p className="text-gray-500 text-[10px] leading-tight truncate">{item.org}</p>
+                  </div>
                 </div>
               );
             }
@@ -204,7 +231,7 @@ export default function HallOfGreen() {
               >
                 {/* Photo or Fallback Gradient */}
                 {item.photoUrl ? (
-                  <img src={item.photoUrl} alt={item.name} className="w-full h-full object-cover" />
+                  <img src={item.photoUrl} alt={item.name} className="w-full h-full object-cover object-top" />
                 ) : (
                   <div 
                     className="w-full h-full flex items-center justify-center text-4xl font-black text-white/90"
@@ -213,8 +240,6 @@ export default function HallOfGreen() {
                     {item.initials}
                   </div>
                 )}
-
-                {Badge}
 
                 {/* Gradient Overlay */}
                 <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -263,7 +288,7 @@ export default function HallOfGreen() {
             {/* Modal Image/Header */}
             <div className="aspect-[3/4] w-full relative">
               {selectedPerson.photoUrl ? (
-                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
+                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover object-top" />
               ) : (
                 <div 
                   className="w-full h-full flex items-center justify-center text-7xl font-black text-white/90 shadow-inner"

@@ -662,7 +662,7 @@ export default function Home() {
             </div>
             <h3 className="font-playfair text-2xl font-black mb-4 text-dark-green tracking-tight">AWARD</h3>
             <p className="text-gray-500 text-sm mb-8 leading-relaxed font-semibold">
-              Recognize and celebrate green business excellence across 35+ categories through a rigorous jury evaluation.
+              Recognize and celebrate green business excellence across 35+ categories through a rigorous Speakers & jury evaluation.
             </p>
             <Link
               to="/awards/overview"
@@ -734,7 +734,7 @@ export default function Home() {
                   Honorary Recognition
                 </h3>
                 <p className="text-gray-600 mb-8 text-sm leading-relaxed font-semibold">
-                  Dedicated to lifetime achievers, pioneering policy advocacy, and exceptional sector contributors. Evaluation is based on merit, vetted entirely by our expert jury panel.
+                  Dedicated to lifetime achievers, pioneering policy advocacy, and exceptional sector contributors. Evaluation is based on merit, vetted entirely by our expert Speakers & jury panel.
                 </p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
@@ -743,7 +743,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
                     <Check className="w-5 h-5 text-[#B38728] shrink-0" />
-                    <span>100% Vetted by Jury Panel</span>
+                    <span>100% Vetted by Speakers & Jury Panel</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
                     <Check className="w-5 h-5 text-[#B38728] shrink-0" />
@@ -769,7 +769,7 @@ export default function Home() {
                   The Rated Challenge
                 </h3>
                 <p className="text-gray-600 mb-8 text-sm leading-relaxed font-semibold">
-                  A structured challenge framework designed specifically for startups, MSMEs, and entrepreneurs. Combines 75% expert jury marks with 25% public validation to drive maximum organic visibility.
+                  A structured challenge framework designed specifically for startups, MSMEs, and entrepreneurs. Combines 75% expert Speakers & jury marks with 25% public validation to drive maximum organic visibility.
                 </p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
@@ -778,7 +778,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
                     <Check className="w-5 h-5 text-[#0B5B3E] shrink-0" />
-                    <span>Jury Vetting (75%) + Public Votes (25%)</span>
+                    <span>Speakers & Jury Vetting (75%) + Public Votes (25%)</span>
                   </li>
                   <li className="flex items-center gap-3 text-sm text-gray-700 font-bold">
                     <Check className="w-5 h-5 text-[#0B5B3E] shrink-0" />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Calendar, User, ArrowLeft, Loader2, BookOpen } from 'lucide-react';
+import { Calendar, User, ArrowLeft, Loader2 } from 'lucide-react';
 import { getBlogBySlug, ASSETS_BASE_URL } from '../utils/api';
 import type { Blog } from '../utils/api';
 
@@ -87,7 +87,7 @@ export default function BlogDetail() {
       <main className="px-6 max-w-4xl mx-auto -mt-8 relative z-20">
         <div className="bg-pure-white rounded-2xl border border-light-grey shadow-lg overflow-hidden">
           {/* Featured Image */}
-          {blog.featured_image ? (
+          {blog.featured_image && !(blog.content.includes('<img') || blog.content.includes('<figure')) ? (
             <div className="w-full h-[300px] sm:h-[420px] border-b border-light-grey relative overflow-hidden bg-gray-50 flex items-center justify-center">
               <img
                 src={`${ASSETS_BASE_URL}${blog.featured_image}`}
@@ -96,8 +96,10 @@ export default function BlogDetail() {
               />
             </div>
           ) : (
-            <div className="w-full h-48 bg-gradient-to-br from-primary-green/10 to-accent-gold/15 flex items-center justify-center border-b border-light-grey">
-              <BookOpen className="w-16 h-16 text-dark-green/20" />
+            <div className="w-full min-h-[180px] bg-gradient-to-br from-primary-green/5 to-accent-gold/10 flex items-center justify-center border-b border-light-grey p-8 text-center">
+              <h2 className="font-playfair text-xl sm:text-2xl md:text-3xl font-bold text-dark-green leading-tight max-w-2xl">
+                {blog.title}
+              </h2>
             </div>
           )}
 

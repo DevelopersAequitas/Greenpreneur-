@@ -101,7 +101,7 @@ export default function About() {
               Greenpreneur is not just an award program; it is India's premier network of sustainability-focused business architects. In 2026, we celebrate our <strong>5th year anniversary celebration</strong> at the Renaissance by Marriott Ahmedabad Hotel.
             </p>
             <p className="text-gray-600 leading-relaxed font-light text-sm sm:text-base">
-              The platform was born from a simple realization: while traditional business awards focus purely on financial top-lines, our environment requires a system that rewards resource efficiency, carbon consciousness, and circular economic principles. Greenpreneur fills this gap by validating green businesses through a structured, multi-tier jury audit.
+              The platform was born from a simple realization: while traditional business awards focus purely on financial top-lines, our environment requires a system that rewards resource efficiency, carbon consciousness, and circular economic principles. Greenpreneur fills this gap by validating green businesses through a structured, multi-tier Speakers & jury audit.
             </p>
             <p className="text-gray-600 leading-relaxed font-light text-sm sm:text-base">
               Over the years, we have brought together innovators in waste management, renewable fuels, organic farming, sustainable textiles, and electric vehicles, creating opportunities for them to meet investors, corporate buyers, and policymakers.

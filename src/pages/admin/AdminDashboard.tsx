@@ -333,8 +333,8 @@ const AdminDashboard = () => {
     { id: 'add-winner', label: 'Add New Winner', icon: <PlusCircle size={20} /> },
     { id: 'gallery-sponsors', label: 'Manage Sponsors', icon: <Handshake size={20} /> },
     { id: 'add-gallery-sponsor', label: 'Add Sponsor', icon: <PlusCircle size={20} /> },
-    { id: 'jury', label: 'Manage Jury', icon: <Users size={20} /> },
-    { id: 'add-jury', label: 'Add Jury', icon: <PlusCircle size={20} /> },
+    { id: 'jury', label: 'Manage Speakers & Jury', icon: <Users size={20} /> },
+    { id: 'add-jury', label: 'Add Speakers & Jury', icon: <PlusCircle size={20} /> },
     { id: 'partners', label: 'Manage Partners', icon: <Handshake size={20} /> },
     { id: 'add-partner', label: 'Add Partner', icon: <PlusCircle size={20} /> },
     { id: 'blogs', label: 'Manage Blogs', icon: <FileText size={20} /> },
@@ -1054,7 +1054,7 @@ const AdminDashboard = () => {
     }
 
     if (['add-gallery-sponsor', 'add-partner', 'add-jury'].includes(activeTab)) {
-      const typeLabel = activeTab === 'add-gallery-sponsor' ? 'Sponsor' : activeTab === 'add-partner' ? 'Partner' : 'Jury Member';
+      const typeLabel = activeTab === 'add-gallery-sponsor' ? 'Sponsor' : activeTab === 'add-partner' ? 'Partner' : 'Speakers & Jury Member';
       const endpointMap: any = {
         'add-gallery-sponsor': 'gallery-sponsors',
         'add-partner': 'partners',
@@ -1663,7 +1663,7 @@ const AdminDashboard = () => {
                             ⭐ {row.public_votes || 0} <span className="text-xs text-gray-400 font-normal">votes</span>
                           </span>
                           <span className="text-xs text-gray-500">
-                            Jury: {row.jury_score !== null && row.jury_score !== undefined ? `${row.jury_score}/100` : 'Not graded'}
+                            Speakers & Jury: {row.jury_score !== null && row.jury_score !== undefined ? `${row.jury_score}/100` : 'Not graded'}
                           </span>
                         </div>
                       </td>
