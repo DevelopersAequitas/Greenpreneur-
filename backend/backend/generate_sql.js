@@ -27,7 +27,14 @@ USE \`greenpreneur\`; -- Adjust database name if different on live server
       const name = s.name.replace(/'/g, "\\'");
       const role = s.role.replace(/'/g, "\\'");
       const org = s.org.replace(/'/g, "\\'");
-      const tags = JSON.stringify(s.tags).replace(/'/g, "\\'");
+      
+      let tagsVal = s.tags;
+      if (typeof tagsVal === 'string') {
+        try {
+          tagsVal = JSON.parse(tagsVal);
+        } catch (e) {}
+      }
+      const tags = JSON.stringify(tagsVal).replace(/'/g, "\\'");
       const photo_url = s.photo_url.replace(/'/g, "\\'");
       const bg_gradient = s.bg_gradient.replace(/'/g, "\\'");
 
@@ -40,7 +47,14 @@ USE \`greenpreneur\`; -- Adjust database name if different on live server
       const name = p.name.replace(/'/g, "\\'");
       const role = p.role.replace(/'/g, "\\'");
       const org = p.org.replace(/'/g, "\\'");
-      const tags = JSON.stringify(p.tags).replace(/'/g, "\\'");
+      
+      let tagsVal = p.tags;
+      if (typeof tagsVal === 'string') {
+        try {
+          tagsVal = JSON.parse(tagsVal);
+        } catch (e) {}
+      }
+      const tags = JSON.stringify(tagsVal).replace(/'/g, "\\'");
       const photo_url = p.photo_url.replace(/'/g, "\\'");
       const bg_gradient = p.bg_gradient.replace(/'/g, "\\'");
 
