@@ -364,7 +364,7 @@ export default function ApplyAward() {
                   }`}
                 >
                   <div className="flex justify-between items-center mb-4">
-                    <span className="bg-primary-green text-pure-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span className="bg-primary-green text-pure-white text-[12px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                       Free Track
                     </span>
                     <div
@@ -407,7 +407,7 @@ export default function ApplyAward() {
                   }`}
                 >
                   <div className="flex justify-between items-center mb-4">
-                    <span className="bg-accent-gold text-pure-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span className="bg-accent-gold text-pure-white text-[12px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                       Rated Challenge
                     </span>
                     <div
@@ -723,7 +723,7 @@ export default function ApplyAward() {
                         </ul>
                         
                         <div className="pt-3 border-t border-light-grey mt-auto">
-                          <p className="text-[9px] text-medium-grey leading-tight">
+                          <p className="text-[12px] text-medium-grey leading-tight">
                             <span className="font-bold text-dark-green">Positioning:</span> For those who want recognition and visibility.
                           </p>
                         </div>
@@ -767,7 +767,7 @@ export default function ApplyAward() {
                         </ul>
                         
                         <div className="pt-3 border-t border-light-grey mt-auto">
-                          <p className="text-[9px] text-medium-grey leading-tight">
+                          <p className="text-[12px] text-medium-grey leading-tight">
                             <span className="font-bold text-dark-green">Positioning:</span> For changemakers building impact.
                           </p>
                         </div>
@@ -811,7 +811,7 @@ export default function ApplyAward() {
                         </ul>
                         
                         <div className="pt-3 border-t border-light-grey mt-auto">
-                          <p className="text-[9px] text-medium-grey leading-tight">
+                          <p className="text-[12px] text-medium-grey leading-tight">
                             <span className="font-bold text-dark-green">Positioning:</span> For entrepreneurs wanting public visibility.
                           </p>
                         </div>
@@ -860,7 +860,7 @@ export default function ApplyAward() {
                         </ul>
                         
                         <div className="pt-3 border-t border-light-grey mt-auto">
-                          <p className="text-[9px] text-medium-grey leading-tight">
+                          <p className="text-[12px] text-medium-grey leading-tight">
                             <span className="font-bold text-dark-green">Positioning:</span> For entrepreneurs creating long-term impact.
                           </p>
                         </div>

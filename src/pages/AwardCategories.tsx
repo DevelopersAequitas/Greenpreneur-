@@ -222,7 +222,7 @@ export default function AwardCategories() {
             <div className="lg:w-1/3 flex lg:justify-end">
               <div className="bg-pure-white/5 border border-pure-white/10 backdrop-blur-xl px-6 py-4 rounded-xl text-center min-w-[120px]">
                 <p className="text-accent-gold text-3xl font-bold mb-1">10</p>
-                <p className="text-pure-white/60 text-[9px] font-bold uppercase tracking-widest">
+                <p className="text-pure-white/60 text-[12px] font-bold uppercase tracking-widest">
                   MSME Tracks
                 </p>
               </div>

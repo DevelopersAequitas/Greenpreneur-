@@ -157,10 +157,10 @@ export default function CoffeeTableBook() {
 
             {/* Status updates tag */}
             <div className="absolute bottom-6 left-6 z-20 bg-pure-white p-5 rounded-2xl shadow-xl max-w-[180px] border border-light-grey">
-              <p className="text-[9px] uppercase tracking-widest font-bold mb-1 text-accent-gold">
+              <p className="text-[12px] uppercase tracking-widest font-bold mb-1 text-accent-gold">
                 Cover Story
               </p>
-              <span className="inline-block bg-alert-red text-pure-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+              <span className="inline-block bg-alert-red text-pure-white text-[12px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
                 Sold Out
               </span>
             </div>
@@ -277,7 +277,7 @@ export default function CoffeeTableBook() {
                         {pkg.price}
                       </td>
                       <td className="py-6 px-6 text-right">
-                        <span className={`px-3 py-1 rounded-full font-bold text-[9px] uppercase tracking-wider ${pkg.badgeColor}`}>
+                        <span className={`px-3 py-1 rounded-full font-bold text-[12px] uppercase tracking-wider ${pkg.badgeColor}`}>
                           {pkg.badge}
                         </span>
                       </td>
@@ -314,7 +314,7 @@ export default function CoffeeTableBook() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                       Full Name
                     </label>
                     <input
@@ -327,7 +327,7 @@ export default function CoffeeTableBook() {
                     />
                   </div>
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                    <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                       Mobile Number
                     </label>
                     <input
@@ -342,7 +342,7 @@ export default function CoffeeTableBook() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                     Email Address
                   </label>
                   <input
@@ -356,7 +356,7 @@ export default function CoffeeTableBook() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                     Business Name
                   </label>
                   <input
@@ -370,7 +370,7 @@ export default function CoffeeTableBook() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                     Inclusion Package Selection
                   </label>
                   <select
@@ -388,7 +388,7 @@ export default function CoffeeTableBook() {
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-accent-gold block mb-1">
                     Brief Message (Optional)
                   </label>
                   <textarea

@@ -320,7 +320,7 @@ export default function FAQs() {
                         >
                           <div className="flex items-center gap-3">
                             {isCrucial && (
-                              <span className="bg-accent-gold text-pure-white text-[9px] px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">
+                              <span className="bg-accent-gold text-pure-white text-[12px] px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">
                                 Crucial
                               </span>
                             )}

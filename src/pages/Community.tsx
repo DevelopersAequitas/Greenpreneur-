@@ -173,7 +173,7 @@ export default function Community() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-green via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-pure-white"></div>
             <div className="absolute bottom-6 left-6 text-pure-white lg:hidden">
-              <span className="bg-accent-gold text-pure-white text-[9px] px-2 py-0.5 uppercase tracking-wider font-bold rounded-sm">
+              <span className="bg-accent-gold text-pure-white text-[12px] px-2 py-0.5 uppercase tracking-wider font-bold rounded-sm">
                 Active Campaign
               </span>
               <h3 className="font-playfair text-xl font-bold mt-2">1,000 Green Stories</h3>
@@ -181,7 +181,7 @@ export default function Community() {
           </div>
           
           <div className="lg:col-span-7 p-8 sm:p-12 space-y-6">
-            <span className="hidden lg:inline-block bg-accent-gold/15 text-accent-gold border border-accent-gold/30 px-3 py-1 rounded-sm text-[9px] font-bold uppercase tracking-widest">
+            <span className="hidden lg:inline-block bg-accent-gold/15 text-accent-gold border border-accent-gold/30 px-3 py-1 rounded-sm text-[12px] font-bold uppercase tracking-widest">
               National Story Drive Campaign
             </span>
             <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-dark-green leading-tight">

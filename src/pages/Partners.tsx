@@ -176,7 +176,7 @@ export default function Partners() {
                     )}
 
                     {/* Partner Role Badge */}
-                    <div className="absolute top-3 right-3 z-10 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm backdrop-blur-sm">
+                    <div className="absolute top-3 right-3 z-10 px-2.5 py-0.5 rounded-md text-[12px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm backdrop-blur-sm">
                       {shortRole}
                     </div>
                   </div>

@@ -283,7 +283,7 @@ export default function Sponsorship() {
                 }`}
               >
                 {tier.isPopular && (
-                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-accent-gold text-pure-white px-4 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase">
+                  <div className="absolute top-0 right-8 -translate-y-1/2 bg-accent-gold text-pure-white px-4 py-1 rounded-full text-[12px] font-bold tracking-wider uppercase">
                     {tier.badge}
                   </div>
                 )}
@@ -391,7 +391,7 @@ export default function Sponsorship() {
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[9px] uppercase tracking-widest text-pure-white/40 block">
+                    <span className="text-[12px] uppercase tracking-widest text-pure-white/40 block">
                       Partnership Lead
                     </span>
                     <span className="font-bold text-sm block">Vishal Parmar (Director)</span>
@@ -404,7 +404,7 @@ export default function Sponsorship() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="text-[9px] uppercase tracking-widest text-pure-white/40 block">
+                    <span className="text-[12px] uppercase tracking-widest text-pure-white/40 block">
                       Enquiry Email
                     </span>
                     <a
@@ -434,7 +434,7 @@ export default function Sponsorship() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                        <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                           Full Name
                         </label>
                         <input
@@ -447,7 +447,7 @@ export default function Sponsorship() {
                         />
                       </div>
                       <div>
-                        <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                        <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                           Organization / Company
                         </label>
                         <input
@@ -463,7 +463,7 @@ export default function Sponsorship() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                        <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                           Work Email
                         </label>
                         <input
@@ -476,7 +476,7 @@ export default function Sponsorship() {
                         />
                       </div>
                       <div>
-                        <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                        <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                           Contact Number
                         </label>
                         <input
@@ -491,7 +491,7 @@ export default function Sponsorship() {
                     </div>
 
                     <div>
-                      <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                      <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                         Sponsorship Tier of Interest
                       </label>
                       <select
@@ -510,7 +510,7 @@ export default function Sponsorship() {
                     </div>
 
                     <div>
-                      <label className="text-[9px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
+                      <label className="text-[12px] font-bold uppercase tracking-wider text-medium-grey block mb-1">
                         Additional Requirements
                       </label>
                       <textarea

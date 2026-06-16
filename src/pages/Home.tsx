@@ -241,19 +241,19 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-6 sm:gap-10 border-t border-pure-white/10 pt-8 max-w-xl">
               <div>
                 <span className="block text-3xl font-playfair font-black text-gold-metallic mb-1">05th</span>
-                <span className="text-pure-white/40 text-[9px] uppercase tracking-[0.2em] font-bold">
+                <span className="text-pure-white/40 text-[12px] uppercase tracking-[0.2em] font-bold">
                   Annual Edition
                 </span>
               </div>
               <div>
                 <span className="block text-3xl font-playfair font-black text-pure-white mb-1">500+</span>
-                <span className="text-pure-white/40 text-[9px] uppercase tracking-[0.2em] font-bold">
+                <span className="text-pure-white/40 text-[12px] uppercase tracking-[0.2em] font-bold">
                   Delegates
                 </span>
               </div>
               <div>
                 <span className="block text-3xl font-playfair font-black text-gold-metallic mb-1">17</span>
-                <span className="text-pure-white/40 text-[9px] uppercase tracking-[0.2em] font-bold">
+                <span className="text-pure-white/40 text-[12px] uppercase tracking-[0.2em] font-bold">
                   SDGs Aligned
                 </span>
               </div>
@@ -444,7 +444,7 @@ export default function Home() {
                     <span className="text-2xl sm:text-3xl font-playfair font-black text-dark-green">
                       {String(box.val).padStart(2, '0')}
                     </span>
-                    <span className="text-[9px] uppercase tracking-wider text-medium-grey font-bold mt-1">
+                    <span className="text-[12px] uppercase tracking-wider text-medium-grey font-bold mt-1">
                       {box.label}
                     </span>
                   </div>
@@ -839,7 +839,7 @@ export default function Home() {
                 <div className="w-20 h-20 rounded-full border border-[#B38728] bg-pure-white flex flex-col items-center justify-center p-2 text-center shrink-0 shadow-inner" style={{ boxShadow: 'inset 0 0 10px rgba(179,135,40,0.1)' }}>
                   <span className="text-[6.5px] text-medium-grey uppercase leading-none font-bold">India</span>
                   <span className="text-xs font-playfair font-black text-dark-green leading-tight">VIKSIT BHARAT</span>
-                  <span className="text-[9px] font-bold text-[#B38728] tracking-wider">@2047</span>
+                  <span className="text-[12px] font-bold text-[#B38728] tracking-wider">@2047</span>
                 </div>
                 <div>
                   <span className="text-xs font-black text-ashoka-navy uppercase tracking-wider block">National Agenda Alignment</span>
@@ -907,7 +907,7 @@ export default function Home() {
               >
                 <div className="p-6 text-left">
                   <span 
-                    className="inline-block px-3 py-1 rounded-full text-[9px] font-black tracking-wider uppercase mb-4 text-pure-white"
+                    className="inline-block px-3 py-1 rounded-full text-[12px] font-black tracking-wider uppercase mb-4 text-pure-white"
                     style={{ backgroundColor: startup.color }}
                   >
                     SDG {startup.sdg} • {startup.tag.split(' ')[0]}
@@ -980,7 +980,7 @@ export default function Home() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-black text-lg">5,000+</span>
-                    <span className="text-[9px] uppercase tracking-wider text-pure-white/40 font-bold">
+                    <span className="text-[12px] uppercase tracking-wider text-pure-white/40 font-bold">
                       Print Copies
                     </span>
                   </div>
@@ -991,7 +991,7 @@ export default function Home() {
                   </div>
                   <div className="flex flex-col">
                     <span className="font-black text-lg">5,00,000+</span>
-                    <span className="text-[9px] uppercase tracking-wider text-pure-white/40 font-bold">
+                    <span className="text-[12px] uppercase tracking-wider text-pure-white/40 font-bold">
                       Digital Reach
                     </span>
                   </div>
@@ -1006,7 +1006,7 @@ export default function Home() {
                   Feature My Business
                 </Link>
                 <div className="flex flex-col">
-                  <span className="text-alert-red font-black text-[9px] uppercase tracking-wider bg-red-500/20 px-3 py-1 border border-red-500/40 rounded-md">
+                  <span className="text-alert-red font-black text-[12px] uppercase tracking-wider bg-red-500/20 px-3 py-1 border border-red-500/40 rounded-md">
                     Cover Story — SOLD OUT
                   </span>
                   <span className="text-[10px] text-pure-white/50 mt-1.5 font-bold">Limited inner spots open</span>

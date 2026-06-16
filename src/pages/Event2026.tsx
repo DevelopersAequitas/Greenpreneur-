@@ -122,7 +122,7 @@ export default function Event2026() {
               <div className="w-12 h-12 rounded-full border border-pure-white/20 flex items-center justify-center mb-4 text-accent-gold">
                 <Calendar className="w-6 h-6" />
               </div>
-              <p className="text-[9px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Date</p>
+              <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Date</p>
               <p className="font-playfair text-xl">25 June 2026</p>
               <p className="text-pure-white/50 text-xs mt-0.5">Thursday (2:00 – 9:30 PM)</p>
             </div>
@@ -131,7 +131,7 @@ export default function Event2026() {
               <div className="w-12 h-12 rounded-full border border-pure-white/20 flex items-center justify-center mb-4 text-accent-gold">
                 <MapPin className="w-6 h-6" />
               </div>
-              <p className="text-[9px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Venue</p>
+              <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Venue</p>
               <p className="font-playfair text-xl">Renaissance by Marriott</p>
               <p className="text-pure-white/50 text-xs mt-0.5">S.G. Highway, Ahmedabad</p>
             </div>
@@ -140,7 +140,7 @@ export default function Event2026() {
               <div className="w-12 h-12 rounded-full border border-pure-white/20 flex items-center justify-center mb-4 text-accent-gold">
                 <Clock className="w-6 h-6" />
               </div>
-              <p className="text-[9px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Attendance</p>
+              <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Attendance</p>
               <p className="font-playfair text-xl">150–500 Leaders</p>
               <p className="text-pure-white/50 text-xs mt-0.5">Exclusive Networking Gala</p>
             </div>
@@ -231,7 +231,7 @@ export default function Event2026() {
                 className="w-full h-[380px] object-cover rounded-xl shadow-lg border border-light-grey"
               />
               <div className="absolute bottom-6 left-6 right-6 bg-pure-white/95 backdrop-blur-md p-6 rounded-lg shadow-xl border border-light-grey">
-                <span className="text-[9px] text-accent-gold font-bold uppercase tracking-widest mb-1 block">
+                <span className="text-[12px] text-accent-gold font-bold uppercase tracking-widest mb-1 block">
                   Secretariat Address
                 </span>
                 <p className="text-dark-green font-bold text-xs leading-normal">
