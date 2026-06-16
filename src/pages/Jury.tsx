@@ -81,7 +81,22 @@ export default function Jury() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [selectedPerson]);
 
+  const allowedNames = [
+    'Anil Mulchandani',
+    'Devang Brahmbhatt',
+    'Dr. Pravin Parmar',
+    'Dr. Sachin Shigwan',
+    'Itesh Lakum',
+    'Nilesh Priyadarshi',
+    'Niraj Shah',
+    'Samir Sinha',
+    'Vinod Malviya'
+  ];
+
   const filteredJury = juryList.filter((j) => {
+    // Exclude 2026 jury members
+    if (allowedNames.includes(j.name)) return false;
+
     const matchesSearch =
       j.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       j.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
