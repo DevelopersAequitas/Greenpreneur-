@@ -8,6 +8,10 @@ USE `gree_greenpreneur_db`; -- Adjust database name if different on live server
 -- Modify pass_type column to support custom delegate pass values in event registrations
 ALTER TABLE `event_registrations` MODIFY COLUMN `pass_type` VARCHAR(100) NOT NULL DEFAULT 'general';
 
+-- Clean existing data to prevent duplicates if script is run multiple times
+DELETE FROM `jury`;
+DELETE FROM `partners`;
+
 -- 1. Insert Speakers & Jury
 INSERT INTO `jury` (`name`, `role`, `org`, `tags`, `photo_url`, `bg_gradient`, `is_published`) VALUES ('Achal Rangaswamy', 'Business Coach & Author', 'Peers Global', '["Coach","Author","Speaker"]', '/uploads/nominations/Achal Rangaswamy.png', 'linear-gradient(160deg,#5a9a6a,#3d7a50)', 1);
 INSERT INTO `jury` (`name`, `role`, `org`, `tags`, `photo_url`, `bg_gradient`, `is_published`) VALUES ('Aditya Jhunjhunwala', 'Co-Founder, ADMC & Business Coach', 'ADMC', '["Coach","Speaker"]', '/uploads/nominations/Aditya Jhunjhunwala.png', 'linear-gradient(160deg,#4a8a90,#2d6a70)', 1);
