@@ -51,11 +51,44 @@ export default function AwardsOverview() {
               tagsArray = typeof row.tags === 'string' ? JSON.parse(row.tags) : row.tags;
             } catch (e) {}
           }
+
+          let role = row.role || 'Speakers & Jury Member';
+          let org = row.org || '';
+
+          if (row.name === 'Samir Sinha') {
+            role = 'Founder & MD';
+            org = 'Savvy Group';
+          } else if (row.name === 'Vinod Malviya') {
+            role = 'Co Founder';
+            org = 'Shubham Aquavitro Pvt Ltd';
+          } else if (row.name === 'Dr. Sachin Shigwan') {
+            role = 'The Solar Man of India';
+            org = '';
+          } else if (row.name === 'Nilesh Priyadarshi') {
+            role = 'Founder & CEO';
+            org = 'Kaarigar Clinic';
+          } else if (row.name === 'Itesh Lakum') {
+            role = 'Founder';
+            org = 'Sun Wave Energy';
+          } else if (row.name === 'Anil Mulchandani') {
+            role = 'Editorial & writing , social entrepreneurship, event curator, food industry, tourism';
+            org = '';
+          } else if (row.name === 'Devang Brahmbhatt') {
+            role = 'Founder';
+            org = 'Nature coat';
+          } else if (row.name === 'Niraj Shah') {
+            role = 'District Executive Director & Global Advisor';
+            org = '';
+          } else if (row.name === 'Dr. Pravin Parmar') {
+            role = 'Promoter & Founder';
+            org = 'Peers Global';
+          }
+
           return {
             id: row.id.toString(),
             name: row.name,
-            role: row.role || 'Speakers & Jury Member',
-            org: row.org || '',
+            role: role,
+            org: org,
             tags: tagsArray,
             photoUrl: getFullUrl(row.photo_url),
             bg: row.bg_gradient || gradients[Math.floor(Math.random() * gradients.length)],
@@ -82,28 +115,30 @@ export default function AwardsOverview() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [selectedPerson]);
 
-  const allowedNames = [
+  const sortedNames = [
+    'Samir Sinha',
+    'Vinod Malviya',
+    'Dr. Sachin Shigwan',
+    'Nilesh Priyadarshi',
+    'Itesh Lakum',
     'Anil Mulchandani',
     'Devang Brahmbhatt',
-    'Dr. Pravin Parmar',
-    'Dr. Sachin Shigwan',
-    'Itesh Lakum',
-    'Nilesh Priyadarshi',
     'Niraj Shah',
-    'Samir Sinha',
-    'Vinod Malviya'
+    'Dr. Pravin Parmar'
   ];
 
-  const filteredJury = juryList.filter((j) => {
-    const matchesName = allowedNames.includes(j.name);
-    if (!matchesName) return false;
+  const filteredJury = juryList
+    .filter((j) => {
+      const matchesName = sortedNames.includes(j.name);
+      if (!matchesName) return false;
 
-    const matchesSearch =
-      j.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      j.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      j.org.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSearch;
-  });
+      const matchesSearch =
+        j.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        j.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        j.org.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesSearch;
+    })
+    .sort((a, b) => sortedNames.indexOf(a.name) - sortedNames.indexOf(b.name));
   const steps = [
     {
       num: '01',
@@ -187,8 +222,132 @@ export default function AwardsOverview() {
         </div>
       </section>
 
+      {/* Speakers & Jury Panel Section */}
+      <section id="jury" className="py-20 bg-[#f5fbf5] border-t border-b border-light-grey">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-primary-green font-bold tracking-[0.4em] uppercase text-[10px] mb-4 block">
+              Valuation Board
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-playfair font-bold text-dark-green mb-4">
+              Speakers & Jury Panel 2026
+            </h2>
+            <p className="text-gray-500 text-sm max-w-xl mx-auto font-light leading-relaxed">
+              Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2026.
+            </p>
+
+            {/* Section Search Bar */}
+            <div className="relative max-w-xl mx-auto shadow-md rounded-xl mt-8 border border-light-grey bg-pure-white">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-medium-grey">
+                <Search className="w-5 h-5 text-accent-gold" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search panel by name, role, or organization..."
+                className="w-full bg-transparent text-dark-text py-3.5 pl-12 pr-20 rounded-xl focus:outline-none font-medium text-xs"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-medium-grey hover:text-dark-text bg-light-grey/40 px-2 py-1 rounded"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-12 bg-white rounded-xl border border-light-grey shadow-sm">
+              <div className="w-10 h-10 border-4 border-[#2E7D32] border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-medium-grey text-[10px] font-bold uppercase tracking-widest">Loading Panel...</p>
+            </div>
+          ) : filteredJury.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-xl border border-light-grey shadow-sm">
+              <Users className="w-10 h-10 text-[#2E7D32]/40 mx-auto mb-4" />
+              <p className="text-gray-500 text-xs mb-2">No speakers or jury members found matching your search.</p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-[10px] text-[#2E7D32] font-bold underline"
+              >
+                Clear filter
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+              {filteredJury.filter(item => item.photoUrl).map((item) => (
+                <div 
+                  key={item.id}
+                  onClick={() => setSelectedPerson(item)}
+                  className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100"
+                >
+                  {/* Photo */}
+                  <img src={item.photoUrl!} alt={item.name} className="w-full h-full object-cover" />
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                  
+                  {/* Text Info */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                    <h4 className="text-white text-xs md:text-sm font-bold leading-tight mb-1">{item.name}</h4>
+                    <p className="text-white/80 text-[10px] md:text-xs leading-tight line-clamp-1">{item.role}</p>
+                    <p className="text-white/50 text-[9px] md:text-[10px] leading-tight line-clamp-1 mt-0.5">{item.org}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Modal Overlay */}
+        {selectedPerson && (
+          <div 
+            className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+            onClick={() => setSelectedPerson(null)}
+          >
+            <div 
+              className="bg-white w-full max-w-sm rounded-[24px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={() => setSelectedPerson(null)}
+                className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="aspect-[3/4] w-full relative bg-gray-100">
+                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+              </div>
+
+              <div className="p-6">
+                <h3 className="text-xl font-black text-gray-900 mb-1">{selectedPerson.name}</h3>
+                <p className="text-xs font-bold text-[#2E7D32] mb-1">{selectedPerson.role}</p>
+                <p className="text-xs text-gray-500 mb-5 font-medium">{selectedPerson.org}</p>
+                
+                {selectedPerson.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {selectedPerson.tags.map((tag, idx) => (
+                      <span 
+                        key={idx} 
+                        className="px-3 py-1 bg-[#E8F5E9] text-[#1a5c1a] border border-[#C8E6C9] rounded-full text-[10px] font-semibold"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* Two Tracks comparison cards */}
-      <section id="tracks" className="py-20 -mt-16 relative z-20">
+      <section id="tracks" className="py-20 relative z-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-10 max-w-5xl mx-auto">
             {/* Honorary Card */}
@@ -355,130 +514,6 @@ export default function AwardsOverview() {
             })}
           </div>
         </div>
-      </section>
-
-      {/* Speakers & Jury Panel Section */}
-      <section id="jury" className="py-20 bg-[#f5fbf5] border-t border-b border-light-grey">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="text-primary-green font-bold tracking-[0.4em] uppercase text-[10px] mb-4 block">
-              Valuation Board
-            </span>
-            <h2 className="text-4xl sm:text-5xl font-playfair font-bold text-dark-green mb-4">
-              Speakers & Jury Panel 2026
-            </h2>
-            <p className="text-gray-500 text-sm max-w-xl mx-auto font-light leading-relaxed">
-              Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2026.
-            </p>
-
-            {/* Section Search Bar */}
-            <div className="relative max-w-xl mx-auto shadow-md rounded-xl mt-8 border border-light-grey bg-pure-white">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-medium-grey">
-                <Search className="w-5 h-5 text-accent-gold" />
-              </div>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search panel by name, role, or organization..."
-                className="w-full bg-transparent text-dark-text py-3.5 pl-12 pr-20 rounded-xl focus:outline-none font-medium text-xs"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-medium-grey hover:text-dark-text bg-light-grey/40 px-2 py-1 rounded"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-
-          {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12 bg-white rounded-xl border border-light-grey shadow-sm">
-              <div className="w-10 h-10 border-4 border-[#2E7D32] border-t-transparent rounded-full animate-spin mb-4"></div>
-              <p className="text-medium-grey text-[10px] font-bold uppercase tracking-widest">Loading Panel...</p>
-            </div>
-          ) : filteredJury.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-light-grey shadow-sm">
-              <Users className="w-10 h-10 text-[#2E7D32]/40 mx-auto mb-4" />
-              <p className="text-gray-500 text-xs mb-2">No speakers or jury members found matching your search.</p>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="text-[10px] text-[#2E7D32] font-bold underline"
-              >
-                Clear filter
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
-              {filteredJury.filter(item => item.photoUrl).map((item) => (
-                <div 
-                  key={item.id}
-                  onClick={() => setSelectedPerson(item)}
-                  className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100"
-                >
-                  {/* Photo */}
-                  <img src={item.photoUrl!} alt={item.name} className="w-full h-full object-cover" />
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                  
-                  {/* Text Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-                    <h4 className="text-white text-xs md:text-sm font-bold leading-tight mb-1">{item.name}</h4>
-                    <p className="text-white/80 text-[10px] md:text-xs leading-tight line-clamp-1">{item.role}</p>
-                    <p className="text-white/50 text-[9px] md:text-[10px] leading-tight line-clamp-1 mt-0.5">{item.org}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Modal Overlay */}
-        {selectedPerson && (
-          <div 
-            className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
-            onClick={() => setSelectedPerson(null)}
-          >
-            <div 
-              className="bg-white w-full max-w-sm rounded-[24px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setSelectedPerson(null)}
-                className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              <div className="aspect-[3/4] w-full relative bg-gray-100">
-                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-black text-gray-900 mb-1">{selectedPerson.name}</h3>
-                <p className="text-xs font-bold text-[#2E7D32] mb-1">{selectedPerson.role}</p>
-                <p className="text-xs text-gray-500 mb-5 font-medium">{selectedPerson.org}</p>
-                
-                {selectedPerson.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPerson.tags.map((tag, idx) => (
-                      <span 
-                        key={idx} 
-                        className="px-3 py-1 bg-[#E8F5E9] text-[#1a5c1a] border border-[#C8E6C9] rounded-full text-[10px] font-semibold"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* Will You Be Our Next Greenpreneur CTA box */}
