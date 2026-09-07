@@ -440,6 +440,8 @@ SELECT
   n.jury_score,
   (SELECT COUNT(*) FROM nomination_votes WHERE nomination_id = n.id) AS public_votes,
   n.award_year,
+  n.profile_picture,
+  n.business_logo,
   n.created_at
 FROM nominations n
 LEFT JOIN award_categories ac ON n.category_id = ac.id;

@@ -93,7 +93,7 @@ export default function CoffeeTableBook() {
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-dark-green text-pure-white text-xs font-bold uppercase tracking-widest rounded-full">
                 <span className="w-2 h-2 bg-accent-gold rounded-full animate-pulse"></span>
-                Premium Publication 2026
+                Premium Publication 2027
               </span>
               <span className="text-[10px] font-bold text-primary-green uppercase tracking-[0.2em] flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-accent-gold rounded-full"></span>
@@ -220,7 +220,7 @@ export default function CoffeeTableBook() {
                 Capturing the Green Legacy
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed font-light">
-                The Greenpreneur 2026 Coffee Table Book is a premium publication launched at our main awards gala. It stands as a permanent record of sustainable innovations and is distributed directly to decision-makers in the sustainability ecosystem.
+                The Greenpreneur 2027 Coffee Table Book is a premium publication launched at our main awards gala. It stands as a permanent record of sustainable innovations and is distributed directly to decision-makers in the sustainability ecosystem.
               </p>
               <ul className="space-y-4 text-xs text-gray-700">
                 <li className="flex items-center gap-2">

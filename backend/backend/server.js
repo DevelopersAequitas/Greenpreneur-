@@ -162,14 +162,14 @@ const getEmailWrapper = (title, contentHtml) => {
         <div class="container">
           <div class="header">
             <h1>Greenpreneur</h1>
-            <p>Awards &amp; Conclave 2026</p>
+            <p>Awards &amp; Conclave 2027</p>
           </div>
           <div class="content">
             ${contentHtml}
           </div>
           <div class="footer">
             <p>Empowering and celebrating sustainable enterprise leaders.</p>
-            <p style="margin-top: 10px;">&copy; 2026 <a href="https://greenpreneur.in">Greenpreneur Secretariat</a>. All rights reserved.</p>
+            <p style="margin-top: 10px;">&copy; 2027 <a href="https://greenpreneur.in">Greenpreneur Secretariat</a>. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@ app.post('/api/send-nomination', async (req, res) => {
     const htmlContent = getEmailWrapper('Nomination Received', `
       <div class="badge">Nomination Confirmed</div>
       <p class="greeting">Dear ${nomineeName},</p>
-      <p>Congratulations! We are thrilled to confirm that your nomination for the <strong>Greenpreneur Awards 2026</strong> has been successfully received.</p>
+      <p>Congratulations! We are thrilled to confirm that your nomination for the <strong>Greenpreneur Awards 2027</strong> has been successfully received.</p>
       <div class="highlight-box"><table>
         <tr><td class="label">Nominee</td><td class="value">${nomineeName}</td></tr>
         <tr><td class="label">Company</td><td class="value">${companyName || 'N/A'}</td></tr>
@@ -223,7 +223,7 @@ app.post('/api/send-nomination', async (req, res) => {
     await transporter.sendMail({
       from: `Greenpreneur <${process.env.ZOHO_EMAIL}>`,
       to: email.trim(),
-      subject: 'Nomination Received - Greenpreneur Awards 2026',
+      subject: 'Nomination Received - Greenpreneur Awards 2027',
       html: htmlContent,
     });
     res.status(200).json({ message: 'Email sent successfully!' });
@@ -242,7 +242,7 @@ app.post('/api/send-approval', async (req, res) => {
     const htmlContent = getEmailWrapper('Nomination Approved', `
       <div class="badge">Nomination Approved</div>
       <p class="greeting">Dear ${nomineeName},</p>
-      <p>We are delighted to inform you that your nomination for the <strong>Greenpreneur Awards 2026</strong> has been <strong>Approved</strong> by the steering committee.</p>
+      <p>We are delighted to inform you that your nomination for the <strong>Greenpreneur Awards 2027</strong> has been <strong>Approved</strong> by the steering committee.</p>
       <div class="highlight-box"><table>
         <tr><td class="label">Nominee</td><td class="value">${nomineeName}</td></tr>
         <tr><td class="label">Company</td><td class="value">${companyName || 'N/A'}</td></tr>
@@ -256,7 +256,7 @@ app.post('/api/send-approval', async (req, res) => {
     await transporter.sendMail({
       from: `Greenpreneur <${process.env.ZOHO_EMAIL}>`,
       to: email.trim(),
-      subject: 'Nomination Approved & Voting Live - Greenpreneur Awards 2026',
+      subject: 'Nomination Approved & Voting Live - Greenpreneur Awards 2027',
       html: htmlContent,
     });
     res.status(200).json({ message: 'Approval email sent successfully!' });
@@ -275,13 +275,13 @@ app.post('/api/send-winner-email', async (req, res) => {
     const htmlContent = getEmailWrapper('Winner Announcement', `
       <div class="badge winner">🏆 Winner Announcement</div>
       <p class="greeting">Dear ${nomineeName},</p>
-      <p>It is our distinct privilege to congratulate you! You have been selected as an official <strong>Winner</strong> of the prestigious <strong>Greenpreneur Awards 2026</strong> under the category:</p>
+      <p>It is our distinct privilege to congratulate you! You have been selected as an official <strong>Winner</strong> of the prestigious <strong>Greenpreneur Awards 2027</strong> under the category:</p>
       <p style="font-size:16px;font-weight:bold;color:#B38728;text-align:center;margin:20px 0;">${category}</p>
       <div class="highlight-box"><table>
         <tr><td class="label">Recipient</td><td class="value">${nomineeName}</td></tr>
         <tr><td class="label">Company</td><td class="value">${companyName || 'N/A'}</td></tr>
         <tr><td class="label">Award Title</td><td class="value">${category}</td></tr>
-        <tr><td class="label">Award Year</td><td class="value">2026</td></tr>
+        <tr><td class="label">Award Year</td><td class="value">2027</td></tr>
       </table></div>
       <p>Your winner showcase profile is now live in the Hall of Fame:</p>
       <div class="btn-container"><a href="${votingUrl}" class="btn" style="color:#ffffff;">View Winner Profile</a></div>
@@ -291,7 +291,7 @@ app.post('/api/send-winner-email', async (req, res) => {
     await transporter.sendMail({
       from: `Greenpreneur <${process.env.ZOHO_EMAIL}>`,
       to: email.trim(),
-      subject: '🏆 Congratulations! You are a Greenpreneur 2026 Winner!',
+      subject: '🏆 Congratulations! You are a Greenpreneur 2027 Winner!',
       html: htmlContent,
     });
     res.status(200).json({ message: 'Winner email sent successfully!' });

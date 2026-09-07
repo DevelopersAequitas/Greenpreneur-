@@ -165,6 +165,25 @@ router.get('/categories', async (_req, res) => {
 });
 
 
+// ── GET /api/nominations/pending ──────────────────────────────────────────────
+// Returns all nominations with status = 'pending' or status = 'vetting'
+router.get('/pending', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      `SELECT n.id, n.nominee_name, n.profile_picture, n.status, ac.name AS category
+       FROM nominations n
+       JOIN award_categories ac ON n.category_id = ac.id
+       WHERE n.status = 'pending' OR n.status = 'vetting'
+       ORDER BY n.id DESC`
+    );
+    return res.json({ success: true, data: rows });
+  } catch (err) {
+    console.error('[nominations GET pending]', err.message);
+    return res.status(500).json({ success: false, message: 'Failed to fetch pending nominations' });
+  }
+});
+
+
 // ── GET /api/nominations/:id ──────────────────────────────────────────────────
 // Get single nomination status (for confirmation page tracking)
 router.get('/:id', async (req, res) => {
@@ -191,6 +210,7 @@ router.get('/:id', async (req, res) => {
     return res.status(500).json({ success: false, message: 'Failed to fetch nomination' });
   }
 });
+
 
 // ── GET /api/nominations/public/:id ───────────────────────────────────────────
 // Public endpoint for the voting page

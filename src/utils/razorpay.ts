@@ -29,7 +29,7 @@ export function initiateRazorpayPayment(
     key: options.key_id,
     amount: options.amount * 100, // Amount in paise
     currency: 'INR',
-    name: 'Greenpreneur 2026',
+    name: 'Greenpreneur 2027',
     description: options.description,
     order_id: options.order_id,
     handler: async function (response: any) {

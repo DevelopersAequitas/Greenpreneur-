@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import { getNominationCount } from '../utils/api';
+// import AppPopup from './AppPopup';
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +62,7 @@ export default function Layout() {
   }, [location]);
 
   const isEventAwardsActive = 
-    location.pathname === '/event-2026' || 
+    location.pathname === '/event-2027' || 
     location.pathname.startsWith('/awards') ||
     location.pathname.startsWith('/sponsors') ||
     location.pathname === '/coffee-table-book';
@@ -81,7 +82,7 @@ export default function Layout() {
       {bannerVisible && (
         <div className="fixed top-0 left-0 w-full h-10 bg-gradient-to-r from-saffron via-ashoka-navy to-indian-green text-pure-white z-50 flex items-center justify-between px-6 text-xs sm:text-[13px] font-medium font-inter">
           <div className="flex-grow text-left font-bold tracking-wide flex items-center overflow-hidden">
-            <span className="truncate">🇮🇳 Supporting Viksit Bharat @2047 | Greenpreneur 2026 — 25th June, Ahmedabad | </span>
+            <span className="truncate">🇮🇳 Supporting Viksit Bharat @2047 | Greenpreneur 2027 — 25th June, Ahmedabad | </span>
             <Link to="/awards/apply" className="underline text-yellow-300 hover:text-yellow-400 font-extrabold ml-1 shrink-0">
               Nominations Open — Apply FREE →
             </Link>
@@ -156,13 +157,13 @@ export default function Layout() {
             >
               <div className="py-2 flex flex-col">
                 <Link
-                  to="/event-2026"
+                  to="/event-2027"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150"
                 >
                   Event Overview
                 </Link>
                 <a
-                  href="/event-2026#agenda"
+                  href="/event-2027#agenda"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150"
                 >
                   Event Agenda
@@ -183,7 +184,7 @@ export default function Layout() {
                   href="/awards/overview#jury"
                   className="px-5 py-3 text-sm font-inter text-[#1A1A1A] block hover:bg-[#F0F7F4] hover:text-[#B38728] hover:pl-6 transition-all duration-150"
                 >
-                  Speakers & Jury Panel 2026
+                  Speakers & Jury Panel 2027
                 </a>
                 <a
                   href="/awards/overview#why-attend"
@@ -307,7 +308,7 @@ export default function Layout() {
         {/* Desktop Right Nav Buttons */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
           <Link
-            to="/event-2026"
+            to="/event-2027"
             className="h-[40px] px-5 flex items-center justify-center text-[13px] font-bold font-inter uppercase rounded-[6px] border border-[#B38728] text-[#B38728] hover:bg-gold-metallic hover:text-dark-green hover:border-transparent whitespace-nowrap transition-all duration-200"
           >
             GET PASS
@@ -374,10 +375,10 @@ export default function Layout() {
               </button>
 
               <div className={`pl-4 flex flex-col gap-3 overflow-hidden transition-all duration-300 ${mobileDropdownOpen ? 'max-h-[350px] py-2' : 'max-h-0'}`}>
-                <Link to="/event-2026" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
+                <Link to="/event-2027" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Event Overview
                 </Link>
-                <a href="/event-2026#agenda" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
+                <a href="/event-2027#agenda" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Event Agenda
                 </a>
                 <Link to="/awards/categories" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
@@ -387,7 +388,7 @@ export default function Layout() {
                   → How to Nominate
                 </Link>
                 <a href="/awards/overview#jury" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
-                  → Speakers & Jury Panel 2026
+                  → Speakers & Jury Panel 2027
                 </a>
                 <a href="/awards/overview#why-attend" onClick={() => setIsOpen(false)} className="py-1 text-sm font-semibold text-pure-white/80 hover:text-pure-white">
                   → Why Attend
@@ -465,7 +466,7 @@ export default function Layout() {
               🌿 NOMINATE — FREE
             </Link>
             <Link
-              to="/event-2026"
+              to="/event-2027"
               onClick={() => setIsOpen(false)}
               className="w-full h-[56px] flex items-center justify-center border border-[#B38728] bg-transparent text-[#B38728] font-bold uppercase tracking-wider text-sm rounded-[6px] hover:bg-gold-metallic hover:text-dark-green transition-all"
             >
@@ -601,7 +602,7 @@ export default function Layout() {
                   <Link to="/awards/overview" className="hover:text-pure-white transition-colors">Awards Overview</Link>
                 </li>
                 <li>
-                  <Link to="/event-2026" className="hover:text-pure-white transition-colors">Event 2026 Agenda</Link>
+                  <Link to="/event-2027" className="hover:text-pure-white transition-colors">Event 2027 Agenda</Link>
                 </li>
                 <li>
                   <Link to="/sponsors/opportunities" className="hover:text-pure-white transition-colors">Sponsorships</Link>
@@ -675,7 +676,7 @@ export default function Layout() {
                 {showAllInquiries && (
                   <>
                     <li>
-                      <Link to="/event-2026" className="hover:text-pure-white transition-colors">Get Event Pass</Link>
+                      <Link to="/event-2027" className="hover:text-pure-white transition-colors">Get Event Pass</Link>
                     </li>
                     <li>
                       <Link to="/inquiry/advertise-magazine" className="hover:text-pure-white transition-colors">Advertise in Magazine</Link>
@@ -753,10 +754,13 @@ export default function Layout() {
           {/* Divider and Bottom bar */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.10)', marginTop: '40px', paddingTop: '20px' }}>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.35)', textAlign: 'center', margin: 0, paddingBottom: '8px' }}>
-              © 2026 Greenpreneur | 1 Million Entrepreneurs International Forum | Section 8 NGO | 80G &amp; 12A Certified | CSR No: CSR00106194 | PAN: AACCZ1279M
+              © 2027 Greenpreneur | 1 Million Entrepreneurs International Forum | Section 8 NGO | 80G &amp; 12A Certified | CSR No: CSR00106194 | PAN: AACCZ1279M
             </p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.35)', textAlign: 'center', margin: 0 }}>
               Niti Aayog Darpan Certified | CEED Association Partner
+            </p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'rgba(255,255,255,0.35)', textAlign: 'center', margin: '8px 0 0 0' }}>
+              Designed &amp; Developed by <span className="text-pure-white/60 font-semibold">Aequitas Infotech</span>
             </p>
 
             {/* Indian Flag stripe */}
@@ -770,7 +774,7 @@ export default function Layout() {
       {/* Sticky Bottom CTAs (Mobile-only) */}
       <div className="lg:hidden fixed bottom-0 left-0 w-full z-[45] bg-pure-white border-t border-light-grey grid grid-cols-2 p-2 gap-2 shadow-2xl">
         <Link
-          to="/event-2026"
+          to="/event-2027"
           className="h-[56px] flex items-center justify-center text-xs uppercase tracking-widest font-black border border-[#B38728] text-[#B38728] rounded-md hover:bg-gold-metallic hover:text-dark-green"
         >
           Get Pass
@@ -796,6 +800,8 @@ export default function Layout() {
           Chat with us
         </span>
       </a>
+
+      {/* <AppPopup /> */}
     </div>
   );
 }

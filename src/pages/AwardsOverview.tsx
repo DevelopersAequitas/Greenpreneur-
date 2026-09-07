@@ -82,6 +82,15 @@ export default function AwardsOverview() {
           } else if (row.name === 'Dr. Pravin Parmar') {
             role = 'Promoter & Founder';
             org = 'Peers Global';
+          } else if (row.name === 'Phani Trivedi') {
+            role = 'Founder';
+            org = 'WeEngage Global Foundation & IGBC Accredited Professional';
+          } else if (row.name === 'Unmesh Dixit') {
+            role = 'Executive Director';
+            org = 'AMA';
+          } else if (row.name === 'Rohan Shah') {
+            role = 'Design Thinking & Digital Transformation expert, Founder';
+            org = 'Founders+';
           }
 
           return {
@@ -119,8 +128,12 @@ export default function AwardsOverview() {
     'Samir Sinha',
     'Vinod Malviya',
     'Dr. Sachin Shigwan',
+    'Dr. Akshay Kumar',
     'Nilesh Priyadarshi',
     'Itesh Lakum',
+    'Phani Trivedi',
+    'Unmesh Dixit',
+    'Rohan Shah',
     'Anil Mulchandani',
     'Devang Brahmbhatt',
     'Niraj Shah',
@@ -161,7 +174,7 @@ export default function AwardsOverview() {
     {
       num: '04',
       title: 'The Celebration',
-      desc: 'Join us on 25th June 2026 at Renaissance by Marriott Ahmedabad to celebrate and receive your trophy.',
+      desc: 'Join us on 25th June 2027 at Renaissance by Marriott Ahmedabad to celebrate and receive your trophy.',
       icon: Sparkles,
     },
   ];
@@ -196,7 +209,7 @@ export default function AwardsOverview() {
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 py-2.5 px-5 rounded-full bg-pure-white/10 border border-pure-white/20 backdrop-blur-sm mb-8">
             <span className="w-2.5 h-2.5 rounded-full bg-leaf-green animate-pulse"></span>
-            <span className="text-[10px] font-bold tracking-widest uppercase">Nominations Open for 2026</span>
+            <span className="text-[10px] font-bold tracking-widest uppercase">Nominations Open for 2027</span>
           </div>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-playfair font-bold mb-6 leading-tight">
             The Journey to <br />
@@ -230,10 +243,10 @@ export default function AwardsOverview() {
               Valuation Board
             </span>
             <h2 className="text-4xl sm:text-5xl font-playfair font-bold text-dark-green mb-4">
-              Speakers & Jury Panel 2026
+              Speakers & Jury Panel 2027
             </h2>
             <p className="text-gray-500 text-sm max-w-xl mx-auto font-light leading-relaxed">
-              Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2026.
+              Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2027.
             </p>
 
             {/* Section Search Bar */}
@@ -277,14 +290,23 @@ export default function AwardsOverview() {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
-              {filteredJury.filter(item => item.photoUrl).map((item) => (
+              {filteredJury.map((item) => (
                 <div 
                   key={item.id}
                   onClick={() => setSelectedPerson(item)}
                   className="relative aspect-[3/4] rounded-[16px] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100"
                 >
-                  {/* Photo */}
-                  <img src={item.photoUrl!} alt={item.name} className="w-full h-full object-cover" />
+                  {/* Photo or Fallback Gradient */}
+                  {item.photoUrl ? (
+                    <img src={item.photoUrl} alt={item.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div 
+                      className="w-full h-full flex items-center justify-center text-4xl font-black text-white/90"
+                      style={{ background: item.bg }}
+                    >
+                      {item.initials}
+                    </div>
+                  )}
 
                   {/* Gradient Overlay */}
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -319,7 +341,16 @@ export default function AwardsOverview() {
               </button>
 
               <div className="aspect-[3/4] w-full relative bg-gray-100">
-                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
+                {selectedPerson.photoUrl ? (
+                  <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div 
+                    className="w-full h-full flex items-center justify-center text-7xl font-black text-white/90 shadow-inner"
+                    style={{ background: selectedPerson.bg }}
+                  >
+                    {selectedPerson.initials}
+                  </div>
+                )}
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
               </div>
 
@@ -539,7 +570,7 @@ export default function AwardsOverview() {
                   Apply Now <Rocket className="w-4 h-4" />
                 </Link>
                 <Link
-                  to="/event-2026"
+                  to="/event-2027"
                   className="px-8 py-4 btn-premium-secondary"
                 >
                   Get Your Pass

@@ -197,7 +197,7 @@ export default function ApplyAward() {
               order_id: orderRes.order.id,
               amount: res.data.amount,
               name: formData.name,
-              description: 'Greenpreneur Award Nomination',
+              description: 'Greenpreneur Award Nomination 2027',
               prefill: {
                 name: formData.name,
                 email: formData.email,
@@ -308,14 +308,14 @@ export default function ApplyAward() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-green"></span>
           </span>
           <span className="text-primary-green text-[10px] font-bold uppercase tracking-[0.2em]">
-            Nominations Open for 2026
+            Nominations Open for 2027
           </span>
         </div>
         <h1 className="text-4xl md:text-5xl font-playfair font-bold text-dark-green mb-4">
-          Apply for Awards
+          Apply for Greenpreneur Awards 2027
         </h1>
         <p className="text-gray-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-          Submit your green enterprise nomination. Choose between the Free Honorary path or the competitive Rated challenge.
+          Submit your green enterprise nomination for the Greenpreneur Awards 2027. Choose between the Free Honorary path or the competitive Rated challenge.
         </p>
       </div>
 
@@ -714,7 +714,7 @@ export default function ApplyAward() {
                         <ul className="space-y-2 mb-4 text-[10px] text-gray-700 flex-1">
                           <li className="flex items-start gap-1.5">
                             <Check className="w-3.5 h-3.5 text-primary-green shrink-0 mt-0.5" />
-                            <span>Free entry to Greenpreneur 2026 (Worth of ₹2,000)</span>
+                            <span>Free entry to Greenpreneur 2027 (Worth of ₹2,000)</span>
                           </li>
                           <li className="flex items-start gap-1.5">
                             <Check className="w-3.5 h-3.5 text-primary-green shrink-0 mt-0.5" />

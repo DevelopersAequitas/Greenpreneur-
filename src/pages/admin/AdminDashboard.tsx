@@ -42,6 +42,15 @@ const AdminDashboard = () => {
   // Blog Editor State
   const [blogContent, setBlogContent] = useState<string>('');
 
+  // Voter Details Modal State
+  const [votersList, setVotersList] = useState<any[]>([]);
+  const [votersLoading, setVotersLoading] = useState(false);
+  const [votersNomineeName, setVotersNomineeName] = useState('');
+  const [showVotersModal, setShowVotersModal] = useState(false);
+  const [bulkVotersLoading, setBulkVotersLoading] = useState(false);
+  const [selectedVoterEmails, setSelectedVoterEmails] = useState<string[]>([]);
+  const [expandedVoterIndices, setExpandedVoterIndices] = useState<number[]>([]);
+
   // Load viewed keys from localStorage on mount
   useEffect(() => {
     try {
@@ -250,6 +259,93 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleBulkExportVoters = async () => {
+    if (selectedIds.length === 0) return;
+    
+    setBulkVotersLoading(true);
+    try {
+      const token = localStorage.getItem('adminToken');
+      const allVoters: any[] = [];
+
+      await Promise.all(
+        selectedIds.map(async (id) => {
+          try {
+            const res = await fetch(`${API_PREFIX}/api/admin/nominations/${id}/votes`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const result = await res.json();
+            if (result.success && result.data && result.data.length > 0) {
+              const nominee = data.find(n => String(n.id) === String(id));
+              const nomineeName = nominee ? nominee.nominee_name : `ID ${id}`;
+              const nomineeCategory = nominee ? nominee.category : '';
+              
+              result.data.forEach((voter: any) => {
+                allVoters.push({
+                  ...voter,
+                  nominee_name: nomineeName,
+                  nominee_category: nomineeCategory
+                });
+              });
+            }
+          } catch (err) {
+            console.error(`Error fetching votes for nominee ID ${id}:`, err);
+          }
+        })
+      );
+
+      if (allVoters.length === 0) {
+        alert("No voter endorsements found for the selected nominees.");
+        return;
+      }
+
+      // Generate CSV
+      const headers = [
+        'Nominee Name',
+        'Nominee Category',
+        'Voter Name',
+        'Voter Email',
+        'Voter Phone',
+        'Voter City',
+        'Voter Business',
+        'Voter Designation',
+        'Vote Date',
+        'Remarks'
+      ];
+      
+      const csvContent = [
+        headers.map(h => `"${h.replace(/"/g, '""').toUpperCase()}"`).join(','),
+        ...allVoters.map(v => [
+          `"${v.nominee_name?.replace(/"/g, '""') || ''}"`,
+          `"${v.nominee_category?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_name?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_email?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_phone?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_city?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_business?.replace(/"/g, '""') || ''}"`,
+          `"${v.voter_designation?.replace(/"/g, '""') || ''}"`,
+          `"${v.created_at ? new Date(v.created_at).toLocaleString('en-IN') : ''}"`,
+          `"${v.voter_remarks?.replace(/"/g, '""') || ''}"`
+        ].join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      link.setAttribute("download", `bulk_nominee_voters_${dateStr}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Bulk voters export failed:", err);
+      alert("An error occurred while exporting voters.");
+    } finally {
+      setBulkVotersLoading(false);
+    }
+  };
+
   const fetchData = async (tabId: string) => {
     if (tabId === 'add-winner' || tabId === 'add-blog' || tabId === 'add-voice-video') {
       setIsLoading(false);
@@ -302,6 +398,12 @@ const AdminDashboard = () => {
       else if (tabId === 'gallery-sponsors') endpoint = 'gallery-sponsors';
       else if (tabId === 'partners') endpoint = 'partners';
       else if (tabId === 'jury') endpoint = 'jury';
+      else if (tabId === 'manage-admins') endpoint = 'users';
+      else if (tabId === 'add-admin') {
+        setData([]);
+        setIsLoading(false);
+        return;
+      }
       else {
         // It's one of the 13 forms
         endpoint = `inquiries?type=${tabId}`;
@@ -345,6 +447,14 @@ const AdminDashboard = () => {
     { id: 'sponsorships', label: 'Sponsorships (Main)', icon: <Handshake size={20} /> },
     { id: 'community-members', label: 'Community Members', icon: <Users size={20} /> },
   ];
+
+  const adminNavItems: any[] = [];
+  if (user.role === 'superadmin' || user.role === 'admin') {
+    adminNavItems.push(
+      { id: 'manage-admins', label: 'Manage Admins', icon: <Users size={20} /> },
+      { id: 'add-admin', label: 'Add New Admin', icon: <PlusCircle size={20} /> }
+    );
+  }
 
   const inquiryNavItems = [
     { id: 'apply-magazine', label: 'Apply for Magazine' },
@@ -639,6 +749,231 @@ const AdminDashboard = () => {
   };
 
   const renderTable = () => {
+    if (activeTab === 'manage-admins') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden font-inter">
+          <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <h2 className="text-xl font-bold text-gray-800 font-playfair">Manage Admin Users</h2>
+              <div className="relative flex-1 sm:w-64 max-w-xs">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search admin users..."
+                  className="w-full border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 text-xs focus:ring-primary focus:border-primary outline-none shadow-sm"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-bold"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
+              <button
+                onClick={() => setActiveTab('add-admin')}
+                className="bg-green-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-xs flex items-center gap-1.5 shadow-sm"
+              >
+                <PlusCircle size={16} /> Add New Admin
+              </button>
+            </div>
+          </div>
+          <div className="overflow-x-auto animate-fade-in">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200 uppercase tracking-wider text-xs">
+                <tr>
+                  <th className="px-6 py-4">Name</th>
+                  <th className="px-6 py-4">Email</th>
+                  <th className="px-6 py-4">Role</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Last Login</th>
+                  <th className="px-6 py-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {processedData.map((row: any) => (
+                  <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 text-gray-700 font-semibold">{row.name}</td>
+                    <td className="px-6 py-4 text-gray-700">{row.email}</td>
+                    <td className="px-6 py-4 text-gray-700 capitalize">{row.role}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={async () => {
+                          if (row.id === user.id) {
+                            alert('You cannot deactivate your own account.');
+                            return;
+                          }
+                          try {
+                            const token = localStorage.getItem('adminToken');
+                            const res = await fetch(`${API_PREFIX}/api/admin/users/${row.id}/toggle-status`, {
+                              method: 'POST',
+                              headers: { 'Authorization': `Bearer ${token}` }
+                            });
+                            const result = await res.json();
+                            if (result.success) {
+                              // Toggle in state
+                              setData(prev => prev.map((u: any) => u.id === row.id ? { ...u, is_active: result.data.is_active } : u));
+                            } else {
+                              alert('Error: ' + result.message);
+                            }
+                          } catch (err) {
+                            alert('Request failed');
+                          }
+                        }}
+                        className={`px-3 py-1 rounded-full text-xs font-bold border transition-all cursor-pointer ${
+                          row.is_active === 1
+                            ? 'bg-green-100 text-green-800 border-green-200 hover:bg-green-200'
+                            : 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200'
+                        }`}
+                      >
+                        {row.is_active === 1 ? 'Active' : 'Deactivated'}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 text-gray-650">
+                      {row.last_login ? new Date(row.last_login).toLocaleString() : 'Never'}
+                    </td>
+                    <td className="px-6 py-4 text-gray-750">
+                      <button
+                        disabled={row.id === user.id}
+                        onClick={async () => {
+                          if (row.id === user.id) {
+                            alert('You cannot delete your own account.');
+                            return;
+                          }
+                          if (window.confirm(`Are you sure you want to delete admin "${row.name}"?`)) {
+                            try {
+                              const token = localStorage.getItem('adminToken');
+                              const res = await fetch(`${API_PREFIX}/api/admin/users/${row.id}`, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Bearer ${token}` }
+                              });
+                              const result = await res.json();
+                              if (result.success) {
+                                setData(prev => prev.filter((u: any) => u.id !== row.id));
+                              } else {
+                                alert('Error: ' + result.message);
+                              }
+                            } catch (err) {
+                              alert('Delete request failed.');
+                            }
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-800 font-semibold text-xs border border-red-200 hover:border-red-400 px-3 py-1 rounded bg-red-50/50 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'add-admin') {
+      return (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 max-w-4xl font-inter">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 font-playfair">Add New Admin User</h2>
+          <form 
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const name = formData.get('name') as string;
+              const email = formData.get('email') as string;
+              const password = formData.get('password') as string;
+              const role = formData.get('role') as string;
+
+              if (!name || !email || !password || !role) {
+                alert('Please fill out all fields.');
+                return;
+              }
+
+              try {
+                const token = localStorage.getItem('adminToken');
+                const res = await fetch(`${API_PREFIX}/api/admin/users`, {
+                  method: 'POST',
+                  headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                  },
+                  body: JSON.stringify({ name, email, password, role })
+                });
+                const result = await res.json();
+                if (result.success) {
+                  alert('Admin user added successfully!');
+                  setActiveTab('manage-admins');
+                } else {
+                  alert('Error: ' + result.message);
+                }
+              } catch (err) {
+                alert('Submission failed');
+              }
+            }} 
+            className="space-y-6"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Full Name *</label>
+                <input 
+                  type="text" 
+                  name="name" 
+                  required 
+                  className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" 
+                  placeholder="Enter full name"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Email Address *</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  required 
+                  className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" 
+                  placeholder="name@greenpreneur.in"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Password *</label>
+                <input 
+                  type="password" 
+                  name="password" 
+                  required 
+                  className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none" 
+                  placeholder="••••••••"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Role *</label>
+                <select 
+                  name="role" 
+                  required 
+                  className="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-primary focus:border-primary outline-none bg-white"
+                >
+                  <option value="admin">Admin</option>
+                  <option value="coordinator">Coordinator</option>
+                  <option value="viewer">Viewer</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <button 
+                type="submit" 
+                className="bg-green-800 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                Create Admin Account
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
     if (activeTab === 'blogs') {
       return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden font-inter">
@@ -1438,21 +1773,28 @@ const AdminDashboard = () => {
                   <span className="text-xs font-bold text-green-800">{selectedIds.length} Selected</span>
                   <button
                     onClick={() => handleBulkStatusUpdate('winner')}
-                    className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors"
+                    className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors cursor-pointer"
                   >
                     🏆 Make Winners
                   </button>
                   <button
                     onClick={() => handleBulkStatusUpdate('approved')}
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors"
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors cursor-pointer"
                   >
                     Approve
                   </button>
                   <button
                     onClick={() => handleBulkStatusUpdate('rejected')}
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors"
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors cursor-pointer"
                   >
                     Reject
+                  </button>
+                  <button
+                    onClick={handleBulkExportVoters}
+                    disabled={bulkVotersLoading}
+                    className="bg-green-800 hover:bg-green-950 text-white font-bold py-1 px-2.5 rounded text-[10px] uppercase transition-colors disabled:opacity-50 flex items-center gap-1.5 cursor-pointer"
+                  >
+                    {bulkVotersLoading ? '⏳ Exporting...' : '📥 Export Voters'}
                   </button>
                 </div>
               ) : (
@@ -1659,8 +2001,36 @@ const AdminDashboard = () => {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col gap-0.5">
-                          <span className="text-sm font-bold text-gray-800 flex items-center gap-1">
-                            ⭐ {row.public_votes || 0} <span className="text-xs text-gray-400 font-normal">votes</span>
+                          <span 
+                            onClick={async () => {
+                              if ((row.public_votes || 0) > 0) {
+                                setVotersLoading(true);
+                                setVotersNomineeName(row.nominee_name);
+                                setShowVotersModal(true);
+                                try {
+                                  const token = localStorage.getItem('adminToken');
+                                  const res = await fetch(`${API_PREFIX}/api/admin/nominations/${row.id}/votes`, {
+                                    headers: { 'Authorization': `Bearer ${token}` }
+                                  });
+                                  const result = await res.json();
+                                  if (result.success) {
+                                    setVotersList(result.data || []);
+                                  } else {
+                                    setVotersList([]);
+                                  }
+                                } catch (err) {
+                                  console.error(err);
+                                  setVotersList([]);
+                                } finally {
+                                  setVotersLoading(false);
+                                }
+                              } else {
+                                alert(`No votes recorded yet for ${row.nominee_name}.`);
+                              }
+                            }}
+                            className="text-sm font-bold text-green-800 hover:text-green-950 hover:underline cursor-pointer flex items-center gap-1 w-max"
+                          >
+                            ⭐ {row.public_votes || 0} <span className="text-xs text-gray-400 font-normal hover:no-underline">votes</span>
                           </span>
                           <span className="text-xs text-gray-500">
                             Speakers & Jury: {row.jury_score !== null && row.jury_score !== undefined ? `${row.jury_score}/100` : 'Not graded'}
@@ -1826,7 +2196,7 @@ const AdminDashboard = () => {
     );
   };
 
-  const currentLabel = [...mainNavItems, ...inquiryNavItems].find(item => item.id === activeTab)?.label;
+  const currentLabel = [...mainNavItems, ...inquiryNavItems, ...adminNavItems].find(item => item.id === activeTab)?.label;
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -1864,6 +2234,28 @@ const AdminDashboard = () => {
               ))}
             </div>
           </div>
+
+          {adminNavItems.length > 0 && (
+            <div className="mb-6">
+              <p className="text-xs uppercase tracking-widest text-white/40 mb-3 px-4 font-bold">User Management</p>
+              <div className="space-y-1">
+                {adminNavItems.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-colors text-sm ${
+                      activeTab === item.id 
+                        ? 'bg-primary text-green-950 font-bold' 
+                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div>
             <p className="text-xs uppercase tracking-widest text-white/40 mb-3 px-4 font-bold">Form Inquiries</p>
@@ -2124,7 +2516,7 @@ const AdminDashboard = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Object.entries(selectedRecord).map(([key, val]) => (
-                    <div key={key} className={['description', 'remarks', 'impact_text', 'why_join'].includes(key) ? 'md:col-span-2' : ''}>
+                    <div key={key} className={['description', 'remarks', 'impact_text', 'why_join', 'profile_picture', 'business_logo'].includes(key) ? 'md:col-span-2' : ''}>
                       <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
                         {key.replace(/_/g, ' ')}
                       </p>
@@ -2132,7 +2524,22 @@ const AdminDashboard = () => {
                         {typeof val === 'string' && val.startsWith('http') 
                           ? <a href={val} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all">{val}</a>
                           : typeof val === 'string' && val.startsWith('/uploads')
-                            ? <a href={`${API_PREFIX}${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all font-semibold">View / Download File</a>
+                            ? (
+                              <div className="flex flex-col gap-3">
+                                <a href={`${API_PREFIX}${val}`} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium break-all font-semibold">
+                                  View / Download File
+                                </a>
+                                {['profile_picture', 'business_logo'].includes(key) && (
+                                  <div className="mt-1">
+                                    <img 
+                                      src={`${API_PREFIX}${val}`} 
+                                      alt={key.replace(/_/g, ' ')} 
+                                      className="max-h-40 max-w-[200px] object-contain rounded-lg border border-gray-200 bg-white p-1 shadow-sm"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )
                             : val !== null && val !== undefined ? String(val) : <span className="text-gray-400 italic">Not provided</span>}
                       </div>
                     </div>
@@ -2261,6 +2668,212 @@ const AdminDashboard = () => {
                   )}
                 </div>
               )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {showVotersModal && (
+        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col font-inter"
+          >
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+              <div>
+                <h3 className="text-xl font-bold text-gray-800">Voter Endorsements</h3>
+                <p className="text-xs text-gray-500 mt-1">Showing voters for <strong className="text-green-800">{votersNomineeName}</strong></p>
+              </div>
+              <button 
+                onClick={() => { setShowVotersModal(false); setVotersList([]); setSelectedVoterEmails([]); setExpandedVoterIndices([]); }} 
+                className="text-gray-400 hover:text-gray-600 transition-colors bg-white p-1.5 rounded-full shadow-sm border border-gray-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
+              {votersLoading ? (
+                <div className="flex flex-col items-center justify-center py-12 gap-2 text-gray-500">
+                  <Loader2 className="w-8 h-8 animate-spin text-green-800" />
+                  <span className="text-sm font-medium">Loading voters...</span>
+                </div>
+              ) : votersList.length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  No voter records found in database.
+                </div>
+              ) : (
+                <div className="overflow-x-auto border border-gray-150 rounded-xl">
+                  <table className="w-full text-left text-xs whitespace-nowrap">
+                    <thead className="bg-gray-50 text-gray-600 font-semibold border-b border-gray-200 uppercase tracking-wider text-[10px]">
+                      <tr>
+                        <th className="px-4 py-3 w-10">
+                          <input 
+                            type="checkbox" 
+                            checked={votersList.length > 0 && selectedVoterEmails.length === votersList.length}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedVoterEmails(votersList.map(v => v.voter_email));
+                              } else {
+                                setSelectedVoterEmails([]);
+                              }
+                            }}
+                            className="rounded border-gray-300 text-green-800 focus:ring-green-700 h-4 w-4 cursor-pointer"
+                          />
+                        </th>
+                        <th className="px-4 py-3">Voter Details</th>
+                        <th className="px-4 py-3">Phone & City</th>
+                        <th className="px-4 py-3">Business & Designation</th>
+                        <th className="px-4 py-3">Vote Date</th>
+                        <th className="px-4 py-3 whitespace-normal min-w-[280px] max-w-xs">Remarks / Support Message</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-150">
+                      {votersList.map((voter, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                          <td className="px-4 py-3 w-10">
+                            <input 
+                              type="checkbox"
+                              checked={selectedVoterEmails.includes(voter.voter_email)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedVoterEmails(prev => [...prev, voter.voter_email]);
+                                } else {
+                                  setSelectedVoterEmails(prev => prev.filter(email => email !== voter.voter_email));
+                                }
+                              }}
+                              className="rounded border-gray-300 text-green-800 focus:ring-green-700 h-4 w-4 cursor-pointer"
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex flex-col">
+                              <span className="font-semibold text-gray-800 text-sm">{voter.voter_name}</span>
+                              <span className="text-gray-500">{voter.voter_email}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-gray-750">
+                            <div className="flex flex-col">
+                              <span>{voter.voter_phone || '-'}</span>
+                              <span className="text-[10px] text-gray-400">{voter.voter_city || '-'}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-gray-750">
+                            <div className="flex flex-col">
+                              <span className="font-medium">{voter.voter_business || '-'}</span>
+                              <span className="text-[10px] text-gray-400">{voter.voter_designation || '-'}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-gray-650">
+                            {voter.created_at ? new Date(voter.created_at).toLocaleString() : '-'}
+                          </td>
+                          <td className="px-4 py-3 text-gray-600 whitespace-normal min-w-[280px] max-w-xs leading-relaxed">
+                            {voter.voter_remarks ? (
+                              <div>
+                                <p 
+                                  className="text-xs"
+                                  style={!expandedVoterIndices.includes(idx) ? {
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 3,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden',
+                                    wordBreak: 'break-word',
+                                    whiteSpace: 'normal'
+                                  } : {
+                                    whiteSpace: 'normal',
+                                    wordBreak: 'break-word'
+                                  }}
+                                >
+                                  {voter.voter_remarks}
+                                </p>
+                                {(voter.voter_remarks.length > 90 || voter.voter_remarks.includes('\n')) && (
+                                  <button
+                                    onClick={() => {
+                                      if (expandedVoterIndices.includes(idx)) {
+                                        setExpandedVoterIndices(prev => prev.filter(i => i !== idx));
+                                      } else {
+                                        setExpandedVoterIndices(prev => [...prev, idx]);
+                                      }
+                                    }}
+                                    className="text-green-800 hover:text-green-950 hover:underline font-bold text-[9px] uppercase mt-1 cursor-pointer block text-left"
+                                  >
+                                    {expandedVoterIndices.includes(idx) ? 'Read Less' : 'Read More'}
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-gray-400 italic">No remarks left</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end items-center gap-2">
+              {selectedVoterEmails.length > 0 && (
+                <span className="text-xs font-bold text-green-800 mr-auto">
+                  {selectedVoterEmails.length} selected for export
+                </span>
+              )}
+              {votersList.length > 0 && (
+                <button
+                  onClick={() => {
+                    const votersToExport = selectedVoterEmails.length > 0 
+                      ? votersList.filter(v => selectedVoterEmails.includes(v.voter_email))
+                      : votersList;
+
+                    const headers = [
+                      'Voter Name',
+                      'Voter Email',
+                      'Voter Phone',
+                      'Voter City',
+                      'Voter Business',
+                      'Voter Designation',
+                      'Vote Date',
+                      'Remarks'
+                    ];
+                    
+                    const csvContent = [
+                      headers.map(h => `"${h.replace(/"/g, '""').toUpperCase()}"`).join(','),
+                      ...votersToExport.map(v => [
+                        `"${v.voter_name?.replace(/"/g, '""') || ''}"`,
+                        `"${v.voter_email?.replace(/"/g, '""') || ''}"`,
+                        `"${v.voter_phone?.replace(/"/g, '""') || ''}"`,
+                        `"${v.voter_city?.replace(/"/g, '""') || ''}"`,
+                        `"${v.voter_business?.replace(/"/g, '""') || ''}"`,
+                        `"${v.voter_designation?.replace(/"/g, '""') || ''}"`,
+                        `"${v.created_at ? new Date(v.created_at).toLocaleString('en-IN') : ''}"`,
+                        `"${v.voter_remarks?.replace(/"/g, '""') || ''}"`
+                      ].join(','))
+                    ].join('\n');
+
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", url);
+                    const safeName = votersNomineeName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                    const filename = selectedVoterEmails.length > 0 
+                      ? `selected_voters_${safeName}.csv`
+                      : `all_voters_${safeName}.csv`;
+                    link.setAttribute("download", filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="px-4 py-2 bg-green-800 hover:bg-green-700 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5"
+                >
+                  📥 {selectedVoterEmails.length > 0 ? 'Export Selected CSV' : 'Export Voters CSV'}
+                </button>
+              )}
+              <button
+                onClick={() => { setShowVotersModal(false); setVotersList([]); setSelectedVoterEmails([]); setExpandedVoterIndices([]); }}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                Close
+              </button>
             </div>
           </motion.div>
         </div>

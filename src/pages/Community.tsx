@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
 import { submitCommunityApplication, createPaymentOrder } from '../utils/api';
+import AppPromo from '../components/AppPromo';
 
 export default function Community() {
   const [formData, setFormData] = useState({
@@ -127,6 +128,16 @@ export default function Community() {
       title: 'Peer Learning Circle',
       desc: 'Join a verified network of 500+ Indian green entrepreneurs solving circular supply chain and raw material issues.',
     },
+    {
+      title: 'App-Exclusive Networking',
+      desc: 'Connect, DM, and collaborate with eco-conscious founders and verified investors directly in real-time through the Greenpreneur Unity app.',
+      isAppExclusive: true,
+    },
+    {
+      title: 'SDG Carbon Offset Logging',
+      desc: 'Log offsets, tree plantation progress, and green achievements directly from your phone for instant validation.',
+      isAppExclusive: true,
+    },
   ];
 
   return (
@@ -211,6 +222,13 @@ export default function Community() {
           </div>
         </div>
       </section>
+      {/* APP INTEGRATION PROMO */}
+      <AppPromo 
+        title="Showcase & Integration Platform" 
+        subtitle="Greenpreneur Unity App" 
+        description="Our new mobile app is fully integrated with the main platform. Access real-time notifications, unified account synchronization, and custom networking groups." 
+        integrationFocus={true} 
+      />
 
       {/* MEMBERSHIP BENEFITS GRID */}
       <section className="py-20 bg-pure-white border-y border-light-grey">
@@ -228,22 +246,34 @@ export default function Community() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((b, i) => (
+            {benefits.map((b: any, i) => (
               <div
                 key={i}
-                className="bg-cream-white p-8 border border-light-grey rounded-xl shadow-sm hover:shadow-md hover:border-accent-gold transition-all duration-300"
+                className={`p-8 border rounded-xl shadow-sm transition-all duration-300 ${
+                  b.isAppExclusive 
+                    ? 'bg-gradient-to-br from-[#EAF3DE]/40 to-[#E1F5EE]/20 border-accent-gold shadow-[0_0_15px_rgba(201,150,58,0.06)] hover:shadow-lg hover:border-accent-gold/80' 
+                    : 'bg-cream-white border-light-grey hover:shadow-md hover:border-accent-gold'
+                }`}
               >
-                <div className="w-10 h-10 rounded-lg bg-primary-green/10 text-primary-green flex items-center justify-center font-bold text-sm mb-6">
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm mb-6 ${
+                  b.isAppExclusive ? 'bg-accent-gold/20 text-accent-gold' : 'bg-primary-green/10 text-primary-green'
+                }`}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
-                <h4 className="font-playfair text-lg font-bold text-dark-green mb-3">{b.title}</h4>
+                <h4 className="font-playfair text-lg font-bold text-dark-green mb-3 flex items-center justify-between gap-2 flex-wrap">
+                  <span>{b.title}</span>
+                  {b.isAppExclusive && (
+                    <span className="text-[9px] font-black uppercase bg-accent-gold/15 text-accent-gold border border-accent-gold/30 px-2 py-0.5 rounded-md whitespace-nowrap">
+                      App Exclusive
+                    </span>
+                  )}
+                </h4>
                 <p className="text-xs sm:text-sm text-medium-grey leading-relaxed font-light">{b.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
       {/* JOIN NOW FORM */}
       <section id="join-form" className="py-24 px-6 max-w-4xl mx-auto scroll-mt-24">
         <div className="bg-pure-white border border-light-grey rounded-2xl shadow-xl p-8 sm:p-12">

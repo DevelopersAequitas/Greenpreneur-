@@ -42,7 +42,7 @@ function getInitials(name: string) {
 
 export default function HallOfGreen() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<TabType>('winners');
+  const [activeTab, setActiveTab] = useState<TabType>('partners');
   const [selectedPerson, setSelectedPerson] = useState<PersonData | null>(null);
   const [dbData, setDbData] = useState<Record<TabType, PersonData[]>>({
     winners: [],
@@ -87,9 +87,52 @@ export default function HallOfGreen() {
           };
         };
 
+        const tierPriority: Record<string, number> = {
+          'Title Sponsor': 1,
+          'Platinum Sponsor': 2,
+          'Powered By': 3,
+          'Gold Sponsor': 4,
+          'Associate Partner': 5,
+          'Organized by': 6,
+          'Technology Partner': 7,
+          'Media Partner': 8
+        };
+        const sortedSponsorNames = [
+          'Broghar Realty',
+          'Armorfire',
+          'Aerolam',
+          'Porcious',
+          'Sun Wave Energy',
+          'CampusDean',
+          'CampusJobs.ai',
+          'Nature Coat',
+          'Zybra',
+          'CEED',
+          'TVM',
+          'Shaadi Vows',
+          'Wide Reach',
+          'Fempreneur',
+          '1 Million',
+          'Peers Global',
+          'Aequitas Infotech',
+          'VyapaarJagat.com'
+        ];
+        const sortedSponsors = (sRes.data || []).map(row => formatPerson(row, 'Sponsor'))
+          .sort((a, b) => {
+            const idxA = sortedSponsorNames.indexOf(a.name);
+            const idxB = sortedSponsorNames.indexOf(b.name);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            const pA = tierPriority[a.role] || 99;
+            const pB = tierPriority[b.role] || 99;
+            if (pA !== pB) return pA - pB;
+            return a.name.localeCompare(b.name);
+          });
+
         setDbData({
           winners: (wRes.data || []).map(row => formatPerson(row, row.category || 'Winner')),
-          sponsors: (sRes.data || []).map(row => formatPerson(row, 'Sponsor')),
+          sponsors: sortedSponsors,
           partners: (pRes.data || []).map(row => formatPerson(row, 'Partner')),
           jury: (jRes.data || []).map(row => formatPerson(row, 'Speakers & Jury Member'))
         });
@@ -138,7 +181,7 @@ export default function HallOfGreen() {
         {/* Header Area */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-[#2E7D32]/10 border border-[#2E7D32]/20 text-[#2E7D32] text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-widest">
-            <Award className="w-4 h-4" /> Greenpreneur Awards 2026
+            <Award className="w-4 h-4" /> Greenpreneur Awards 2027
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-dark-green mb-4 tracking-tight">Hall of Green</h2>
           <p className="text-gray-600 max-w-lg mx-auto text-sm md:text-base">
@@ -148,7 +191,7 @@ export default function HallOfGreen() {
 
         {/* Category Tabs */}
         <div className="flex justify-center gap-3 mb-10 flex-wrap">
-          {(['winners', 'sponsors', 'partners', 'jury'] as TabType[]).map((tab) => {
+          {(['partners', 'jury', 'sponsors', 'winners'] as TabType[]).map((tab) => {
             const isActive = activeTab === tab;
             const emoji = tab === 'winners' ? '🏆' : tab === 'sponsors' ? '🤝' : tab === 'partners' ? '🌐' : '⚖️';
             const count = dbData[tab].filter(item => item.photoUrl).length;
@@ -209,7 +252,7 @@ export default function HallOfGreen() {
                     )}
 
                     {/* Badge */}
-                    <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm">
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 px-2 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm whitespace-nowrap">
                       {shortRole}
                     </div>
                   </div>
@@ -286,9 +329,13 @@ export default function HallOfGreen() {
             </button>
 
             {/* Modal Image/Header */}
-            <div className="aspect-[3/4] w-full relative">
+            <div className={`aspect-[3/4] w-full relative ${activeTab === 'sponsors' || activeTab === 'partners' ? 'bg-white flex items-center justify-center p-8' : ''}`}>
               {selectedPerson.photoUrl ? (
-                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover object-top" />
+                <img 
+                  src={selectedPerson.photoUrl} 
+                  alt={selectedPerson.name} 
+                  className={`w-full h-full ${activeTab === 'sponsors' || activeTab === 'partners' ? 'object-contain' : 'object-cover object-top'}`} 
+                />
               ) : (
                 <div 
                   className="w-full h-full flex items-center justify-center text-7xl font-black text-white/90 shadow-inner"
@@ -297,7 +344,9 @@ export default function HallOfGreen() {
                   {selectedPerson.initials}
                 </div>
               )}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+              {activeTab !== 'sponsors' && activeTab !== 'partners' && (
+                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
+              )}
             </div>
 
             {/* Modal Content */}

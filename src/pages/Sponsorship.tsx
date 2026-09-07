@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Award, Users, Shield, TrendingUp, Handshake, Mail, CheckCircle, Store } from 'lucide-react';
-import { submitSponsorshipEnquiry } from '../utils/api';
+import { useState, useEffect } from 'react';
+import { Award, Users, Shield, TrendingUp, Handshake, Mail, CheckCircle, Store, X } from 'lucide-react';
+import { submitSponsorshipEnquiry, getGallerySponsors, BASE_URL } from '../utils/api';
 
 export default function Sponsorship() {
   const [formData, setFormData] = useState({
@@ -13,6 +13,76 @@ export default function Sponsorship() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sponsorsList, setSponsorsList] = useState<any[]>([]);
+  const [isLoadingSponsors, setIsLoadingSponsors] = useState(true);
+  const [selectedPerson, setSelectedPerson] = useState<any | null>(null);
+
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    if (selectedPerson) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selectedPerson]);
+
+  useEffect(() => {
+    const fetchSponsors = async () => {
+      try {
+        setIsLoadingSponsors(true);
+        const res = await getGallerySponsors();
+        const list = res.data || [];
+        const tierPriority: Record<string, number> = {
+          'Title Sponsor': 1,
+          'Platinum Sponsor': 2,
+          'Powered By': 3,
+          'Gold Sponsor': 4,
+          'Associate Partner': 5,
+          'Organized by': 6,
+          'Technology Partner': 7,
+          'Media Partner': 8
+        };
+        const sortedSponsorNames = [
+          'Broghar Realty',
+          'Armorfire',
+          'Aerolam',
+          'Porcious',
+          'Sun Wave Energy',
+          'CampusDean',
+          'CampusJobs.ai',
+          'Nature Coat',
+          'Zybra',
+          'CEED',
+          'TVM',
+          'Shaadi Vows',
+          'Wide Reach',
+          'Fempreneur',
+          '1 Million',
+          'Peers Global',
+          'Aequitas Infotech',
+          'VyapaarJagat.com'
+        ];
+        const sorted = [...list].sort((a, b) => {
+          const idxA = sortedSponsorNames.indexOf(a.name);
+          const idxB = sortedSponsorNames.indexOf(b.name);
+          if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+          if (idxA !== -1) return -1;
+          if (idxB !== -1) return 1;
+          const pA = tierPriority[a.role] || 99;
+          const pB = tierPriority[b.role] || 99;
+          if (pA !== pB) return pA - pB;
+          return a.name.localeCompare(b.name);
+        });
+        setSponsorsList(sorted);
+      } catch (err) {
+        console.error("Failed to fetch sponsors", err);
+      } finally {
+        setIsLoadingSponsors(false);
+      }
+    };
+    fetchSponsors();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -202,7 +272,7 @@ export default function Sponsorship() {
 
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pure-white/10 border border-pure-white/20 text-accent-gold text-xs font-bold tracking-widest uppercase mb-6">
-            Partnerships 2026
+            Partnerships 2027
           </div>
           <h1 className="text-4xl md:text-6xl font-bold font-playfair mb-6 leading-tight">
             Be a Part of India's Green Economy Movement
@@ -226,6 +296,144 @@ export default function Sponsorship() {
           </div>
         </div>
       </header>
+
+      {/* Dynamic Sponsors Section */}
+      <section className="py-16 px-6 bg-pure-white border-b border-light-grey">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="text-accent-gold font-bold uppercase tracking-[0.3em] text-[10px] mb-2 block">
+              Our Supporters
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold font-playfair text-dark-green">
+              Event Sponsors & Partners 2027
+            </h2>
+            <div className="w-12 h-0.5 bg-accent-gold mx-auto mt-3"></div>
+          </div>
+
+          {isLoadingSponsors ? (
+            <div className="flex flex-col items-center justify-center py-10">
+              <div className="w-8 h-8 border-4 border-primary-green border-t-transparent rounded-full animate-spin mb-3"></div>
+              <p className="text-xs text-medium-grey font-semibold tracking-wider uppercase animate-pulse">Loading Sponsors...</p>
+            </div>
+          ) : sponsorsList.length === 0 ? (
+            <p className="text-center text-xs text-medium-grey py-6">Become our first sponsor. Enquire below!</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 max-w-6xl mx-auto">
+              {sponsorsList.map((item) => {
+                const photoUrl = item.photo_url
+                  ? item.photo_url.startsWith('http')
+                    ? item.photo_url
+                    : `${BASE_URL.replace('/api', '')}${item.photo_url}`
+                  : undefined;
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => setSelectedPerson(item)}
+                    className="relative rounded-[16px] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 bg-white border border-gray-100 flex flex-col justify-between cursor-pointer group"
+                  >
+                    {/* Logo container with white bg */}
+                    <div className="aspect-[4/3] bg-white flex items-center justify-center p-6 relative">
+                      {photoUrl ? (
+                        <img
+                          src={photoUrl}
+                          alt={item.name}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-2xl font-black text-white rounded-lg bg-dark-green/10 text-dark-green">
+                          {item.name.substring(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      
+                      {/* Role/Tier Badge */}
+                      <span className="absolute top-2 left-1/2 -translate-x-1/2 text-[9px] font-bold uppercase tracking-wider bg-accent-gold/15 text-accent-gold border border-accent-gold/25 px-2 py-0.5 rounded shadow-sm whitespace-nowrap">
+                        {item.role}
+                      </span>
+                    </div>
+
+                    {/* Footer text */}
+                    <div className="p-3 bg-gray-50 border-t border-gray-100 text-center">
+                      <h4 className="text-gray-800 text-xs font-bold truncate">
+                        {item.name}
+                      </h4>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Detail Modal Overlay */}
+          {selectedPerson && (() => {
+            let tagsArray: string[] = [];
+            if (selectedPerson.tags) {
+              try {
+                tagsArray = typeof selectedPerson.tags === 'string'
+                  ? JSON.parse(selectedPerson.tags)
+                  : selectedPerson.tags;
+              } catch (e) {}
+            }
+            return (
+              <div 
+                className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+                onClick={() => setSelectedPerson(null)}
+              >
+                <div 
+                  className="bg-white w-full max-w-sm rounded-[24px] overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Close Button */}
+                  <button 
+                    onClick={() => setSelectedPerson(null)}
+                    className="absolute top-4 right-4 z-50 w-8 h-8 bg-black/50 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+
+                  {/* Modal Image */}
+                  <div className="aspect-[3/4] w-full relative bg-white flex items-center justify-center p-8">
+                    {selectedPerson.photo_url ? (
+                      <img 
+                        src={
+                          selectedPerson.photo_url.startsWith('http')
+                            ? selectedPerson.photo_url
+                            : `${BASE_URL.replace('/api', '')}${selectedPerson.photo_url}`
+                        } 
+                        alt={selectedPerson.name} 
+                        className="w-full h-full object-contain" 
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-7xl font-black text-white/90 shadow-inner bg-dark-green/10 text-dark-green">
+                        {selectedPerson.name.substring(0, 2).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Modal Content */}
+                  <div className="p-6">
+                    <h3 className="text-2xl font-black text-gray-900 mb-1">{selectedPerson.name}</h3>
+                    <p className="text-sm font-bold text-[#2E7D32] mb-1">{selectedPerson.role}</p>
+                    <p className="text-sm text-gray-500 mb-5 font-medium">{selectedPerson.org || selectedPerson.company || ''}</p>
+                    
+                    {tagsArray.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {tagsArray.map((tag, idx) => (
+                          <span 
+                            key={idx} 
+                            className="px-3 py-1 bg-[#E8F5E9] text-[#1a5c1a] border border-[#C8E6C9] rounded-full text-xs font-semibold"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      </section>
 
       {/* Value proposition */}
       <section className="py-20 px-6 bg-pure-white border-b border-light-grey">

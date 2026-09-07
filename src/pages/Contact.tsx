@@ -273,10 +273,10 @@ export default function Contact() {
                       <Calendar className="w-5 h-5" />
                     </div>
                     <div>
-                      <h5 className="font-bold text-sm text-gray-900">Greenpreneur 2026 Venue</h5>
+                      <h5 className="font-bold text-sm text-gray-900">Greenpreneur 2027 Venue</h5>
                       <p className="text-gray-500 text-xs mt-0.5">
                         Renaissance by Marriott Hotel, S.G. Highway, Sola, Ahmedabad, Gujarat.<br />
-                        Date: Thursday, 25th June 2026.
+                        Date: Friday, 25th June 2027.
                       </p>
                     </div>
                   </div>

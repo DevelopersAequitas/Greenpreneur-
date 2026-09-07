@@ -22,6 +22,8 @@ async function alterView() {
         (SELECT COUNT(*) FROM nomination_votes WHERE nomination_id = n.id) AS public_votes,
         n.award_year,
         n.voting_url,
+        n.profile_picture,
+        n.business_logo,
         n.created_at,
         n.updated_at
       FROM nominations n

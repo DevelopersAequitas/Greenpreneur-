@@ -84,13 +84,17 @@ export default function Jury() {
   const allowedNames = [
     'Anil Mulchandani',
     'Devang Brahmbhatt',
+    'Dr. Akshay Kumar',
     'Dr. Pravin Parmar',
     'Dr. Sachin Shigwan',
     'Itesh Lakum',
     'Nilesh Priyadarshi',
     'Niraj Shah',
     'Samir Sinha',
-    'Vinod Malviya'
+    'Vinod Malviya',
+    'Phani Trivedi',
+    'Unmesh Dixit',
+    'Rohan Shah'
   ];
 
   const filteredJury = juryList.filter((j) => {
@@ -121,7 +125,7 @@ export default function Jury() {
             Speakers & Jury of the Year
           </h1>
           <p className="text-pure-white/70 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
-            Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2026.
+            Meet the distinguished experts, sustainability leaders, and policy makers evaluation panel of Greenpreneur Awards 2027.
           </p>
 
           <div className="relative max-w-2xl mx-auto shadow-2xl rounded-xl mt-8">
@@ -167,7 +171,7 @@ export default function Jury() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
-            {filteredJury.filter(item => item.photoUrl).map((item) => (
+            {filteredJury.map((item) => (
               <div 
                 key={item.id}
                 onClick={() => setSelectedPerson(item)}

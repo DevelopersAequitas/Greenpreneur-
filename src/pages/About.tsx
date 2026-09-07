@@ -1,8 +1,15 @@
 import { Award, Users, Globe, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AppPromo from '../components/AppPromo';
 
 export default function About() {
   const previousEditions = [
+    {
+      year: '2026',
+      location: 'Renaissance by Marriott, Ahmedabad',
+      theme: 'Sustainability in Viksit Bharat @2047',
+      desc: 'Celebrated our 5th Anniversary honoring 100+ green pioneers and launching the official Coffee Table Book.',
+    },
     {
       year: '2025',
       location: 'BSE India, Mumbai',
@@ -98,7 +105,7 @@ export default function About() {
               A Noble Movement Driven by Passion & Sustainability
             </h2>
             <p className="text-gray-600 leading-relaxed font-light text-sm sm:text-base">
-              Greenpreneur is not just an award program; it is India's premier network of sustainability-focused business architects. In 2026, we celebrate our <strong>5th year anniversary celebration</strong> at the Renaissance by Marriott Ahmedabad Hotel.
+              Greenpreneur is not just an award program; it is India's premier network of sustainability-focused business architects. In 2027, we celebrate our <strong>6th year anniversary celebration</strong> at the Renaissance by Marriott Ahmedabad Hotel.
             </p>
             <p className="text-gray-600 leading-relaxed font-light text-sm sm:text-base">
               The platform was born from a simple realization: while traditional business awards focus purely on financial top-lines, our environment requires a system that rewards resource efficiency, carbon consciousness, and circular economic principles. Greenpreneur fills this gap by validating green businesses through a structured, multi-tier Speakers & jury audit.
@@ -171,6 +178,14 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* APP PROMO FLOW BREAK */}
+      <AppPromo 
+        title="Your Green Network on the Go" 
+        subtitle="Greenpreneur Mobile Experience" 
+        description="Stay connected to the Greenpreneur network. Manage your profile, view upcoming events, and access directories anywhere." 
+        integrationFocus={false} 
+      />
 
       {/* TIMELINE OF PREVIOUS EDITIONS */}
       <section className="py-24 bg-pure-white border-y border-light-grey">
@@ -262,7 +277,7 @@ export default function About() {
               Nominate Now (FREE)
             </Link>
             <Link
-              to="/event-2026"
+              to="/event-2027"
               className="btn-premium-secondary px-8 py-3.5 text-xs text-pure-white border-pure-white hover:text-dark-green"
             >
               Get Event Pass

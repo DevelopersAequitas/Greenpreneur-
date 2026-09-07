@@ -13,55 +13,79 @@ export default function Event2026() {
   const [passOption, setPassOption] = useState<'no_dinner' | 'with_dinner'>('no_dinner');
   const [registered, setRegistered] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.phone) {
-      setIsSubmitting(true);
-      try {
-        const passAmount = passOption === 'with_dinner' ? 1500 : 750;
-        const passTypeName = passOption === 'with_dinner' ? 'Delegate (With Dinner)' : 'Delegate (Without Dinner)';
+    setValidationError('');
 
-        const res = await registerForEvent({
-          ...formData,
-          pass_type: passTypeName,
-          pass_amount: passAmount,
-        }) as any;
+    // Validations:
+    if (!formData.name.trim()) {
+      setValidationError('Full name is required.');
+      return;
+    }
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setValidationError('Please enter a valid email address.');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setValidationError('Mobile number is required.');
+      return;
+    }
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length < 7 || phoneDigits.length > 15 || !/^\+?[0-9\s\-()]+$/.test(formData.phone)) {
+      setValidationError('Please enter a valid mobile number (7 to 15 digits).');
+      return;
+    }
+    if (!formData.city.trim()) {
+      setValidationError('City & State is required.');
+      return;
+    }
 
-        if (res.success) {
-          if (res.requiresPayment && res.order) {
-            const { initiateRazorpayPayment } = await import('../utils/razorpay');
-            initiateRazorpayPayment(
-              {
-                key_id: res.key_id,
-                order_id: res.order.id,
-                amount: passAmount,
+    setIsSubmitting(true);
+    try {
+      const passAmount = passOption === 'with_dinner' ? 1500 : 750;
+      const passTypeName = passOption === 'with_dinner' ? 'Delegate (With Dinner)' : 'Delegate (Without Dinner)';
+
+      const res = await registerForEvent({
+        ...formData,
+        pass_type: passTypeName,
+        pass_amount: passAmount,
+      }) as any;
+
+      if (res.success) {
+        if (res.requiresPayment && res.order) {
+          const { initiateRazorpayPayment } = await import('../utils/razorpay');
+          initiateRazorpayPayment(
+            {
+              key_id: res.key_id,
+              order_id: res.order.id,
+              amount: passAmount,
+              name: formData.name,
+              description: `Greenpreneur 2027 - ${passTypeName}`,
+              prefill: {
                 name: formData.name,
-                description: `Greenpreneur 2026 - ${passTypeName}`,
-                prefill: {
-                  name: formData.name,
-                  email: formData.email,
-                  contact: formData.phone,
-                },
-                module: 'events',
-                record_id: res.registrationId,
+                email: formData.email,
+                contact: formData.phone,
               },
-              () => {
-                setRegistered(true);
-              },
-              (err) => {
-                alert(err.message || 'Payment failed or cancelled.');
-              }
-            );
-          } else {
-            setRegistered(true);
-          }
+              module: 'events',
+              record_id: res.registrationId,
+            },
+            () => {
+              setRegistered(true);
+            },
+            (err) => {
+              alert(err.message || 'Payment failed or cancelled.');
+            }
+          );
+        } else {
+          setRegistered(true);
         }
-      } catch (err: any) {
-        alert(err.message || 'Registration failed. Please try again.');
-      } finally {
-        setIsSubmitting(false);
       }
+    } catch (err: any) {
+      alert(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,7 +95,7 @@ export default function Event2026() {
     { time: '04:15 PM', title: 'Coffee Table Book Launch', desc: 'Exclusive unveiling of the premium hardcover book "Top 50 Sustainable Leaders".' },
     { time: '04:30 PM', title: 'Greenpreneur Awards Ceremony', desc: 'Presentation of 35+ prestigious awards honoring eco-industry leaders.' },
     { time: '05:15 PM', title: 'Peers Global Roundtable Conclave', desc: 'Curated corporate business match-makings and strategy networking for scaling.' },
-    { time: '06:45 PM', title: 'Leadership Ceremony & New Member Welcome', desc: 'Welcoming new Peers Global platform members and setting the 2026 roadmap.' },
+    { time: '06:45 PM', title: 'Leadership Ceremony & New Member Welcome', desc: 'Welcoming new Peers Global platform members and setting the 2027 roadmap.' },
     { time: '07:35 PM', title: 'Peers Global Awards', desc: 'Celebrating cross-sector international business partnerships and excellence.' },
     { time: '08:45 PM', title: 'Gala Dinner & Live Music', desc: 'Grand eco-friendly dining experience accompanied by live traditional music performances.' },
   ];
@@ -104,16 +128,16 @@ export default function Event2026() {
           <div className="inline-flex items-center gap-2.5 px-5 py-2 border border-accent-gold/30 rounded-full mb-8 bg-dark-green/50 backdrop-blur-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-accent-gold animate-pulse"></span>
             <span className="text-accent-gold font-bold text-[10px] uppercase tracking-[0.3em]">
-              5th Year Anniversary Celebration
+              6th Annual Edition — Coming Soon
             </span>
           </div>
 
           <h1 className="font-playfair text-5xl md:text-7xl text-pure-white mb-6 leading-tight tracking-tight">
-            Greenpreneur <span className="text-accent-gold">2026</span>
+            Greenpreneur <span className="text-accent-gold">2027</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl text-pure-white/70 max-w-2xl mx-auto mb-16 font-light leading-relaxed italic">
-            India's most comprehensive gathering of green entrepreneurs, investors, and climate pioneers.
+            India's most comprehensive gathering of green entrepreneurs, investors, and climate pioneers. Returning bigger and bolder in 2027.
           </p>
 
           {/* Quick Info Grid */}
@@ -123,8 +147,8 @@ export default function Event2026() {
                 <Calendar className="w-6 h-6" />
               </div>
               <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Date</p>
-              <p className="font-playfair text-xl">25 June 2026</p>
-              <p className="text-pure-white/50 text-xs mt-0.5">Thursday (2:00 – 9:30 PM)</p>
+              <p className="font-playfair text-xl">To Be Announced</p>
+              <p className="text-pure-white/50 text-xs mt-0.5">Stay tuned for 2027 details</p>
             </div>
 
             <div className="flex flex-col items-center">
@@ -132,8 +156,8 @@ export default function Event2026() {
                 <MapPin className="w-6 h-6" />
               </div>
               <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Venue</p>
-              <p className="font-playfair text-xl">Renaissance by Marriott</p>
-              <p className="text-pure-white/50 text-xs mt-0.5">S.G. Highway, Ahmedabad</p>
+              <p className="font-playfair text-xl">To Be Announced</p>
+              <p className="text-pure-white/50 text-xs mt-0.5">City — To Be Declared</p>
             </div>
 
             <div className="flex flex-col items-center">
@@ -141,14 +165,15 @@ export default function Event2026() {
                 <Clock className="w-6 h-6" />
               </div>
               <p className="text-[12px] text-pure-white/40 uppercase tracking-widest mb-1 font-bold">Attendance</p>
-              <p className="font-playfair text-xl">150–500 Leaders</p>
+              <p className="font-playfair text-xl">500+ Leaders</p>
               <p className="text-pure-white/50 text-xs mt-0.5">Exclusive Networking Gala</p>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Agenda timeline */}
+      {/* AGENDA SECTION — COMMENTED OUT: Uncomment after 2027 date & agenda is declared */}
+      {false && (
       <section id="agenda" className="py-20 px-6 bg-pure-white relative overflow-hidden">
         <div className="absolute left-0 top-0 w-full h-full opacity-5 pointer-events-none heritage-ornament"></div>
         <div className="max-w-4xl mx-auto relative z-10">
@@ -165,14 +190,10 @@ export default function Event2026() {
           <div className="relative border-l border-accent-gold/30 ml-4 md:ml-40 pl-8 space-y-12">
             {agenda.map((item, idx) => (
               <div key={idx} className="relative agenda-item group">
-                {/* Dot */}
                 <div className="absolute -left-[38px] top-1 w-4 h-4 bg-accent-gold rounded-full border-2 border-pure-white shadow-md group-hover:scale-125 transition-transform" />
-
-                {/* Mobile time display */}
                 <span className="text-accent-gold font-bold text-xs uppercase tracking-widest block mb-1 md:absolute md:-left-40 md:w-28 md:text-right md:top-1 font-mono">
                   {item.time}
                 </span>
-
                 <h3 className="font-playfair text-xl font-bold text-dark-green mb-2 group-hover:text-primary-green transition-colors">
                   {item.title}
                 </h3>
@@ -184,8 +205,10 @@ export default function Event2026() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* Venue Section */}
+      {/* VENUE SECTION — COMMENTED OUT: Uncomment after 2027 venue is declared */}
+      {false && (
       <section id="venue" className="py-20 px-6 bg-cream-white border-y border-light-grey">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -226,7 +249,7 @@ export default function Event2026() {
             <div className="relative group">
               <div className="absolute -inset-4 border-2 border-accent-gold/20 rounded-2xl pointer-events-none"></div>
               <img
-                src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800&q=80"
+                src="/renaissance-hotel.png"
                 alt="Marriott Ahmedabad Lobby/Facade"
                 className="w-full h-[380px] object-cover rounded-xl shadow-lg border border-light-grey"
               />
@@ -250,6 +273,7 @@ export default function Event2026() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Who Should Attend */}
       <section id="attendees" className="py-20 px-6 bg-dark-green text-pure-white">
@@ -287,10 +311,10 @@ export default function Event2026() {
           <div className="bg-cream-white p-8 sm:p-12 rounded-3xl border border-light-grey shadow-lg">
             <div className="text-center mb-8">
               <h3 className="font-playfair text-2xl sm:text-3xl font-bold text-dark-green mb-2">
-                Register as Delegate
+                Register Interest for 2027
               </h3>
               <p className="text-xs text-medium-grey">
-                Secure your delegate pass. Our team will verify credentials and text you entry codes.
+                Be the first to know — register your interest for Greenpreneur 2027. Date &amp; venue will be announced soon.
               </p>
             </div>
 
@@ -409,13 +433,19 @@ export default function Event2026() {
                         className="sr-only"
                       />
                       <span className="font-bold text-xs text-dark-green mb-1 flex items-center justify-between">
-                        With Dinner <span className="bg-accent-gold/25 text-[#A07020] text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Popular</span>
+                        With Dinner <span className="bg-accent-gold/25 text-[#A07020] text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">Recommended</span>
                       </span>
                       <span className="text-[10px] text-medium-grey mb-3">Access to event sessions & Gala Networking Dinner.</span>
                       <span className="text-sm font-bold text-primary-green mt-auto">₹1,500</span>
                     </label>
                   </div>
                 </div>
+
+                {validationError && (
+                  <div className="p-3 bg-red-50 border border-red-200 text-red-650 text-xs font-semibold rounded-lg text-center leading-normal">
+                    {validationError}
+                  </div>
+                )}
 
                 <div className="pt-2">
                   <button

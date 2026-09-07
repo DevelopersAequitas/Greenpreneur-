@@ -28,7 +28,7 @@ export default function FAQs() {
     {
       id: 'what-is-greenpreneur',
       question: 'What is Greenpreneur?',
-      answer: "Greenpreneur is India's most comprehensive green entrepreneurship platform. It is a structured, high-impact annual event now in its 5th Year (2026). The movement celebrates and supports entrepreneurs redefining sustainability across 150+ sectors.",
+      answer: "Greenpreneur is India's most comprehensive green entrepreneurship platform. It is a structured, high-impact annual event now in its 6th Year (2027). The movement celebrates and supports entrepreneurs redefining sustainability across 150+ sectors.",
       category: 'general',
     },
     {
@@ -128,7 +128,7 @@ export default function FAQs() {
       question: 'When is the event?',
       answer: (
         <span>
-          The Greenpreneur 2026 Mega Event will take place on <strong>Thursday, 25th June 2026</strong>, from 2:00 PM to 9:30 PM.
+          The Greenpreneur 2027 Mega Event will take place on <strong>Friday, 25th June 2027</strong>, from 2:00 PM to 9:30 PM.
         </span>
       ),
       category: 'event',
@@ -158,7 +158,7 @@ export default function FAQs() {
     {
       id: 'can-speak',
       question: 'Can I speak or lead a masterclass?',
-      answer: 'We are always looking for expert speakers in the green economy. You can apply through our Secretariat. Selection is based on expertise, impact, and relevance to our 2026 theme: "Sustainability in Viksit Bharat".',
+      answer: 'We are always looking for expert speakers in the green economy. You can apply through our Secretariat. Selection is based on expertise, impact, and relevance to our 2027 theme: "Sustainability in Viksit Bharat".',
       category: 'event',
     },
     // Sponsorship
@@ -184,7 +184,7 @@ export default function FAQs() {
     {
       id: 'gst-on-pricing',
       question: 'Is there GST on Coffee Table Book pricing?',
-      answer: 'No, GST is not applicable on the current pricing for Greenpreneur 2026.',
+      answer: 'No, GST is not applicable on the current pricing for Greenpreneur 2027.',
       category: 'coffee-table-book',
     },
   ];
@@ -369,7 +369,7 @@ export default function FAQs() {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <a
-                href="https://wa.me/917041151714?text=Hi,%20I'm%20having%20some%20queries%20about%20Greenpreneur%202026"
+                href="https://wa.me/917041151714?text=Hi,%20I'm%20having%20some%20queries%20about%20Greenpreneur%202027"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-[#25D366] text-pure-white px-8 py-4 rounded-lg font-bold text-xs uppercase tracking-widest hover:shadow-lg hover:-translate-y-0.5 transition-all"

@@ -193,7 +193,7 @@ router.post('/winners', verifyAdmin, upload.single('profilePicture'), async (req
       `INSERT INTO nominations (
         track, nominee_name, business_name, phone, email, city, category_id, description, status, payment_status, award_year, profile_picture, website_link
       ) VALUES (
-        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'paid', '2026', ?, ?
+        'honorary', ?, ?, '', '', ?, ?, ?, 'winner', 'paid', '2027', ?, ?
       )`,
       [nominee_name.trim(), business_name?.trim() || '', city?.trim() || '', categoryId, description?.trim() || '', profilePic, website_link?.trim() || null]
     );
@@ -553,6 +553,124 @@ router.post('/bulk-delete', verifyAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error in bulk delete:', error);
     res.status(500).json({ success: false, message: 'Error in bulk delete' });
+  }
+});
+
+// Protected: List all admin users
+router.get('/users', verifyAdmin, async (req, res) => {
+  try {
+    if (req.admin.role !== 'superadmin' && req.admin.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const [rows] = await pool.query(
+      'SELECT id, name, email, role, is_active, last_login, created_at FROM admin_users ORDER BY id DESC'
+    );
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Failed to fetch admin users:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// Protected: Create new admin user
+router.post('/users', verifyAdmin, async (req, res) => {
+  try {
+    if (req.admin.role !== 'superadmin' && req.admin.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const { name, email, password, role } = req.body;
+
+    if (!name || !email || !password || !role) {
+      return res.status(400).json({ success: false, message: 'All fields are required.' });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    await pool.query(
+      'INSERT INTO admin_users (name, email, password_hash, role) VALUES (?, ?, ?, ?)',
+      [name, email, passwordHash, role]
+    );
+
+    res.status(201).json({ success: true, message: 'Admin user created successfully.' });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ success: false, message: 'Email address already registered.' });
+    }
+    console.error('Failed to create admin user:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// Protected: Toggle is_active status of an admin user
+router.post('/users/:id/toggle-status', verifyAdmin, async (req, res) => {
+  try {
+    if (req.admin.role !== 'superadmin' && req.admin.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const userId = parseInt(req.params.id);
+    if (userId === req.admin.id) {
+      return res.status(400).json({ success: false, message: 'You cannot deactivate your own account.' });
+    }
+
+    // Get current status
+    const [rows] = await pool.query('SELECT is_active FROM admin_users WHERE id = ?', [userId]);
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Admin user not found.' });
+    }
+
+    const newStatus = rows[0].is_active ? 0 : 1;
+    await pool.query('UPDATE admin_users SET is_active = ? WHERE id = ?', [newStatus, userId]);
+
+    res.json({ success: true, data: { is_active: newStatus }, message: `Admin user ${newStatus ? 'activated' : 'deactivated'} successfully.` });
+  } catch (error) {
+    console.error('Failed to toggle admin user status:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// Protected: Delete admin user
+router.delete('/users/:id', verifyAdmin, async (req, res) => {
+  try {
+    if (req.admin.role !== 'superadmin' && req.admin.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+    const userId = parseInt(req.params.id);
+    if (userId === req.admin.id) {
+      return res.status(400).json({ success: false, message: 'You cannot delete your own account.' });
+    }
+
+    const [result] = await pool.query('DELETE FROM admin_users WHERE id = ?', [userId]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Admin user not found.' });
+    }
+
+    res.json({ success: true, message: 'Admin user deleted successfully.' });
+  } catch (error) {
+    console.error('Failed to delete admin user:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// Protected: Get voters list for a nominee
+router.get('/nominations/:id/votes', verifyAdmin, async (req, res) => {
+  try {
+    const nominationId = parseInt(req.params.id);
+    if (!Number.isInteger(nominationId) || nominationId < 1) {
+      return res.status(400).json({ success: false, message: 'Invalid nomination ID' });
+    }
+    const [rows] = await pool.query(
+      `SELECT voter_name, voter_email, voter_business, voter_designation, voter_phone, voter_city, voter_remarks, created_at 
+       FROM nomination_votes 
+       WHERE nomination_id = ? 
+       ORDER BY created_at DESC`,
+      [nominationId]
+    );
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error('Failed to fetch nomination votes details:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 

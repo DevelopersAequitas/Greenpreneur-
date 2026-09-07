@@ -55,7 +55,8 @@ function App() {
           <Route path="awards/apply" element={<ApplyAward />} />
           
           {/* Event Agenda & Booking */}
-          <Route path="event-2026" element={<Event2026 />} />
+          <Route path="event-2027" element={<Event2026 />} />
+          <Route path="event-2026" element={<Navigate to="/event-2027" replace />} />
           
           {/* Sponsorship Tiers */}
           <Route path="sponsors/opportunities" element={<Sponsorship />} />

@@ -34,6 +34,14 @@ const additionalSpeakers = [
     bg_gradient: 'linear-gradient(160deg,#5a8a70,#3a6a52)'
   },
   {
+    name: 'Dr. Akshay Kumar',
+    role: 'Founder & Director',
+    org: 'BroGhar Realty pvt. Ltd.',
+    tags: ['Real Estate', 'Entrepreneur', 'Speaker'],
+    photo_url: '/uploads/nominations/Dr. Akshay kumar.png',
+    bg_gradient: 'linear-gradient(160deg,#e52d27,#7303c0)'
+  },
+  {
     name: 'Itesh Lakum',
     role: 'Founder & Agricultural Specialist',
     org: 'Sustainable Farming Group',
@@ -72,12 +80,36 @@ const additionalSpeakers = [
     tags: ['Wastewater Engineering', 'Green Building', 'Speaker'],
     photo_url: '/uploads/nominations/Vinod Malviya.jpg',
     bg_gradient: 'linear-gradient(160deg,#7a9a60,#5a7a44)'
+  },
+  {
+    name: 'Phani Trivedi',
+    role: 'Founder',
+    org: 'WeEngage Global Foundation & IGBC Accredited Professional',
+    tags: ['Founder', 'Sustainability', 'Speaker'],
+    photo_url: '/uploads/nominations/Phani Trivedi.jpg',
+    bg_gradient: 'linear-gradient(160deg,#4a8a90,#2d6a70)'
+  },
+  {
+    name: 'Unmesh Dixit',
+    role: 'Executive Director',
+    org: 'AMA',
+    tags: ['Executive Director', 'Mentor', 'Speaker'],
+    photo_url: '/uploads/nominations/Unmesh Dixit.jpg',
+    bg_gradient: 'linear-gradient(160deg,#7a9a60,#5a7a44)'
+  },
+  {
+    name: 'Rohan Shah',
+    role: 'Design Thinking & Digital Transformation expert, Founder',
+    org: 'Founders+',
+    tags: ['Design Thinking', 'Digital Transformation', 'Founder', 'Speaker'],
+    photo_url: '/uploads/nominations/Rohan Shah.jpg',
+    bg_gradient: 'linear-gradient(160deg,#2a3a7a,#1a2a6a)'
   }
 ];
 
 async function insertAdditionalSpeakers() {
   try {
-    console.log('Inserting 9 additional speakers into jury table...');
+    console.log('Inserting 12 additional speakers into jury table...');
     for (const s of additionalSpeakers) {
       // Check if speaker already exists by name
       const [existing] = await pool.query('SELECT id FROM jury WHERE name = ?', [s.name]);

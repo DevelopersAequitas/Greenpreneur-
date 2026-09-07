@@ -155,13 +155,37 @@ export default function VoteNominee() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleVote = async (e: React.FormEvent) => {
     e.preventDefault();
     setVoteError('');
+
+    // Field Validations
+    if (!formData.name.trim()) {
+      setVoteError('Full name is required.');
+      return;
+    }
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setVoteError('Please enter a valid email address.');
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setVoteError('Phone number is required.');
+      return;
+    }
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length < 7 || phoneDigits.length > 15 || !/^\+?[0-9\s\-()]+$/.test(formData.phone)) {
+      setVoteError('Please enter a valid phone number (7 to 15 digits).');
+      return;
+    }
+    if (!formData.city.trim()) {
+      setVoteError('City is required.');
+      return;
+    }
+
     setVoting(true);
 
     try {
@@ -223,7 +247,7 @@ export default function VoteNominee() {
                   </div>
                 </div>
                 <div className="ticket-info">
-                  <div className="t-badge"><div className="t-badge-dot"></div> Official nominee &middot; 2026</div>
+                  <div className="t-badge"><div className="t-badge-dot"></div> Official nominee &middot; 2027</div>
                   <div className="t-name" style={{ wordBreak: 'break-word' }}>{nominee.nominee_name}</div>
                   <div className="t-biz">
                     <TextTruncate text={nominee.business_name || ''} maxLines={2} />
@@ -246,7 +270,7 @@ export default function VoteNominee() {
               <div className="ticket-bot">
                 <div className="tb-item"><div className="tb-lbl">Category</div><div className="tb-val">{nominee.category}</div></div>
                 <div className="tb-sep"></div>
-                <div className="tb-item"><div className="tb-lbl">Award year</div><div className="tb-val">2026</div></div>
+                <div className="tb-item"><div className="tb-lbl">Award year</div><div className="tb-val">2027</div></div>
                 <div className="tb-sep"></div>
                 <div className="tb-item"><div className="tb-lbl">Status</div><div className="tb-val"><span className="status-dot"></span>Voting open</div></div>
               </div>
@@ -296,17 +320,25 @@ export default function VoteNominee() {
               </div>
               <div className="g2" style={{ marginBottom: '10px' }}>
                 <div className="field" style={{ margin: 0 }}>
-                  <label className="lbl">Phone</label>
-                  <input className="inp" placeholder="+91" name="phone" value={formData.phone} onChange={handleChange} />
+                  <label className="lbl">Phone *</label>
+                  <input required className="inp" placeholder="+1" name="phone" value={formData.phone} onChange={handleChange} />
                 </div>
                 <div className="field" style={{ margin: 0 }}>
-                  <label className="lbl">City</label>
-                  <input className="inp" placeholder="Your city" name="city" value={formData.city} onChange={handleChange} />
+                  <label className="lbl">City *</label>
+                  <input required className="inp" placeholder="Your city" name="city" value={formData.city} onChange={handleChange} />
                 </div>
               </div>
               <div className="field">
                 <label className="lbl">Why you support this nominee</label>
-                <input className="inp" placeholder="Share your reason…" name="remarks" value={formData.remarks} onChange={handleChange} />
+                <textarea 
+                  className="inp" 
+                  placeholder="Share your reason…" 
+                  name="remarks" 
+                  value={formData.remarks} 
+                  onChange={handleChange}
+                  rows={4}
+                  style={{ resize: 'vertical', minHeight: '100px' }}
+                />
               </div>
               <div className="btn-wrap">
                 <div className="confetti-canvas" ref={vConfettiRef}></div>
@@ -330,7 +362,7 @@ export default function VoteNominee() {
           <div className="w-confetti" ref={wConfettiRef}></div>
 
           <div className="w-header">
-            <div className="w-edition">Greenpreneur Awards &middot; 2026</div>
+            <div className="w-edition">Greenpreneur Awards &middot; 2027</div>
             <div className="crown-wrap">
                {/* Replace external font icon with standard svg */}
                <Trophy className="crown-icon w-10 h-10" />
@@ -360,7 +392,7 @@ export default function VoteNominee() {
               <div className="ribbon-sep"></div>
               <div className="ribbon-item"><div className="ribbon-n">#1</div><div className="ribbon-l">Category rank</div></div>
               <div className="ribbon-sep"></div>
-              <div className="ribbon-item"><div className="ribbon-n">2026</div><div className="ribbon-l">Award year</div></div>
+              <div className="ribbon-item"><div className="ribbon-n">2027</div><div className="ribbon-l">Award year</div></div>
             </div>
           </div>
 
@@ -385,7 +417,7 @@ export default function VoteNominee() {
 
           <div className="w-orn">
             <div className="w-orn-line"></div><div className="w-orn-d"></div>
-            <div className="w-orn-txt">Greenpreneur &middot; Green India &middot; 2026</div>
+            <div className="w-orn-txt">Greenpreneur &middot; Green India &middot; 2027</div>
             <div className="w-orn-d"></div><div className="w-orn-line"></div>
           </div>
         </div>

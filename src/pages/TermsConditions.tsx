@@ -32,7 +32,7 @@ export default function TermsConditions() {
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs text-medium-grey font-bold uppercase tracking-wider">Last Updated: June 2026</p>
+              <p className="text-xs text-medium-grey font-bold uppercase tracking-wider">Last Updated: June 2027</p>
               <h2 className="text-xl font-bold text-dark-green font-playfair">Greenpreneur Terms of Use</h2>
             </div>
           </div>

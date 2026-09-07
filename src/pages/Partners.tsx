@@ -176,7 +176,7 @@ export default function Partners() {
                     )}
 
                     {/* Partner Role Badge */}
-                    <div className="absolute top-3 right-3 z-10 px-2.5 py-0.5 rounded-md text-[12px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm backdrop-blur-sm">
+                    <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 px-2.5 py-0.5 rounded-md text-[12px] font-bold uppercase tracking-wider bg-[#2E7D32]/10 text-[#2E7D32] border border-[#2E7D32]/20 shadow-sm backdrop-blur-sm whitespace-nowrap">
                       {shortRole}
                     </div>
                   </div>
@@ -212,9 +212,9 @@ export default function Partners() {
             </button>
 
             {/* Modal Image */}
-            <div className="aspect-[3/4] w-full relative bg-gray-100">
+            <div className="aspect-[3/4] w-full relative bg-white flex items-center justify-center p-8">
               {selectedPerson.photoUrl ? (
-                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-cover" />
+                <img src={selectedPerson.photoUrl} alt={selectedPerson.name} className="w-full h-full object-contain" />
               ) : (
                 <div 
                   className="w-full h-full flex items-center justify-center text-7xl font-black text-white/90 shadow-inner"
@@ -223,7 +223,6 @@ export default function Partners() {
                   {selectedPerson.initials}
                 </div>
               )}
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
 
             {/* Modal Content */}

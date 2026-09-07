@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GoogleReviews from '../components/GoogleReviews';
 import HallOfGreen from '../components/HallOfGreen';
+import { submitContactEnquiry } from '../utils/api';
 import { 
   Award, Users, Megaphone, BookOpen, Share2, ArrowRight, MapPin, Clock,
   Heart, Droplets, Zap, TrendingUp, Cpu, Scale, Home as HomeIcon, RefreshCw, 
@@ -45,6 +46,133 @@ export default function Home() {
   const [joinStatus, setJoinStatus] = useState<'idle' | 'success'>('idle');
   const [joinRole, setJoinRole] = useState('entrepreneur');
 
+  // SDG Auto-scroll state
+  const [isSdgHovered, setIsSdgHovered] = useState(false);
+
+  useEffect(() => {
+    if (isSdgHovered) return;
+    const timer = setInterval(() => {
+      setSelectedSdg((prevSdg) => {
+        if (!prevSdg) return sdgData[0];
+        const currentIndex = sdgData.findIndex((sdg) => sdg.id === prevSdg.id);
+        const nextIndex = (currentIndex + 1) % sdgData.length;
+        return sdgData[nextIndex];
+      });
+    }, 4000); // cycle every 4 seconds
+
+    return () => clearInterval(timer);
+  }, [isSdgHovered]);
+
+  // Coffee Table Book Download Modal state
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false);
+  const [bookFormData, setBookFormData] = useState({ name: '', email: '', phone: '' });
+  const [bookSubmitting, setBookSubmitting] = useState(false);
+  const [bookError, setBookError] = useState('');
+  const [validationErrors, setValidationErrors] = useState<{ name?: string; email?: string; phone?: string }>({});
+
+  // Animated stats counting up
+  const [printCopies, setPrintCopies] = useState(0);
+  const [digitalReach, setDigitalReach] = useState(0);
+
+  useEffect(() => {
+    let startPrint = 0;
+    const endPrint = 5000;
+    const durationPrint = 2000;
+    const incrementPrint = Math.ceil(endPrint / (durationPrint / 30));
+
+    let startDigital = 0;
+    const endDigital = 500000;
+    const durationDigital = 2000;
+    const incrementDigital = Math.ceil(endDigital / (durationDigital / 30));
+
+    const timer = setInterval(() => {
+      startPrint += incrementPrint;
+      startDigital += incrementDigital;
+
+      if (startPrint >= endPrint) {
+        setPrintCopies(endPrint);
+      } else {
+        setPrintCopies(startPrint);
+      }
+
+      if (startDigital >= endDigital) {
+        setDigitalReach(endDigital);
+        clearInterval(timer);
+      } else {
+        setDigitalReach(startDigital);
+      }
+    }, 30);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatIndianNumber = (num: number) => {
+    const s = num.toString();
+    if (s.length <= 3) return s;
+    const lastThree = s.substring(s.length - 3);
+    const otherNumbers = s.substring(0, s.length - 3);
+    const formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+    return formatted;
+  };
+
+  useEffect(() => {
+    if (!isBookModalOpen) {
+      setBookFormData({ name: '', email: '', phone: '' });
+      setValidationErrors({});
+      setBookError('');
+    }
+  }, [isBookModalOpen]);
+
+  const handleBookSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBookError('');
+    setValidationErrors({});
+
+    // Validation checks
+    const errors: { name?: string; email?: string; phone?: string } = {};
+    if (!bookFormData.name.trim() || bookFormData.name.trim().length < 3) {
+      errors.name = 'Full name must be at least 3 characters.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(bookFormData.email)) {
+      errors.email = 'Please enter a valid email address.';
+    }
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(bookFormData.phone.trim())) {
+      errors.phone = 'Mobile number must be exactly 10 digits.';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+
+    setBookSubmitting(true);
+    try {
+      try {
+        await submitContactEnquiry({
+          name: bookFormData.name,
+          email: bookFormData.email,
+          phone: bookFormData.phone,
+          interest: 'Book',
+          message: 'Coffee Table Book Download: User requested to view/download the full book.'
+        });
+      } catch (apiErr: any) {
+        console.warn('API submission failed, bypassing error locally/gracefully:', apiErr);
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+          throw apiErr;
+        }
+      }
+      window.open('/coffeetablebook.pdf', '_blank');
+      setBookFormData({ name: '', email: '', phone: '' });
+      setIsBookModalOpen(false);
+    } catch (err: any) {
+      setBookError(err.message || 'Failed to submit details. Please try again.');
+    } finally {
+      setBookSubmitting(false);
+    }
+  };
+
 
   // Real-time ticking metrics state
   const [metrics, setMetrics] = useState({
@@ -55,8 +183,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // Target date: June 25, 2026 at 14:00:00 IST (UTC+5:30)
-    const targetDate = new Date('2026-06-25T14:00:00+05:30');
+    // Target date: June 25, 2027 at 14:00:00 IST (UTC+5:30)
+    const targetDate = new Date('2027-06-25T14:00:00+05:30');
 
     const calculateTime = () => {
       const now = new Date();
@@ -224,7 +352,7 @@ export default function Home() {
                 <Award className="w-4.5 h-4.5 group-hover:rotate-12 transition-transform" />
               </Link>
               <Link
-                to="/event-2026"
+                to="/event-2027"
                 className="px-8 py-4 border border-[#B38728] text-[#B38728] font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#B38728]/10 transition-all rounded-lg"
               >
                 Get Delegate Pass
@@ -409,7 +537,7 @@ export default function Home() {
                 Conclave Countdown
               </span>
               <h2 className="font-playfair text-2xl sm:text-3xl text-dark-green font-black leading-tight">
-                25 June 2026 • Ahmedabad
+                25 June 2027 • Ahmedabad
               </h2>
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-xs text-medium-grey mt-2">
                 <span className="flex items-center gap-1.5">
@@ -428,7 +556,7 @@ export default function Home() {
             <div className="flex items-center gap-3 sm:gap-4">
               {isEventCompleted ? (
                 <div className="font-playfair text-lg sm:text-xl text-indian-green font-bold bg-cream-white border border-[#B38728]/20 px-6 py-4 rounded-xl shadow-sm">
-                  Event Ongoing / Completed — See Winners 2026
+                  Event Ongoing / Completed — See Winners 2027
                 </div>
               ) : (
                 [
@@ -454,7 +582,7 @@ export default function Home() {
 
             <div>
               <Link
-                to="/event-2026"
+                to="/event-2027"
                 className="px-6 py-3.5 bg-gold-metallic text-dark-green text-xs uppercase tracking-widest font-black hover:shadow-gold-lux hover:scale-102 transition-all inline-block rounded-md"
               >
                 Register as Delegate →
@@ -466,7 +594,11 @@ export default function Home() {
 
       {/* SECTION 3: 17 UN SDGs INTERACTIVE GRID */}
       <section className="py-24 bg-pure-white relative z-10">
-        <div className="max-w-7xl mx-auto px-6">
+        <div 
+          className="max-w-7xl mx-auto px-6"
+          onMouseEnter={() => setIsSdgHovered(true)}
+          onMouseLeave={() => setIsSdgHovered(false)}
+        >
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <span className="text-[#B38728] font-black uppercase tracking-[0.3em] text-xs mb-3 block">
               17 UN Sustainable Development Goals
@@ -479,54 +611,11 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Grid Layout */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-3.5 max-w-6xl mx-auto mb-10">
-            {sdgData.map((sdg) => {
-              const IconComp = sdg.icon;
-              const isHovered = hoveredSdg === sdg.id;
-              const isSelected = selectedSdg?.id === sdg.id;
-
-              return (
-                <button
-                  key={sdg.id}
-                  onMouseEnter={() => {
-                    setHoveredSdg(sdg.id);
-                    setSelectedSdg(sdg);
-                  }}
-                  onMouseLeave={() => setHoveredSdg(null)}
-                  onClick={() => setSelectedSdg(sdg)}
-                  style={{ 
-                    backgroundColor: sdg.color,
-                    boxShadow: isHovered ? `0 12px 28px -5px ${sdg.color}77` : 'none',
-                    transform: isHovered || isSelected ? 'translateY(-6px) scale(1.03)' : 'none'
-                  }}
-                  className="aspect-square p-3 text-pure-white flex flex-col justify-between rounded-xl relative transition-all duration-300 select-none cursor-pointer outline-none border border-black/5"
-                  aria-label={sdg.name}
-                >
-                  <span className="text-lg font-black leading-none">{sdg.id}</span>
-                  <div className="w-full flex justify-center py-2 text-pure-white/90">
-                    <IconComp className="w-6 h-6 md:w-8 md:h-8" />
-                  </div>
-                  <span className="text-[7.5px] leading-tight font-black uppercase opacity-95 text-center truncate w-full block">
-                    {sdg.name.split(' ')[0]}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Selected SDG Detail Card (Dynamic Showcase) */}
-          <div className="max-w-4xl mx-auto mt-12 bg-pure-white rounded-3xl border border-light-grey/80 border-l-[8px] p-8 shadow-sm transition-all duration-500 relative"
+          {/* Selected SDG Detail Card (Dynamic Showcase - Swapped to Top) */}
+          <div className="max-w-4xl mx-auto mb-10 bg-pure-white rounded-3xl border border-light-grey/80 border-l-[8px] p-8 shadow-sm transition-all duration-500 relative"
                style={{ borderLeftColor: selectedSdg ? selectedSdg.color : '#B38728' }}>
             {selectedSdg ? (
               <div>
-                <button 
-                  onClick={() => setSelectedSdg(null)}
-                  className="absolute top-4 right-4 text-medium-grey hover:text-dark-text cursor-pointer"
-                  aria-label="Close details"
-                >
-                  <X className="w-5 h-5" />
-                </button>
                 <div className="flex flex-col md:flex-row gap-6 items-start">
                   <div className="w-16 h-16 rounded-xl flex items-center justify-center text-pure-white shrink-0 shadow-md"
                        style={{ backgroundColor: selectedSdg.color }}>
@@ -559,9 +648,45 @@ export default function Home() {
             ) : (
               <div className="text-center py-6 text-gray-500 flex flex-col items-center justify-center">
                 <Info className="w-8 h-8 text-[#B38728] mb-2 animate-bounce" />
-                <span className="text-sm font-semibold">Click on any SDG tile above to view its business target profiles.</span>
+                <span className="text-sm font-semibold">Click on any SDG tile below to view its business target profiles.</span>
               </div>
             )}
+          </div>
+
+          {/* Grid Layout (Swapped to Bottom) */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-3.5 max-w-6xl mx-auto">
+            {sdgData.map((sdg) => {
+              const IconComp = sdg.icon;
+              const isHovered = hoveredSdg === sdg.id;
+              const isSelected = selectedSdg?.id === sdg.id;
+
+              return (
+                <button
+                  key={sdg.id}
+                  onMouseEnter={() => {
+                    setHoveredSdg(sdg.id);
+                    setSelectedSdg(sdg);
+                  }}
+                  onMouseLeave={() => setHoveredSdg(null)}
+                  onClick={() => setSelectedSdg(sdg)}
+                  style={{ 
+                    backgroundColor: sdg.color,
+                    boxShadow: isHovered ? `0 12px 28px -5px ${sdg.color}77` : 'none',
+                    transform: isHovered || isSelected ? 'translateY(-6px) scale(1.03)' : 'none'
+                  }}
+                  className="aspect-square p-3 text-pure-white flex flex-col justify-between rounded-xl relative transition-all duration-300 select-none cursor-pointer outline-none border border-black/5"
+                  aria-label={sdg.name}
+                >
+                  <span className="text-lg font-black leading-none">{sdg.id}</span>
+                  <div className="w-full flex justify-center py-2 text-pure-white/90">
+                    <IconComp className="w-6 h-6 md:w-8 md:h-8" />
+                  </div>
+                  <span className="text-[7.5px] leading-tight font-black uppercase opacity-95 text-center truncate w-full block">
+                    {sdg.name.split(' ')[0]}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -949,84 +1074,326 @@ export default function Home() {
       {/* Real-time Google Reviews Widget */}
       <GoogleReviews />
 
-      {/* SECTION 9: THE COFFEE TABLE BOOK */}
-      <section className="py-24 bg-dark-green text-pure-white relative overflow-hidden z-10 border-y border-light-grey">
-        <div className="absolute inset-0 opacity-15 pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&w=1200&q=80"
-            alt="Book Background"
-            className="w-full h-full object-cover"
-          />
+      {/* SECTION 9: THE COFFEE TABLE BOOK (REDESIGNED & ANIMATED) */}
+      <section className="section gp-book-section py-24 text-dark-green relative overflow-hidden z-10 border-y border-light-grey">
+        <style dangerouslySetInnerHTML={{__html: `
+          .eyebrow-pulsing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #B38728;
+            box-shadow: 0 0 0 0 rgba(179, 135, 40, 0.6);
+            animation: gp-dotpulse 2.2s ease-out infinite;
+          }
+          @keyframes gp-dotpulse {
+            0% { box-shadow: 0 0 0 0 rgba(179, 135, 40, 0.55); }
+            70% { box-shadow: 0 0 0 8px rgba(179, 135, 40, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(179, 135, 40, 0); }
+          }
+
+          .grad-text-animated {
+            font-style: italic;
+            background: linear-gradient(90deg, #0B5B3E 0%, #1d9e75 45%, #2563eb 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gp-shine 6s linear infinite;
+          }
+          @keyframes gp-shine {
+            to { background-position: 200% center; }
+          }
+
+          .gp-ambient-leaf {
+            animation: gp-drift 12s linear infinite;
+            will-change: transform;
+          }
+          @keyframes gp-drift {
+            0%   { transform: translate(0,0) rotate(0deg); }
+            50%  { transform: translate(-24px,-40px) rotate(160deg); }
+            100% { transform: translate(0,0) rotate(360deg); }
+          }
+
+          .gp-halo {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background:
+              radial-gradient(circle at 35% 30%, rgba(11, 91, 62, 0.25), transparent 60%),
+              radial-gradient(circle at 65% 70%, rgba(37, 99, 235, 0.20), transparent 60%);
+            filter: blur(10px);
+            animation: gp-pulse 7s ease-in-out infinite;
+          }
+          @keyframes gp-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.45; }
+            50% { transform: scale(1.15); opacity: 0.65; }
+          }
+
+          .gp-ring {
+            position: absolute;
+            width: 460px;
+            height: 460px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(11, 91, 62, 0.25);
+            animation: gp-spin 45s linear infinite;
+          }
+          .gp-ring.ring2 {
+            width: 520px;
+            height: 520px;
+            border-color: rgba(37, 99, 235, 0.18);
+            animation-duration: 65s;
+            animation-direction: reverse;
+          }
+          @keyframes gp-spin {
+            to { transform: rotate(360deg); }
+          }
+
+          .gp-orbit-leaf {
+            position: absolute;
+            width: 460px;
+            height: 460px;
+            animation: gp-spin 45s linear infinite;
+          }
+          .gp-orbit-leaf span {
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          .gp-book-card {
+            position: relative;
+            animation: gp-floaty 6s ease-in-out infinite;
+            z-index: 2;
+          }
+          @keyframes gp-floaty {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-16px) rotate(0.5deg); }
+          }
+
+          .gp-badge {
+            animation: gp-dotpulse2 3s ease-in-out infinite;
+          }
+          @keyframes gp-dotpulse2 {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.06) rotate(-4deg); }
+          }
+
+          .gp-book-section {
+            background:
+              radial-gradient(60% 50% at 85% 10%, rgba(37,99,235,0.06), transparent 60%),
+              radial-gradient(50% 45% at 10% 90%, rgba(11,91,62,0.08), transparent 60%),
+              linear-gradient(180deg, #eaf7ff 0%, #f3fbef 100%);
+          }
+        `}} />
+
+        {/* Ambient Leaves and glow orbs */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute w-[340px] h-[340px] top-[-80px] right-[8%] bg-[radial-gradient(circle,rgba(37,99,235,0.15),transparent_70%)] rounded-full blur-[60px] animate-[pulse_8s_ease-in-out_infinite]"></div>
+          <div className="absolute w-[280px] h-[280px] bottom-[-60px] left-[4%] bg-[radial-gradient(circle,rgba(11,91,62,0.2),transparent_70%)] rounded-full blur-[60px] animate-[pulse_8s_ease-in-out_infinite] [animation-delay:2s]"></div>
+          
+          {/* Leaf 1 */}
+          <div className="absolute top-[15%] left-[5%] gp-ambient-leaf opacity-60">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="#0B5B3E"><path d="M12 2C8 6 4 10 4 15a8 8 0 0 0 16 0c0-5-4-9-8-13z"/></svg>
+          </div>
+          {/* Leaf 2 */}
+          <div className="absolute bottom-[20%] right-[10%] gp-ambient-leaf opacity-40 [animation-delay:3s]">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#1d9e75"><path d="M12 2C8 6 4 10 4 15a8 8 0 0 0 16 0c0-5-4-9-8-13z"/></svg>
+          </div>
+          {/* Leaf 3 */}
+          <div className="absolute top-[40%] right-[45%] gp-ambient-leaf opacity-30 [animation-delay:5s]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#2d7f36"><path d="M12 2C8 6 4 10 4 15a8 8 0 0 0 16 0c0-5-4-9-8-13z"/></svg>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            {/* Left Column (Text & CTAs) */}
             <div className="text-left">
-              <span className="text-gold-metallic font-black tracking-[0.5em] uppercase text-xs mb-4 block">
+              <div className="inline-flex items-center gap-2.5 text-xs sm:text-xs font-bold tracking-[0.22em] uppercase text-[#B38728] bg-[#B38728]/10 px-4 py-2 rounded-full border border-[#B38728]/35 mb-6">
+                <span className="eyebrow-pulsing-dot"></span>
                 Premium Publication
-              </span>
-              <h2 className="font-playfair text-4xl sm:text-6xl font-black mb-6 leading-tight">
+              </div>
+              
+              <h2 className="font-playfair text-4xl sm:text-6xl font-black mb-6 leading-tight text-dark-green">
                 Top 50 Sustainable <br />
-                <span className="italic text-gold-metallic animate-pulse">Leaders Book</span>
+                <span className="grad-text-animated">Leaders Book</span>
               </h2>
-              <p className="text-pure-white/85 text-base mb-8 font-medium leading-relaxed font-inter">
-                An archival masterpiece documenting the stories and models of India's top 50 sustainability visionaries. Shared with central ministries, corporate buyers, and libraries across India.
+              
+              <p className="text-medium-grey text-base sm:text-lg mb-8 font-medium leading-relaxed font-inter max-w-lg">
+                An archival masterpiece documenting the stories and models of India's top 50 sustainability visionaries — shared with central ministries, corporate buyers, and libraries across India.
               </p>
 
-              <div className="grid grid-cols-2 gap-6 mb-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-pure-white/10 flex items-center justify-center text-[#B38728]">
+              {/* Stats Row */}
+              <div className="flex flex-wrap gap-4 sm:gap-6 mb-10">
+                {/* Stat 1 */}
+                <div className="flex items-center gap-4 bg-white/60 backdrop-blur-md border border-white/70 rounded-2xl p-4 sm:p-5 shadow-[0_8px_24px_rgba(15,59,36,0.06)] min-w-[180px] flex-1 sm:flex-initial">
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0B5B3E]/10 to-[#2563eb]/10 flex items-center justify-center text-[#0B5B3E] shrink-0">
                     <BookOpen className="w-5 h-5" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-black text-lg">5,000+</span>
-                    <span className="text-[12px] uppercase tracking-wider text-pure-white/40 font-bold">
+                    <span className="font-playfair font-black text-2xl text-dark-green">{printCopies}+</span>
+                    <span className="text-[10px] uppercase tracking-wider text-medium-grey font-bold mt-1">
                       Print Copies
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-pure-white/10 flex items-center justify-center text-[#B38728]">
+
+                {/* Stat 2 */}
+                <div className="flex items-center gap-4 bg-white/60 backdrop-blur-md border border-white/70 rounded-2xl p-4 sm:p-5 shadow-[0_8px_24px_rgba(15,59,36,0.06)] min-w-[180px] flex-1 sm:flex-initial">
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0B5B3E]/10 to-[#2563eb]/10 flex items-center justify-center text-[#0B5B3E] shrink-0">
                     <Share2 className="w-5 h-5" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-black text-lg">5,00,000+</span>
-                    <span className="text-[12px] uppercase tracking-wider text-pure-white/40 font-bold">
+                    <span className="font-playfair font-black text-2xl text-dark-green">{formatIndianNumber(digitalReach)}+</span>
+                    <span className="text-[10px] uppercase tracking-wider text-medium-grey font-bold mt-1">
                       Digital Reach
                     </span>
                   </div>
                 </div>
               </div>
 
+              {/* CTAs */}
               <div className="flex flex-wrap items-center gap-5">
                 <Link
                   to="/coffee-table-book"
-                  className="px-8 py-4 bg-gold-metallic text-dark-green font-black text-xs uppercase tracking-[0.2em] hover:shadow-gold-lux transition-all rounded-lg"
+                  className="btn-shimmer px-8 py-4 bg-gold-metallic text-dark-green font-black text-xs uppercase tracking-[0.2em] hover:shadow-gold-lux hover:-translate-y-0.5 active:scale-95 transition-all duration-300 rounded-lg flex items-center justify-center"
                 >
                   Feature My Business
                 </Link>
-                <div className="flex flex-col">
-                  <span className="text-alert-red font-black text-[12px] uppercase tracking-wider bg-red-500/20 px-3 py-1 border border-red-500/40 rounded-md">
-                    Cover Story — SOLD OUT
-                  </span>
-                  <span className="text-[10px] text-pure-white/50 mt-1.5 font-bold">Limited inner spots open</span>
-                </div>
+                <button
+                  onClick={() => setIsBookModalOpen(true)}
+                  className="btn-shimmer px-8 py-4 bg-gold-metallic text-dark-green font-black text-xs uppercase tracking-[0.2em] hover:shadow-gold-lux hover:-translate-y-0.5 active:scale-95 transition-all duration-300 rounded-lg cursor-pointer flex items-center justify-center"
+                >
+                  COFFEETABLE BOOK
+                </button>
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <div className="relative group">
-                <div className="absolute -inset-6 border border-[#B38728]/35 rounded-2xl group-hover:-inset-8 transition-all duration-300"></div>
+            {/* Right Column (Visual Mockup & Orbit Animations) */}
+            <div className="relative flex items-center justify-center h-[460px] sm:h-[560px] perspective-[1200px]">
+              <div className="gp-halo"></div>
+              <div className="gp-ring"></div>
+              <div className="gp-ring ring2"></div>
+              
+              <div className="gp-orbit-leaf">
+                <span>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#0B5B3E"><path d="M12 2C8 6 4 10 4 15a8 8 0 0 0 16 0c0-5-4-9-8-13z"/></svg>
+                </span>
+              </div>
+              
+              <div className="gp-book-card max-w-[280px] sm:max-w-[320px] bg-gradient-to-br from-white/90 to-white/55 border border-white/90 p-2.5 rounded-[22px] shadow-[0_30px_60px_rgba(15,59,36,0.18)]">
+                {/* Spinning Gold Badge */}
+                <div className="absolute top-[-18px] right-[-18px] bg-gradient-to-r from-[#B38728] to-[#BF953F] text-[#2c1d00] font-playfair font-black text-[13px] rounded-full w-16 h-16 flex items-center justify-center text-center line-height-[1.1] shadow-[0_10px_22px_rgba(179,135,40,0.4)] gp-badge z-10">
+                  2027<br />ED.
+                </div>
+                
                 <img
-                  src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&w=800&q=80"
+                  src="/coffeetable-book.jpg"
                   alt="Coffee Table Book mockup"
-                  className="w-[300px] h-[400px] sm:w-[350px] sm:h-[460px] object-cover shadow-[0_30px_60px_rgba(0,0,0,0.6)] border border-pure-white/15 rounded-xl"
+                  className="w-full h-auto object-cover rounded-2xl border border-white/10"
                 />
               </div>
             </div>
+
           </div>
         </div>
       </section>
+
+      {/* Coffee Table Book Modal */}
+      {isBookModalOpen && (
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+          <div 
+            className="relative bg-dark-green border border-gold-metallic/30 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-pure-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setIsBookModalOpen(false)}
+              className="absolute top-4 right-4 text-pure-white/60 hover:text-pure-white hover:scale-110 transition-all cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <h3 className="font-playfair text-2xl font-black mb-2 text-gold-metallic">
+              Access Full Coffee Table Book
+            </h3>
+            <p className="text-pure-white/70 text-xs sm:text-sm mb-6 font-medium leading-relaxed">
+              Please enter your details below to view the digital edition of the Top 50 Sustainable Leaders Book.
+            </p>
+
+            {bookError && (
+              <div className="mb-4 p-3 bg-red-500/20 border border-red-500/40 text-red-200 text-xs font-semibold rounded-md">
+                {bookError}
+              </div>
+            )}
+
+            <form onSubmit={handleBookSubmit} className="space-y-4">
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-pure-white/50 font-bold mb-1.5">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Enter your name"
+                  value={bookFormData.name}
+                  onChange={(e) => setBookFormData({ ...bookFormData, name: e.target.value })}
+                  className={`w-full px-4 py-2.5 bg-black/40 border ${validationErrors.name ? 'border-red-500' : 'border-pure-white/10'} rounded-md text-sm text-pure-white placeholder-pure-white/30 focus:border-gold-metallic focus:outline-none transition-colors`}
+                />
+                {validationErrors.name && (
+                  <p className="text-red-400 text-xs mt-1 font-medium">{validationErrors.name}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-pure-white/50 font-bold mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@company.com"
+                  value={bookFormData.email}
+                  onChange={(e) => setBookFormData({ ...bookFormData, email: e.target.value })}
+                  className={`w-full px-4 py-2.5 bg-black/40 border ${validationErrors.email ? 'border-red-500' : 'border-pure-white/10'} rounded-md text-sm text-pure-white placeholder-pure-white/30 focus:border-gold-metallic focus:outline-none transition-colors`}
+                />
+                {validationErrors.email && (
+                  <p className="text-red-400 text-xs mt-1 font-medium">{validationErrors.email}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-pure-white/50 font-bold mb-1.5">
+                  Mobile Number
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="Enter 10-digit number"
+                  value={bookFormData.phone}
+                  onChange={(e) => setBookFormData({ ...bookFormData, phone: e.target.value })}
+                  className={`w-full px-4 py-2.5 bg-black/40 border ${validationErrors.phone ? 'border-red-500' : 'border-pure-white/10'} rounded-md text-sm text-pure-white placeholder-pure-white/30 focus:border-gold-metallic focus:outline-none transition-colors`}
+                />
+                {validationErrors.phone && (
+                  <p className="text-red-400 text-xs mt-1 font-medium">{validationErrors.phone}</p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={bookSubmitting}
+                className="btn-shimmer w-full py-4 bg-gold-metallic text-dark-green font-black uppercase tracking-[0.2em] text-xs hover:shadow-gold-lux hover:-translate-y-0.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {bookSubmitting ? 'Submitting...' : 'Submit & View Book →'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* SECTION 10: TAKE ACTION / JOIN MOVEMENT */}
       <section className="py-24 bg-pure-white relative z-10">
@@ -1113,9 +1480,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
-              { title: 'Green MSME Compliance Guide', format: 'PDF (4.2 MB)', desc: 'Understand environmental regulations and how to register green certifications for MSMEs in India.', date: 'May 2026' },
-              { title: 'SDG Pitch Deck Template', format: 'PPTX (1.8 MB)', desc: 'Pitch template structured to highlight carbon footprint reductions and ESG metrics for investors.', date: 'Jun 2026' },
-              { title: 'Carbon Footprint Calculator', format: 'EXCEL (2.1 MB)', desc: 'Simplified spreadsheet calculator mapping local business logistics and waste into carbon output metrics.', date: 'Apr 2026' }
+              { title: 'Green MSME Compliance Guide', format: 'PDF (4.2 MB)', desc: 'Understand environmental regulations and how to register green certifications for MSMEs in India.', date: 'May 2027' },
+              { title: 'SDG Pitch Deck Template', format: 'PPTX (1.8 MB)', desc: 'Pitch template structured to highlight carbon footprint reductions and ESG metrics for investors.', date: 'Jun 2027' },
+              { title: 'Carbon Footprint Calculator', format: 'EXCEL (2.1 MB)', desc: 'Simplified spreadsheet calculator mapping local business logistics and waste into carbon output metrics.', date: 'Apr 2027' }
             ].map((res, i) => (
               <div key={i} className="bg-pure-white p-8 border border-light-grey/80 rounded-2xl flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div className="text-left">
@@ -1213,7 +1580,7 @@ export default function Home() {
               Apply for Award
             </Link>
             <Link
-              to="/event-2026"
+              to="/event-2027"
               className="px-8 py-3 border border-[#B38728] text-[#B38728] text-xs uppercase tracking-widest font-black hover:bg-gold-metallic hover:text-dark-green hover:border-transparent transition-all rounded-md"
             >
               Get Event Pass

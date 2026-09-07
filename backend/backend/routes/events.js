@@ -76,7 +76,7 @@ router.post('/register', async (req, res) => {
         success: true,
         requiresPayment: false,
         message: 'Event registration successful',
-        data: { id: recordId, event: 'Greenpreneur 2026', date: '2026-06-25' },
+        data: { id: recordId, event: 'Greenpreneur 2027', date: '2027-06-25' },
       });
     }
 

@@ -438,6 +438,8 @@ SELECT
   n.jury_score,
   n.public_votes,
   n.award_year,
+  n.profile_picture,
+  n.business_logo,
   n.created_at
 FROM nominations n
 JOIN award_categories ac ON n.category_id = ac.id;

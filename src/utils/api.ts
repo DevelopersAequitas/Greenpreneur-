@@ -92,6 +92,19 @@ export async function getNominationStatus(id: number) {
   return request(`/nominations/${id}`);
 }
 
+export interface PendingNominee {
+  id: number;
+  nominee_name: string;
+  profile_picture: string | null;
+  status: string;
+  category: string;
+}
+
+/** Get list of pending nominations for the slider */
+export async function getPendingNominations() {
+  return request<PendingNominee[]>('/nominations/pending');
+}
+
 
 // =============================================================================
 // EVENT REGISTRATIONS — Event2026.tsx
